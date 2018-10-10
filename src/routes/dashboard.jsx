@@ -1,9 +1,5 @@
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
-<<<<<<< HEAD
-import Person from "@material-ui/icons/SupervisedUserCircle";
-=======
->>>>>>> ab6707a48efe844d2f0b6dfca5328cbeb15e1efb
 // import ContentPaste from "@material-ui/icons/ContentPaste";
 import Book from "@material-ui/icons/Book";
 import AttachMoney from "@material-ui/icons/AttachMoney";
