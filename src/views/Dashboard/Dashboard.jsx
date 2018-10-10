@@ -60,9 +60,9 @@ class Dashboard extends React.Component {
             <Card>
               <CardHeader color="warning" stats icon>
                 <CardIcon color="warning">
-                  <Icon>content_copy</Icon>
+                  <Icon>cloud</Icon>
                 </CardIcon>
-                <p className={classes.cardCategory}>Test</p>
+                <p className={classes.cardCategory}>Used Space</p>
                 <h3 className={classes.cardTitle}>
                   49/50 <small>GB</small>
                 </h3>

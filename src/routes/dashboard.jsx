@@ -1,11 +1,15 @@
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
+<<<<<<< HEAD
 import Person from "@material-ui/icons/SupervisedUserCircle";
+=======
+>>>>>>> ab6707a48efe844d2f0b6dfca5328cbeb15e1efb
 // import ContentPaste from "@material-ui/icons/ContentPaste";
-import LibraryBooks from "@material-ui/icons/LibraryBooks";
-import BubbleChart from "@material-ui/icons/BubbleChart";
-import LocationOn from "@material-ui/icons/LocationOn";
-import Notifications from "@material-ui/icons/Notifications";
+import Book from "@material-ui/icons/Book";
+import AttachMoney from "@material-ui/icons/AttachMoney";
+import SupervisorAccount from "@material-ui/icons/SupervisorAccount";
+import HowToVote from "@material-ui/icons/HowToVote";
+import SentimentDissatisfied from "@material-ui/icons/SentimentDissatisfied";
 import Unarchive from "@material-ui/icons/Unarchive";
 // core components/views
 import DashboardPage from "views/Dashboard/Dashboard.jsx";
@@ -27,44 +31,44 @@ const dashboardRoutes = [
   },
   {
     path: "/user",
-    sidebarName: "User Profile",
+    sidebarName: "Reglamento",
     navbarName: "Profile",
-    icon: Person,
+    icon: Book,
     component: UserProfile
   },
   {
     path: "/table",
-    sidebarName: "Table List",
+    sidebarName: "Ver Propuestas",
     navbarName: "Table List",
     icon: "content_paste",
     component: TableList
   },
   {
     path: "/typography",
-    sidebarName: "Typography",
+    sidebarName: "Rendición de Cuentas",
     navbarName: "Typography",
-    icon: LibraryBooks,
+    icon: AttachMoney,
     component: Typography
   },
   {
     path: "/icons",
-    sidebarName: "Icons",
+    sidebarName: "Representantes",
     navbarName: "Icons",
-    icon: BubbleChart,
+    icon: SupervisorAccount,
     component: Icons
   },
   {
     path: "/maps",
-    sidebarName: "Maps",
+    sidebarName: "Crear Iniciativa",
     navbarName: "Map",
-    icon: LocationOn,
+    icon: HowToVote,
     component: Maps
   },
   {
     path: "/notifications",
-    sidebarName: "Notifications",
+    sidebarName: "Buzón de Quejas",
     navbarName: "Notifications",
-    icon: Notifications,
+    icon: SentimentDissatisfied,
     component: NotificationsPage
   },
   {
