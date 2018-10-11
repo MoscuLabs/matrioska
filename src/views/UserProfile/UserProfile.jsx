@@ -83,6 +83,7 @@ function UserProfile(props, state) {
         </GridItem>
         <GridItem xs={12} sm={12} md={2}>
         </GridItem>
+
       </GridContainer>
     </div>
   );
