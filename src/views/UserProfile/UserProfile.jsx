@@ -170,6 +170,7 @@ function UserProfile(props) {
             </CardBody>
           </Card>
         </GridItem>
+
       </GridContainer>
     </div>
   );
