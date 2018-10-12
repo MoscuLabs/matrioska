@@ -14,6 +14,7 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardAvatar from "components/Card/CardAvatar.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
+import CloudDownload from "@material-ui/icons/CloudDownload";
 
 import avatar from "assets/img/faces/marc.jpg";
 
@@ -52,32 +53,39 @@ function UserProfile(props, state) {
   return (
     <div>
       <GridContainer>
-      <GridItem xs={12} sm={12} md={2}>
-      </GridItem>
-      <GridItem xs={12} sm={12} md={8}>
+      {/* <GridItem xs={12} sm={12} md={2}>
+      </GridItem> */}
+      <GridItem xs={12} sm={12} md={5}>
           <Card>
             <CardHeader color="primary">
-              <h4 className={classes.cardTitleWhite}>Da Rules</h4>
-              <p className={classes.cardCategoryWhite}>Este es el reglamento de tu comunida'</p>
+              <h4 className={classes.cardTitleWhite}>Reglamento</h4>
+              <p className={classes.cardCategoryWhite}>Esta es una vista previa del documento de reglas de tu comunidad. <br/>Debajo de este podrás encontrar un enlace de descarga.</p>
             </CardHeader>
             <CardBody>
             
 
               
         <Document
-          file="example.pdf"
+          file="reglamento.pdf"
           //onLoadSuccess={LoadPDF}
-          onLoadSuccess = { numPages => 97}
+          onLoadSuccess = { numPages => 6}
         >
-          <Page pageNumber={35} />
+          <Page pageNumber={1} />
         </Document>
-        <p>Page {pageNumber} of {numPages}</p>
+        <p>Page {/*pageNumber} of {numPages*/}1 of 6</p>
                  
 
 
             </CardBody>
             <CardFooter>
-              <Button color="primary">Descargar Reglamento</Button>
+              {/* <form method="get" action="reglamento.pdf"> 
+              <Button color="primary" type="download">Abrir</Button> 
+              </form> */}
+              <a href="reglamento.pdf" color="primary" target="_blank">Abrir en otra Pestaña</a>
+
+                <a href="reglamento.pdf" color="primary" download>
+              Descargar Reglamento</a>
+
             </CardFooter>
           </Card>
         </GridItem>
