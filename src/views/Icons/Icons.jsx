@@ -21,6 +21,9 @@ import CardBody from "components/Card/CardBody.jsx";
 
 import avatar from "assets/img/faces/marc.jpg";
 
+import { fetchRepresentatives } from "utils/apiServices.jsx";
+
+
 const styles = {
   cardCategoryWhite: {
     color: "rgba(255,255,255,.62)",
@@ -40,99 +43,59 @@ const styles = {
   }
 };
 
+class Icons extends React.Component {
+  constructor(){
+    super();
+    this.state= {
+      'items': [] 
+    }
+  }
 
+  componentDidMount() {
+    fetchRepresentatives().then(res => {
+      this.setState({ 'items': res });
+    });  
+  }
 
-function Icons(props) {
-  const { classes } = props;
-  return (
-    <GridContainer>
-      <GridItem xs={12} sm={12} md={3}>
-      <Card profile>
-        <CardAvatar profile>
-          <a href="#pablo" onClick={e => e.preventDefault()}>
-            <img src={avatar} alt="..." />
-          </a>
-        </CardAvatar>
-        <CardBody profile>
-          <h6 className={classes.cardCategory}>Presidente</h6>
-          <h4 className={classes.cardTitle}>Alec Thompson</h4>
-          <p className={classes.description}>
-            Don't be scared of the truth because we need to restart the
-            human foundation in truth And I love you like Kanye loves Kanye
-            I love Rick Owens’ bed design but the back is...
-          </p>
-          <Button color="primary" round>
-            Follow
-          </Button>
-        </CardBody>
-      </Card>
-    </GridItem>
-    <GridItem xs={12} sm={12} md={3}>
-      <Card profile>
-        <CardAvatar profile>
-          <a href="#pablo" onClick={e => e.preventDefault()}>
-            <img src={avatar} alt="..." />
-          </a>
-        </CardAvatar>
-        <CardBody profile>
-          <h6 className={classes.cardCategory}>Tesorero</h6>
-          <h4 className={classes.cardTitle}>Alec Thompson</h4>
-          <p className={classes.description}>
-            Don't be scared of the truth because we need to restart the
-            human foundation in truth And I love you like Kanye loves Kanye
-            I love Rick Owens’ bed design but the back is...
-          </p>
-          <Button color="primary" round>
-            Follow
-          </Button>
-        </CardBody>
-      </Card>
-    </GridItem>
-    <GridItem xs={12} sm={12} md={3}>
-      <Card profile>
-        <CardAvatar profile>
-          <a href="#pablo" onClick={e => e.preventDefault()}>
-            <img src={avatar} alt="..." />
-          </a>
-        </CardAvatar>
-        <CardBody profile>
-          <h6 className={classes.cardCategory}>Secretario</h6>
-          <h4 className={classes.cardTitle}>Alec Thompson</h4>
-          <p className={classes.description}>
-            Don't be scared of the truth because we need to restart the
-            human foundation in truth And I love you like Kanye loves Kanye
-            I love Rick Owens’ bed design but the back is...
-          </p>
-          <Button color="primary" round>
-            Follow
-          </Button>
-        </CardBody>
-      </Card>
-    </GridItem>
-    <GridItem xs={12} sm={12} md={3}>
-      <Card profile>
-        <CardAvatar profile>
-          <a href="#pablo" onClick={e => e.preventDefault()}>
-            <img src={avatar} alt="..." />
-          </a>
-        </CardAvatar>
-        <CardBody profile>
-          <h6 className={classes.cardCategory}>Asistente</h6>
-          <h4 className={classes.cardTitle}>Alec Thompson</h4>
-          <p className={classes.description}>
-            Don't be scared of the truth because we need to restart the
-            human foundation in truth And I love you like Kanye loves Kanye
-            I love Rick Owens’ bed design but the back is...
-          </p>
-          <Button color="primary" round>
-            Follow
-          </Button>
-        </CardBody>
-      </Card>
-    </GridItem>
-    </GridContainer>
-  );
-}
+  handleChange = (event, value) => {
+  };
+
+  handleChangeIndex = index => {
+  };
+
+    render() {
+      const { classes } = this.props;
+      console.log(this.state.items)
+      return (
+      <GridContainer>
+          {/*this.state.items.map((item,i) => <h4 key={i}>{
+              item.position? item.first_name:'' 
+            }</h4>)*/}
+        {this.state.items.map((item,i) =><GridItem xs={12} sm={12} md={3} key={i}>
+          <Card profile >
+            <CardAvatar profile>
+              <a href="#pablo" onClick={e => e.preventDefault()}>
+                <img src={avatar} alt="..." />
+              </a>
+            </CardAvatar>
+            <CardBody profile>
+              <h6 className={classes.cardCategory} key={i}>{
+                item.position? item.position:'Secretario' 
+              }</h6>
+              <h4 className={classes.cardTitle}>{item.first_name} {item.last_name}</h4>
+              <a className={classes.cardTitle} href={`mailto:${item.email},`}> {item.email} </a>
+              <Button color="primary" round>
+                Follow
+              </Button>
+            </CardBody>
+          </Card>       
+        </GridItem>
+        )}
+      </GridContainer>
+      );
+    }
+  }
+
 
 Icons.propTypes = {
   classes: PropTypes.object.isRequired
