@@ -71,7 +71,7 @@ const dailySalesChart = {
 
 const emailsSubscriptionChart = {
   data: {
-    labels: [
+    labels: [/*
       "Jan",
       "Feb",
       "Mar",
@@ -79,20 +79,20 @@ const emailsSubscriptionChart = {
       "Mai",
       "Jun",
       "Jul",
-      "Aug",
+      "Aug",*/
       "Sep",
       "Oct",
-      "Nov",
-      "Dec"
+      /*"Nov",
+      "Dec"*/
     ],
-    series: [[542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]]
+    series: [[/*32, 443, 320, 780, 553, 453, 326, 434,*/ 36, 41/*, 50, 38*/]]
   },
   options: {
     axisX: {
       showGrid: false
     },
     low: 0,
-    high: 1000,
+    high: 60,
     chartPadding: {
       top: 0,
       right: 5,
@@ -136,15 +136,15 @@ const emailsSubscriptionChart = {
 
 const completedTasksChart = {
   data: {
-    labels: ["12am", "3pm", "6pm", "9pm", "12pm", "3am", "6am", "9am"],
-    series: [[230, 750, 450, 300, 280, 240, 200, 190]]
+    labels: ["Instalar Camaras", "Limpieza de Parque"/*, "6pm", "9pm", "12pm", "3am", "6am", "9am"*/],
+    series: [[70, 100/*, 450, 300, 280, 240, 200, 190*/]]
   },
   options: {
     lineSmooth: Chartist.Interpolation.cardinal({
       tension: 0
     }),
     low: 0,
-    high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+    high: 100, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
     chartPadding: {
       top: 0,
       right: 0,

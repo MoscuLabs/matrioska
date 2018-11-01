@@ -62,11 +62,11 @@ class Dashboard extends React.Component {
     return (
       <div>
         <GridContainer>
-        <GridItem xs={12} sm={6} md={3}>
+        <GridItem xs={12} sm={6} md={4}>
         </GridItem>
-          <GridItem xs={12} sm={6} md={3}>
-            <Card>
-              <CardHeader color="warning" stats icon>
+          <GridItem xs={12} sm={6} md={2}>
+            <Card style ={{backgroundImage: 'url("wheather.png"',backgroundSize: 'contain',backgroundRepeat: 'no-repeat', minHeight: '143px'}}>
+              {/*<CardHeader color="warning" stats icon>
                 <CardIcon color="warning">
                   <Icon>cloud</Icon>
                 </CardIcon>
@@ -84,12 +84,13 @@ class Dashboard extends React.Component {
                     Get more space
                   </a>
                 </div>
-              </CardFooter>
+    </CardFooter>*/}
             </Card>
           </GridItem>
           <GridItem xs={12} sm={6} md={3}>
-            <Card>
-              <CardHeader color="success" stats icon>
+          <a href="https://www.animalpolitico.com/2018/10/caravana-migrante-cdmx-transporte/" target="_blank">
+            <Card style ={{backgroundImage: 'url("news.png"',backgroundSize: 'contain',backgroundRepeat: 'no-repeat', minHeight: '143px'}}>
+              {/*<CardHeader color="success" stats icon>
                 <CardIcon color="success">
                   <Store />
                 </CardIcon>
@@ -101,8 +102,8 @@ class Dashboard extends React.Component {
                   <DateRange />
                   Last 24 Hours
                 </div>
-              </CardFooter>
-            </Card>
+             </CardFooter>*/}
+            </Card></a>
           </GridItem>
           <GridItem xs={12} sm={6} md={3}>
         </GridItem>
@@ -121,14 +122,14 @@ class Dashboard extends React.Component {
                 />
               </CardHeader>
               <CardBody>
-                <h4 className={classes.cardTitle}>Email Subscriptions</h4>
+                <h4 className={classes.cardTitle}>Participacion de vecinos en propuestas</h4>
                 <p className={classes.cardCategory}>
-                  Last Campaign Performance
+                    Cantidad total de vecinos que participaron en encuestas mensualmente.
                 </p>
               </CardBody>
               <CardFooter chart>
                 <div className={classes.stats}>
-                  <AccessTime /> campaign sent 2 days ago
+                  <AccessTime /> Actualizado hace 10 min.
                 </div>
               </CardFooter>
             </Card>
@@ -145,19 +146,21 @@ class Dashboard extends React.Component {
                 />
               </CardHeader>
               <CardBody>
-                <h4 className={classes.cardTitle}>Completed Tasks</h4>
+                <h4 className={classes.cardTitle}>Progreso de Propuestas</h4>
                 <p className={classes.cardCategory}>
-                  Last Campaign Performance
+                  Porcentaje de realización de las propuestas.
                 </p>
               </CardBody>
               <CardFooter chart>
                 <div className={classes.stats}>
-                  <AccessTime /> campaign sent 2 days ago
+                  <AccessTime /> Actualizado hace 10 min.
                 </div>
               </CardFooter>
             </Card>
           </GridItem>
         </GridContainer>
+        
+        {/*
         <GridContainer>
           <GridItem xs={12} sm={12} md={6}>
             <Card chart>
@@ -208,7 +211,7 @@ class Dashboard extends React.Component {
               </CardFooter>
             </Card>
           </GridItem>
-        </GridContainer>
+        </GridContainer>*/}
       </div>
     );
   }
