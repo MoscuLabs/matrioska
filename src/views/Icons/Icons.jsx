@@ -84,9 +84,9 @@ class Icons extends React.Component {
               }</h6>
               <h4 className={classes.cardTitle}>{item.first_name} {item.last_name}</h4>
               <a className={classes.cardTitle} href={`mailto:${item.email},`}> {item.email} </a>
-              <Button color="primary" round>
+              {/*<Button color="primary" round>
                 Follow
-              </Button>
+            </Button>*/}
             </CardBody>
           </Card>       
         </GridItem>

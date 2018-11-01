@@ -1,4 +1,6 @@
 import React from "react";
+import moment from 'moment'
+
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 // core components
@@ -66,7 +68,7 @@ class Typography extends React.Component {
       
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
-        {this.state.items.map((item,i) => <p key={i}>{item.concept}</p>)}
+        {/*this.state.items.map((item,i) => <p key={i}>{item.concept}</p>)*/}
           <Card>
             <CardHeader color="primary">
               <h4 className={classes.cardTitleWhite}>Rendición de Cuentas</h4>
@@ -77,14 +79,17 @@ class Typography extends React.Component {
             <CardBody>
               <Table 
                 tableHeaderColor="primary"
-                tableHead={["Responsable", "Concepto", "Beneficiario", "Monto", "Fecha", "id"]}
-                tableData={[
-                  ["Dakota Rice", "Niger", "Oud-Turnhout", "$36,738", "10/12/2018"],
-                  
-                  this.state.items.map((item,i)=>`[${item.concept},${item.beneficiary},${item.neighbor.first_name},${item.amount},${i}],`)
-                   /*this.state.items.map((item,i) => <p key={i}>{item.concept}</p>)*/
-                  
+                tableHead={["Responsable", "Concepto", "Beneficiario", "Monto", "Fecha"]}
+                tableData={[[this.state.items.map((item,i)=><p key={i} style ={{borderBottom: '1px solid #E0E0E0'}}>{item.neighbor.first_name}</p>),
+                             this.state.items.map((item,i)=><p key={i} style ={{borderBottom: '1px solid #E0E0E0'}}>{item.concept}</p>),
+                             this.state.items.map((item,i)=><p key={i} style ={{borderBottom: '1px solid #E0E0E0'}}>{item.beneficiary}</p>),
+                             this.state.items.map((item,i)=><p key={i} style ={{borderBottom: '1px solid #E0E0E0'}}>$ {item.amount}</p>),
+                             this.state.items.map((item,i)=><p key={i} style ={{borderBottom: '1px solid #E0E0E0'}}>{moment(item.issued_date).format('DD/MM/YYYY')}</p>)]
+                    //this.state.items.map((item,i)=> `${item.neighbor.first_name}${item.concept}${item.beneficiary}${item.amount}${item.issued_date}${i}`)
                 ]}
+                  /*this.state.items.map((item,i) => <p key={i}>{item.concept}</p>)*/
+                  /*this.state.items.map((item,i)=>`[${item.concept},${item.beneficiary},${item.neighbor.first_name},${item.amount},${i}]`),*/ 
+                
               />
             </CardBody>
           </Card>

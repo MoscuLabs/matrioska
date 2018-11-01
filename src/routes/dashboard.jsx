@@ -7,6 +7,7 @@ import SupervisorAccount from "@material-ui/icons/SupervisorAccount";
 import HowToVote from "@material-ui/icons/HowToVote";
 import SentimentDissatisfied from "@material-ui/icons/SentimentDissatisfied";
 import Unarchive from "@material-ui/icons/Unarchive";
+import Done from "@material-ui/icons/Done";
 // core components/views
 import DashboardPage from "views/Dashboard/Dashboard.jsx";
 import UserProfile from "views/UserProfile/UserProfile.jsx";
@@ -23,66 +24,74 @@ const dashboardRoutes = [
   {
     path: "/dashboard",
     sidebarName: "Dashboard",
-    navbarName: "Material Dashboard",
+    //navbarName: "Dashboard",
+    navbarName: "",
     icon: Dashboard,
     component: DashboardPage
   },
   {
     path: "/user",
     sidebarName: "Reglamento",
-    navbarName: "Profile",
+    //navbarName: "Profile",
+    navbarName: "",
     icon: Book,
     component: UserProfile
   },
   {
     path: "/table",
     sidebarName: "Ver Propuestas",
-    navbarName: "Table List",
+    navbarName: "",
+    //navbarName: "Table List",
     icon: "content_paste",
     component: TableList
   },
   {
     path: "/typography",
     sidebarName: "Rendición de Cuentas",
-    navbarName: "Typography",
+    //navbarName: "Typography",
+    navbarName: "",
     icon: AttachMoney,
     component: Typography
   },
   {
     path: "/icons",
     sidebarName: "Representantes",
-    navbarName: "Icons",
+    //navbarName: "Icons",
+    navbarName: "",
     icon: SupervisorAccount,
     component: Icons
-  },
+  },/*,
   {
     path: "/maps",
     sidebarName: "Crear Iniciativa",
-    navbarName: "Map",
+    navbarName: "",
+    //navbarName: "Map",
     icon: HowToVote,
     component: Maps
   },
   {
     path: "/notifications",
     sidebarName: "Buzón de Quejas",
-    navbarName: "Notifications",
+    navbarName: "",
+    //navbarName: "Notifications",
     icon: SentimentDissatisfied,
     component: NotificationsPage
-  },
+  },*//*
   {
     path: "/upgrade-to-pro",
     sidebarName: "Upgrade To PRO",
     navbarName: "Upgrade To PRO",
     icon: Unarchive,
     component: UpgradeToPro
-  },
+  },*//*
   {
     path: "/Votar",
-    sidebarName: "Upgrade To PRO",
-    navbarName: "Upgrade To PRO",
-    icon: Unarchive,
+    sidebarName: "Votar",
+    navbarName: "",
+    //navbarName: "Votar",
+    icon: Done,
     component: Votar
-  },
+  },*/
   { redirect: true, path: "/", to: "/dashboard", navbarName: "Redirect" }
   
 ];
