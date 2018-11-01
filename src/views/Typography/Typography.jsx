@@ -9,6 +9,8 @@ import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 
+import { fetchExpenses } from "utils/apiServices.jsx";
+
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -39,37 +41,58 @@ const styles = {
   }
 };
 
-function TableList(props) {
-  const { classes } = props;
-  return (
-    <GridContainer>
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Simple Table</h4>
-            <p className={classes.cardCategoryWhite}>
-              Here is a subtitle for this table
-            </p>
-          </CardHeader>
-          <CardBody>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["Responsable", "Concepto", "Beneficiario", "Monto", "Fecha"]}
-              tableData={[
-                ["Dakota Rice", "Niger", "Oud-Turnhout", "$36,738", "10/12/2018"],
-                ["Minerva Hooper", "Curaçao", "Sinaai-Waas", "$23,789", "10/12/2018"],
-                ["Sage Rodriguez", "Netherlands", "Baileux", "$56,142", "10/12/2018"],
-                ["Philip Chaney", "Korea, South", "Overland Park", "$38,735", "10/12/2018"],
-                ["Doris Greene", "Malawi", "Feldkirchen in Kärnten", "$63,542", "10/12/2018"],
-                ["Mason Porter", "Chile", "Gloucester", "$78,615", "10/12/2018"]
-              ]}
-            />
-          </CardBody>
-        </Card>
-      </GridItem>
+class Typography extends React.Component {
+  constructor(){
+    super();
+    this.state= {
+      'items': [] 
+    }
+  }
+  componentDidMount() {
+    fetchExpenses().then(res => {
+      this.setState({ 'items': res});
+    });  
+  }
 
-    </GridContainer>
-  );
+  handleChange = (event, value) => {
+  };
+
+  handleChangeIndex = index => {
+  };
+
+  render() {
+    const { classes } = this.props;
+    return (
+      
+      <GridContainer>
+        <GridItem xs={12} sm={12} md={12}>
+        {this.state.items.map((item,i) => <p key={i}>{item.concept}</p>)}
+          <Card>
+            <CardHeader color="primary">
+              <h4 className={classes.cardTitleWhite}>Rendición de Cuentas</h4>
+              <p className={classes.cardCategoryWhite}>
+                Últimos moviemientos del mes
+              </p>
+            </CardHeader>
+            <CardBody>
+              <Table 
+                tableHeaderColor="primary"
+                tableHead={["Responsable", "Concepto", "Beneficiario", "Monto", "Fecha", "id"]}
+                tableData={[
+                  ["Dakota Rice", "Niger", "Oud-Turnhout", "$36,738", "10/12/2018"],
+                  
+                  this.state.items.map((item,i)=>`[${item.concept},${item.beneficiary},${item.neighbor.first_name},${item.amount},${i}],`)
+                   /*this.state.items.map((item,i) => <p key={i}>{item.concept}</p>)*/
+                  
+                ]}
+              />
+            </CardBody>
+          </Card>
+        </GridItem>
+      </GridContainer>
+    );
+  }
 }
 
-export default withStyles(styles)(TableList);
+
+export default withStyles(styles)(Typography);

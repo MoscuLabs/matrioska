@@ -33,3 +33,37 @@ export const fetchRepresentatives = () => {
       );
   });
 }
+
+export const fetchExpenses = () => {
+  return new Promise((resolve, rejects) => {
+    axios.get(URL + "/Expenses?filter=%7B%22include%22%3A%5B%7B%22relation%22%3A%22neighbor%22%7D%5D%7D")
+      .then(
+        res => {
+          const Expenses = res.data;
+          console.log(Expenses);
+          resolve(Expenses)
+        },
+        err => {
+          console.log('error en Expenses:', err);
+          rejects();
+        }
+      );
+  });
+}
+
+export const fetchProposals = () => {
+  return new Promise((resolve, rejects) => {
+    axios.get(URL + "/Proposals")
+      .then(
+        res => {
+          const Proposals = res.data;
+          console.log(Proposals);
+          resolve(Proposals)
+        },
+        err => {
+          console.log('error en Proposals:', err);
+          rejects();
+        }
+      );
+  });
+}
