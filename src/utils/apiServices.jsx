@@ -40,7 +40,6 @@ export const fetchExpenses = () => {
       .then(
         res => {
           const Expenses = res.data;
-          console.log(Expenses);
           resolve(Expenses)
         },
         err => {
@@ -57,7 +56,6 @@ export const fetchProposals = () => {
       .then(
         res => {
           const Proposals = res.data;
-          console.log(Proposals);
           resolve(Proposals)
         },
         err => {
