@@ -3,7 +3,10 @@ import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 // @material-ui/icons
-import AddAlert from "@material-ui/icons/AddAlert";
+import Security from "@material-ui/icons/Security";
+import Home from "@material-ui/icons/Home";
+import Storage from "@material-ui/icons/Storage";
+
 // core components
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -13,7 +16,7 @@ import Snackbar from "components/Snackbar/Snackbar.jsx";
 import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
-
+Storage
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -93,22 +96,20 @@ class Votar extends React.Component {
           <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
               <center>
-              <h5>Notifications Style</h5>
               <br />
-              <SnackbarContent className={classes.Beige} message={"This is a plain notification"} />
               <SnackbarContent
                 message={"Comunidad"}
-                
+                icon={Home}
               />
               <SnackbarContent
                 message={"Seguridad"}
-                icon={AddAlert}
+                icon={Security}
               />
               <SnackbarContent 
                 message={
                   "Administración"
                 }
-                icon={AddAlert}
+                icon={Storage}
               />
               </center>
             </GridItem>
