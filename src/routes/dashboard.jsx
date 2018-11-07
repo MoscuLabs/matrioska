@@ -20,7 +20,7 @@ import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.jsx";
 import Votar from "views/Votar/Votar.jsx";
 
 
-const dashboardRoutes = [
+export const dashboardRoutes = [
   {
     path: "/dashboard",
     sidebarName: "Dashboard",
@@ -83,15 +83,14 @@ const dashboardRoutes = [
     navbarName: "Upgrade To PRO",
     icon: Unarchive,
     component: UpgradeToPro
-  },*//*
+  },*/
   {
     path: "/Votar",
     sidebarName: "Votar",
     navbarName: "",
-    //navbarName: "Votar",
     icon: Done,
     component: Votar
-  },*/
+  },
   { redirect: true, path: "/", to: "/dashboard", navbarName: "Redirect" }
   
 ];

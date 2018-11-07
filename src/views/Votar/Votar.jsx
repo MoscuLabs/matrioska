@@ -21,7 +21,8 @@ const styles = {
       margin: "0",
       fontSize: "14px",
       marginTop: "0",
-      marginBottom: "0"
+      marginBottom: "0",
+      fontWeight: "bold",
     },
     "& a,& a:hover,& a:focus": {
       color: "#FFFFFF"
@@ -41,6 +42,9 @@ const styles = {
       fontWeight: "400",
       lineHeight: "1"
     }
+  },
+  Beige: {
+    color: "#F3E9CB",
   }
 };
 
@@ -80,87 +84,40 @@ class Votar extends React.Component {
     return (
       <Card>
         <CardHeader color="primary">
-          <h4 className={classes.cardTitleWhite}>Notifications</h4>
+          <h4 className={classes.cardTitleWhite}>Categorías de Propuestas</h4>
           <p className={classes.cardCategoryWhite}>
-            Handcrafted by our friends from{" "}
-            <a target="_blank" href="https://material-ui-next.com/">
-              Material UI
-            </a>{" "}
-            and styled by{" "}
-            <a target="_blank" href="https://www.creative-tim.com/">
-              Creative Tim
-            </a>. Please checkout the{" "}
-            <a href="#pablo" target="_blank">
-              full documentation
-            </a>.
+              Selecciona una categoría en la cual votar.
           </p>
         </CardHeader>
         <CardBody>
           <GridContainer>
-            <GridItem xs={12} sm={12} md={6}>
+            <GridItem xs={12} sm={12} md={12}>
+              <center>
               <h5>Notifications Style</h5>
               <br />
-              <SnackbarContent message={"This is a plain notification"} />
+              <SnackbarContent className={classes.Beige} message={"This is a plain notification"} />
               <SnackbarContent
-                message={"This is a notification with close button."}
-                close
+                message={"Comunidad"}
+                
               />
               <SnackbarContent
-                message={"This is a notification with close button and icon."}
-                close
+                message={"Seguridad"}
                 icon={AddAlert}
               />
-              <SnackbarContent
+              <SnackbarContent 
                 message={
-                  "This is a notification with close button and icon and have many lines. You can see that the icon and the close button are always vertically aligned. This is a beautiful notification. So you don't have to worry about the style."
+                  "Administración"
                 }
-                close
                 icon={AddAlert}
               />
+              </center>
             </GridItem>
-            <GridItem xs={12} sm={12} md={6}>
-              <h5>Notifications States</h5>
-              <br />
-              <SnackbarContent
-                message={
-                  'INFO - This is a regular notification made with color="info"'
-                }
-                close
-                color="info"
-              />
-              <SnackbarContent
-                message={
-                  'SUCCESS - This is a regular notification made with color="success"'
-                }
-                close
-                color="success"
-              />
-              <SnackbarContent
-                message={
-                  'WARNING - This is a regular notification made with color="warning"'
-                }
-                close
-                color="warning"
-              />
-              <SnackbarContent
-                message={
-                  'DANGER - This is a regular notification made with color="danger"'
-                }
-                close
-                color="danger"
-              />
-              <SnackbarContent
-                message={
-                  'PRIMARY - This is a regular notification made with color="primary"'
-                }
-                close
-                color="primary"
-              />
-            </GridItem>
+
           </GridContainer>
           <br />
           <br />
-          <GridContainer justify="center">
+
+          {/* <GridContainer justify="center">
             <GridItem xs={12} sm={12} md={6} style={{ textAlign: "center" }}>
               <h5>
                 Notifications Places
@@ -287,7 +244,7 @@ class Votar extends React.Component {
                 </GridItem>
               </GridContainer>
             </GridItem>
-          </GridContainer>
+          </GridContainer> */}
         </CardBody>
       </Card>
     );
