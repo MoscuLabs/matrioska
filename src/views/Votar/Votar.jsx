@@ -16,6 +16,11 @@ import Snackbar from "components/Snackbar/Snackbar.jsx";
 import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
+
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import Icons from "views/Icons/Icons.jsx";
+import { fetchProposalsToVote } from "utils/apiServices.jsx";
+
 Storage
 const styles = {
   cardCategoryWhite: {
@@ -46,8 +51,12 @@ const styles = {
       lineHeight: "1"
     }
   },
-  Beige: {
-    color: "#F3E9CB",
+  MuiSnackbarContent:{
+    minWidth: "500px!important"
+  },
+  customButton:{
+    minWidth: "500px!important",
+    backgroundColor: "transparent"
   }
 };
 
@@ -60,9 +69,49 @@ class Votar extends React.Component {
       tr: false,
       bl: false,
       bc: false,
-      br: false
+      br: false,
+      visibleCatCom: true,
+      visibleCatSeg: true,
+      visibleCatAdmin: true,
+      'items': [] 
     };
   }
+
+  componentDidMount() {
+    fetchProposalsToVote("5bc75eaa2ded92052b327d1e").then(res => {
+      this.setState({ 'items': res});
+    });  
+  }
+  
+  toggleVisibilityCatCom = () => {
+    this.setState({visibleCatCom: !this.state.visibleCatCom})
+  }
+  toggleVisibilityCatSeg = () => {
+    this.setState({visibleCatSeg: !this.state.visibleCatSeg})
+  }
+  toggleVisibilityCatAdmin = () => {
+    this.setState({visibleCatAdmin: !this.state.visibleCatAdmin})
+  }
+
+  toggleVisibilityOfSegAndAdmin = () => {
+    this.toggleVisibilityCatSeg();
+    this.toggleVisibilityCatAdmin();
+
+  }
+  toggleVisibilityOfComAndAdmin = () => {
+    this.toggleVisibilityCatCom();
+    this.toggleVisibilityCatAdmin();
+  }
+  toggleVisibilityOfComAndSeg = () => {
+    this.toggleVisibilityCatCom();
+    this.toggleVisibilityCatSeg();
+  }
+
+  handleChange = (event, value) => {
+  };
+
+  handleChangeIndex = index => {
+  };
   // to stop the warning of calling setState of unmounted component
   componentWillUnmount() {
     var id = window.setTimeout(null, 0);
@@ -84,8 +133,11 @@ class Votar extends React.Component {
   }
   render() {
     const { classes } = this.props;
+    console.log("RENDER VOTAR: ",this.state.items)
     return (
+      
       <Card>
+        
         <CardHeader color="primary">
           <h4 className={classes.cardTitleWhite}>Categorías de Propuestas</h4>
           <p className={classes.cardCategoryWhite}>
@@ -97,26 +149,76 @@ class Votar extends React.Component {
             <GridItem xs={12} sm={12} md={12}>
               <center>
               <br />
-              <SnackbarContent
-                message={"Comunidad"}
-                icon={Home}
-              />
-              <SnackbarContent
-                message={"Seguridad"}
-                icon={Security}
-              />
-              <SnackbarContent 
-                message={
-                  "Administración"
-                }
-                icon={Storage}
-              />
+              {
+              this.state.visibleCatCom ? (
+                <div>
+                  <Button style={{backgroundColor: "transparent",padding: "0px",margin: "0px",boxShadow: "none"}} onClick={this.toggleVisibilityOfSegAndAdmin}>
+                    <SnackbarContent style={{minWidth: "500px"}} className="customSnack"
+                      message={"Comunidad"}
+                      icon={Home}
+                    />
+                  </Button>
+                  {!this.state.visibleCatSeg && !this.state.visibleCatAdmin ? (
+                    <div>
+                      {this.state.items.map((item,i) => <p key={i}>{item.name}</p>)}
+                    </div>
+                  ):(<div></div>)}
+                </div>
+                ) : (
+                  <div>
+                    
+                  </div>
+                )
+              }
+              {
+              this.state.visibleCatSeg ? (
+                <div>
+                  <Button style={{backgroundColor: "transparent",padding: "0px",margin: "0px",boxShadow: "none", width: "500px"}} onClick={this.toggleVisibilityOfComAndAdmin}>
+                    <SnackbarContent style={{minWidth: "500px"}}
+                      message={"Seguridad"}
+                      icon={Security}
+                  />
+                  </Button>
+                  {!this.state.visibleCatCom && !this.state.visibleCatAdmin ? (
+                    <div>
+                      
+                    </div>
+                  ):(<div></div>)}
+                </div>
+                ) : (
+                  <div>
+                    
+                  </div>
+                )
+              }
+              {
+                this.state.visibleCatAdmin ? (
+                  <div>
+                    <Button style={{backgroundColor: "transparent",padding: "0px",margin: "0px",boxShadow: "none", width: "500px"}} onClick={this.toggleVisibilityOfComAndSeg}>
+                      <SnackbarContent style={{minWidth: "500px"}}
+                        message={
+                          "Administración"
+                        }
+                        icon={Storage}
+                      />
+                    </Button>
+                  </div>
+                ) : (
+                  <div>
+                      
+                  </div>
+                )
+              }
               </center>
             </GridItem>
 
           </GridContainer>
           <br />
           <br />
+
+          <Router>
+            <Route path="/Icons" component={Icons}/>
+          </Router>
 
           {/* <GridContainer justify="center">
             <GridItem xs={12} sm={12} md={6} style={{ textAlign: "center" }}>

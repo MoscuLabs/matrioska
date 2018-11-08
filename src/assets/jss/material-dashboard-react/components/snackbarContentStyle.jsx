@@ -12,6 +12,7 @@ const snackbarContentStyle = {
   root: {
     ...defaultFont,
     flexWrap: "unset",
+    minWidth: "500px",
     position: "relative",
     padding: "20px 15px",
     lineHeight: "20px",

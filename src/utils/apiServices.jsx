@@ -65,3 +65,20 @@ export const fetchProposals = () => {
       );
   });
 }
+
+export const fetchProposalsToVote = (id) => {
+  return new Promise((resolve, rejects) => {
+    axios.get(URL + "/Proposals?filter={\"where\":{\"categoryId\":\""+id+"\"}}")
+      .then(
+        res => {
+          const ProposalsToVote = res.data;
+          resolve(ProposalsToVote)
+        },
+        err => {
+          console.log('error en ProposalsToVote:', err);
+          rejects();
+        }
+      );
+  });
+}
+

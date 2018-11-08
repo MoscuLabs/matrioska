@@ -11,7 +11,6 @@ import Button from "components/CustomButtons/Button.jsx";
 
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { fetchProposals } from "utils/apiServices.jsx";
-import Icons from "views/Icons/Icons.jsx";
 import Votar from "views/Votar/Votar.jsx";
 
 
