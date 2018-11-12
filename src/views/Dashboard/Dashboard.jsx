@@ -29,6 +29,9 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardIcon from "components/Card/CardIcon.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
+import { fetchNeighbors } from "utils/apiServices.jsx";
+import { fetchWeather } from "utils/apiWeather.jsx";
+import moment from "moment";
 
 import { bugs, website, server } from "variables/general.jsx";
 
@@ -42,8 +45,18 @@ import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardS
 
 class Dashboard extends React.Component {
   state = {
-    value: 0
+    value: 0,
+    weatherInfo: {}
   };
+
+  componentDidMount() {
+    let lista = fetchNeighbors();
+    fetchWeather()
+    .then(rep => {
+      this.setState({ weatherInfo: rep });
+    })
+  }
+
   handleChange = (event, value) => {
     this.setState({ value });
   };
@@ -53,37 +66,50 @@ class Dashboard extends React.Component {
   };
   render() {
     const { classes } = this.props;
+    const { weatherInfo } = this.state;
+    let date = moment().format('LLLL');
+    console.log(weatherInfo);
     return (
       <div>
         <GridContainer>
-        <GridItem xs={12} sm={6} md={3}>
-        </GridItem>
-          <GridItem xs={12} sm={6} md={3}>
+          <GridItem xs={12} sm={12} md={6}>
             <Card>
-              <CardHeader color="warning" stats icon>
-                <CardIcon color="warning">
-                  <Icon>cloud</Icon>
+              <CardHeader color="info" stats icon>
+                <CardIcon color="info">
+                  <img src={weatherInfo.imgUrl} alt="weather icon"></img>
                 </CardIcon>
-                <p className={classes.cardCategory}>Used Space</p>
+                <p className={classes.cardCategory}>{weatherInfo.name}</p>
                 <h3 className={classes.cardTitle}>
-                  49/50 <small>GB</small>
+                  {weatherInfo.main ? (
+                    <div>{weatherInfo.main.temp}ºC</div>
+                  ):(
+                    <div></div>
+                  )}
                 </h3>
               </CardHeader>
+              <CardBody>
+                {weatherInfo.clouds ? (
+                  <div><h4 className={classes.cardBody}>Nubes: {weatherInfo.clouds.all}%</h4></div>
+                ):(
+                  <div></div>
+                )}
+                {weatherInfo.main ? (
+                  <div><h4 className={classes.cardBody}>Humedad: {weatherInfo.main.humidity}%</h4></div>
+                ):(
+                  <div></div>
+                )}
+              </CardBody>
               <CardFooter stats>
                 <div className={classes.stats}>
-                  <Danger>
-                    <Warning />
-                  </Danger>
-                  <a href="#pablo" onClick={e => e.preventDefault()}>
-                    Get more space
-                  </a>
+                  {date}
                 </div>
               </CardFooter>
             </Card>
           </GridItem>
-          <GridItem xs={12} sm={6} md={3}>
-            <Card>
-              <CardHeader color="success" stats icon>
+          <GridItem xs={12} sm={12} md={6}>
+          <a href="https://www.animalpolitico.com/2018/10/caravana-migrante-cdmx-transporte/" target="_blank">
+            <Card style ={{backgroundImage: 'url("news.png"',backgroundSize: 'contain',backgroundRepeat: 'no-repeat', minHeight: '143px'}}>
+              {/*<CardHeader color="success" stats icon>
                 <CardIcon color="success">
                   <Store />
                 </CardIcon>
@@ -95,12 +121,63 @@ class Dashboard extends React.Component {
                   <DateRange />
                   Last 24 Hours
                 </div>
+             </CardFooter>*/}
+            </Card></a>
+          </GridItem>
+        </GridContainer>
+        <GridContainer>
+          <GridItem xs={12} sm={12} md={6}>
+            <Card chart>
+              <CardHeader color="warning">
+                <ChartistGraph
+                  className="ct-chart"
+                  data={emailsSubscriptionChart.data}
+                  type="Bar"
+                  options={emailsSubscriptionChart.options}
+                  responsiveOptions={emailsSubscriptionChart.responsiveOptions}
+                  listener={emailsSubscriptionChart.animation}
+                />
+              </CardHeader>
+              <CardBody>
+                <h4 className={classes.cardTitle}>Participacion de vecinos en propuestas</h4>
+                <p className={classes.cardCategory}>
+                    Cantidad total de vecinos que participaron en encuestas mensualmente.
+                </p>
+              </CardBody>
+              <CardFooter chart>
+                <div className={classes.stats}>
+                  <AccessTime /> Actualizado hace 10 min.
+                </div>
               </CardFooter>
             </Card>
           </GridItem>
-          <GridItem xs={12} sm={6} md={3}>
-        </GridItem>
+          <GridItem xs={12} sm={12} md={6}>
+            <Card chart>
+              <CardHeader color="danger">
+                <ChartistGraph
+                  className="ct-chart"
+                  data={completedTasksChart.data}
+                  type="Line"
+                  options={completedTasksChart.options}
+                  listener={completedTasksChart.animation}
+                />
+              </CardHeader>
+              <CardBody>
+                <h4 className={classes.cardTitle}>Progreso de Propuestas</h4>
+                <p className={classes.cardCategory}>
+                  Porcentaje de realización de las propuestas.
+                </p>
+              </CardBody>
+              <CardFooter chart>
+                <div className={classes.stats}>
+                  <AccessTime /> Actualizado hace 10 min.
+                </div>
+              </CardFooter>
+            </Card>
+          </GridItem>
         </GridContainer>
+
+        {/*
         <GridContainer>
           <GridItem xs={12} sm={12} md={6}>
             <Card chart>
@@ -151,58 +228,7 @@ class Dashboard extends React.Component {
               </CardFooter>
             </Card>
           </GridItem>
-        </GridContainer>
-        <GridContainer>
-          <GridItem xs={12} sm={12} md={6}>
-            <Card chart>
-              <CardHeader color="warning">
-                <ChartistGraph
-                  className="ct-chart"
-                  data={emailsSubscriptionChart.data}
-                  type="Bar"
-                  options={emailsSubscriptionChart.options}
-                  responsiveOptions={emailsSubscriptionChart.responsiveOptions}
-                  listener={emailsSubscriptionChart.animation}
-                />
-              </CardHeader>
-              <CardBody>
-                <h4 className={classes.cardTitle}>Email Subscriptions</h4>
-                <p className={classes.cardCategory}>
-                  Last Campaign Performance
-                </p>
-              </CardBody>
-              <CardFooter chart>
-                <div className={classes.stats}>
-                  <AccessTime /> campaign sent 2 days ago
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-          <GridItem xs={12} sm={12} md={6}>
-            <Card chart>
-              <CardHeader color="danger">
-                <ChartistGraph
-                  className="ct-chart"
-                  data={completedTasksChart.data}
-                  type="Line"
-                  options={completedTasksChart.options}
-                  listener={completedTasksChart.animation}
-                />
-              </CardHeader>
-              <CardBody>
-                <h4 className={classes.cardTitle}>Completed Tasks</h4>
-                <p className={classes.cardCategory}>
-                  Last Campaign Performance
-                </p>
-              </CardBody>
-              <CardFooter chart>
-                <div className={classes.stats}>
-                  <AccessTime /> campaign sent 2 days ago
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-        </GridContainer>
+        </GridContainer>*/}
       </div>
     );
   }

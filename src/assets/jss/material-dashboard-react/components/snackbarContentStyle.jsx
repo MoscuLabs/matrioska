@@ -12,12 +12,13 @@ const snackbarContentStyle = {
   root: {
     ...defaultFont,
     flexWrap: "unset",
+    minWidth: "500px",
     position: "relative",
     padding: "20px 15px",
     lineHeight: "20px",
     marginBottom: "20px",
     fontSize: "14px",
-    backgroundColor: "white",
+    backgroundColor: "#F3E9CB",
     color: "#555555",
     borderRadius: "3px",
     boxShadow:
