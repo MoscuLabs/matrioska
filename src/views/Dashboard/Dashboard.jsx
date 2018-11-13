@@ -1,234 +1,246 @@
 import React from "react";
 import PropTypes from "prop-types";
-// react plugin for creating charts
-import ChartistGraph from "react-chartist";
-// @material-ui/core
+
+// @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import Icon from "@material-ui/core/Icon";
+
 // @material-ui/icons
-import Store from "@material-ui/icons/Store";
-import Warning from "@material-ui/icons/Warning";
-import DateRange from "@material-ui/icons/DateRange";
-import LocalOffer from "@material-ui/icons/LocalOffer";
-import Update from "@material-ui/icons/Update";
-import ArrowUpward from "@material-ui/icons/ArrowUpward";
-import AccessTime from "@material-ui/icons/AccessTime";
-import Accessibility from "@material-ui/icons/Accessibility";
-import BugReport from "@material-ui/icons/BugReport";
-import Code from "@material-ui/icons/Code";
-import Cloud from "@material-ui/icons/Cloud";
+import EvStation from "@material-ui/icons/EvStation";
+import Info from "@material-ui/icons/Info";
+import Security from "@material-ui/icons/Security";
+import Gavel from "@material-ui/icons/Gavel";
+
 // core components
-import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
-import Table from "components/Table/Table.jsx";
-import Tasks from "components/Tasks/Tasks.jsx";
-import CustomTabs from "components/CustomTabs/CustomTabs.jsx";
-import Danger from "components/Typography/Danger.jsx";
+import GridItem from "components/Grid/GridItem.jsx";
 import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardIcon from "components/Card/CardIcon.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
-import { fetchNeighbors } from "utils/apiServices.jsx";
-import { fetchWeather } from "utils/apiWeather.jsx";
-import moment from "moment";
+import NavPills from "components/NavPills/NavPills.jsx";
 
-import { bugs, website, server } from "variables/general.jsx";
-
-import {
-  dailySalesChart,
-  emailsSubscriptionChart,
-  completedTasksChart
-} from "variables/charts.jsx";
-
-import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
+import dashboardStyle from "assets/jss/material-dashboard-pro-react/views/dashboardStyle";
 
 class Dashboard extends React.Component {
   state = {
-    value: 0,
-    weatherInfo: {}
+    value: 0
   };
-
-  componentDidMount() {
-    let lista = fetchNeighbors();
-    fetchWeather()
-    .then(rep => {
-      this.setState({ weatherInfo: rep });
-    })
-  }
-
   handleChange = (event, value) => {
     this.setState({ value });
   };
-
   handleChangeIndex = index => {
     this.setState({ value: index });
   };
   render() {
     const { classes } = this.props;
-    const { weatherInfo } = this.state;
-    let date = moment().format('LLLL');
-    console.log(weatherInfo);
     return (
       <div>
+        <GridContainer justify="center">
+          <GridItem xs={12} sm={12} md={8}>
+            <NavPills
+              color="warning"
+              alignCenter
+              tabs={[
+                {
+                  tabButton: "Avisos Generales",
+                  tabIcon: Info,
+                  tabContent: (
+                    <Card>
+                      <CardHeader>
+                        <h4 className={classes.cardTitle}>
+                          Description about product
+                        </h4>
+                        <p className={classes.cardCategory}>
+                          More information here
+                        </p>
+                      </CardHeader>
+                      <CardBody>
+                        Collaboratively administrate empowered markets via
+                        plug-and-play networks. Dynamically procrastinate B2C
+                        users after installed base benefits.
+                        <br />
+                        <br />
+                        Dramatically visualize customer directed convergence
+                        without revolutionary ROI. Collaboratively administrate
+                        empowered markets via plug-and-play networks.
+                        Dynamically procrastinate B2C users after installed base
+                        benefits.
+                        <br />
+                        <br />
+                        Dramatically visualize customer directed convergence
+                        without revolutionary ROI. Collaboratively administrate
+                        plug-and-play networks. Dynamically procrastinate B2C
+                        users after installed base benefits.
+                        <br />
+                        <br />
+                        Dramatically visualize customer directed convergence
+                        without revolutionary ROI.
+                      </CardBody>
+                    </Card>
+                  )
+                },
+                {
+                  tabButton: "Policía",
+                  tabIcon: Security,
+                  tabContent: (
+                    <Card>
+                      <CardHeader>
+                        <h4 className={classes.cardTitle}>
+                          Location of the product
+                        </h4>
+                        <p className={classes.cardCategory}>
+                          More information here
+                        </p>
+                      </CardHeader>
+                      <CardBody>
+                        Efficiently unleash cross-media information without
+                        cross-media value. Quickly maximize timely deliverables
+                        for real-time schemas.
+                        <br />
+                        <br />
+                        Dramatically maintain clicks-and-mortar solutions
+                        without functional solutions.
+                      </CardBody>
+                    </Card>
+                  )
+                },
+                {
+                  tabButton: "Servicios Públicos",
+                  tabIcon: EvStation,
+                  tabContent: (
+                    <Card>
+                      <CardHeader>
+                        <h4 className={classes.cardTitle}>
+                          Legal info of the product
+                        </h4>
+                        <p className={classes.cardCategory}>
+                          More information here
+                        </p>
+                      </CardHeader>
+                      <CardBody>
+                        Completely synergize resource taxing relationships via
+                        premier niche markets. Professionally cultivate
+                        one-to-one customer service with robust ideas.
+                        <br />
+                        <br />
+                        Dynamically innovate resource-leveling customer service
+                        for state of the art customer service.
+                      </CardBody>
+                    </Card>
+                  )
+                },
+                {
+                  tabButton: "Gobierno",
+                  tabIcon: Gavel,
+                  tabContent: (
+                    <Card>
+                      <CardHeader>
+                        <h4 className={classes.cardTitle}>Help center</h4>
+                        <p className={classes.cardCategory}>
+                          More information here
+                        </p>
+                      </CardHeader>
+                      <CardBody>
+                        From the seamless transition of glass and metal to the
+                        streamlined profile, every detail was carefully
+                        considered to enhance your experience. So while its
+                        display is larger, the phone feels just right.
+                        <br />
+                        <br />
+                        Another Text. The first thing you notice when you hold
+                        the phone is how great it feels in your hand. The cover
+                        glass curves down around the sides to meet the anodized
+                        aluminum enclosure in a remarkable, simplified design.
+                      </CardBody>
+                    </Card>
+                  )
+                }
+              ]}
+            />
+          </GridItem>
+        </GridContainer>
+        <h3>Pronóstico del clima</h3>
+        <br />
         <GridContainer>
-          <GridItem xs={12} sm={12} md={6}>
+          <GridItem xs={12} sm={6} md={6} lg={3}>
             <Card>
-              <CardHeader color="info" stats icon>
-                <CardIcon color="info">
-                  <img src={weatherInfo.imgUrl} alt="weather icon"></img>
+              <CardHeader color="primary" stats icon>
+                <CardIcon color="primary">
+                  <Icon>brightness_5</Icon>
                 </CardIcon>
-                <p className={classes.cardCategory}>{weatherInfo.name}</p>
+                <p className={classes.cardCategory}>Lunes</p>
                 <h3 className={classes.cardTitle}>
-                  {weatherInfo.main ? (
-                    <div>{weatherInfo.main.temp}ºC</div>
-                  ):(
-                    <div></div>
-                  )}
+                  26 <small>ºC</small>
                 </h3>
               </CardHeader>
-              <CardBody>
-                {weatherInfo.clouds ? (
-                  <div><h4 className={classes.cardBody}>Nubes: {weatherInfo.clouds.all}%</h4></div>
-                ):(
-                  <div></div>
-                )}
-                {weatherInfo.main ? (
-                  <div><h4 className={classes.cardBody}>Humedad: {weatherInfo.main.humidity}%</h4></div>
-                ):(
-                  <div></div>
-                )}
-              </CardBody>
               <CardFooter stats>
                 <div className={classes.stats}>
-                  {date}
+                  <Icon>wb_cloudy</Icon>
+                  Probabilidad de lluvia: 20%
                 </div>
               </CardFooter>
             </Card>
           </GridItem>
-          <GridItem xs={12} sm={12} md={6}>
-          <a href="https://www.animalpolitico.com/2018/10/caravana-migrante-cdmx-transporte/" target="_blank">
-            <Card style ={{backgroundImage: 'url("news.png"',backgroundSize: 'contain',backgroundRepeat: 'no-repeat', minHeight: '143px'}}>
-              {/*<CardHeader color="success" stats icon>
-                <CardIcon color="success">
-                  <Store />
+          <GridItem xs={12} sm={6} md={6} lg={3}>
+            <Card>
+              <CardHeader color="primary" stats icon>
+                <CardIcon color="primary">
+                  <Icon>brightness_5</Icon>
                 </CardIcon>
-                <p className={classes.cardCategory}>Revenue</p>
-                <h3 className={classes.cardTitle}>$34,245</h3>
+                <p className={classes.cardCategory}>Martes</p>
+                <h3 className={classes.cardTitle}>
+                  25 <small>ºC</small>
+                </h3>
               </CardHeader>
               <CardFooter stats>
                 <div className={classes.stats}>
-                  <DateRange />
-                  Last 24 Hours
-                </div>
-             </CardFooter>*/}
-            </Card></a>
-          </GridItem>
-        </GridContainer>
-        <GridContainer>
-          <GridItem xs={12} sm={12} md={6}>
-            <Card chart>
-              <CardHeader color="warning">
-                <ChartistGraph
-                  className="ct-chart"
-                  data={emailsSubscriptionChart.data}
-                  type="Bar"
-                  options={emailsSubscriptionChart.options}
-                  responsiveOptions={emailsSubscriptionChart.responsiveOptions}
-                  listener={emailsSubscriptionChart.animation}
-                />
-              </CardHeader>
-              <CardBody>
-                <h4 className={classes.cardTitle}>Participacion de vecinos en propuestas</h4>
-                <p className={classes.cardCategory}>
-                    Cantidad total de vecinos que participaron en encuestas mensualmente.
-                </p>
-              </CardBody>
-              <CardFooter chart>
-                <div className={classes.stats}>
-                  <AccessTime /> Actualizado hace 10 min.
+                  <Icon>wb_cloudy</Icon>
+                  Probabilidad de lluvia: 20%
                 </div>
               </CardFooter>
             </Card>
           </GridItem>
-          <GridItem xs={12} sm={12} md={6}>
-            <Card chart>
-              <CardHeader color="danger">
-                <ChartistGraph
-                  className="ct-chart"
-                  data={completedTasksChart.data}
-                  type="Line"
-                  options={completedTasksChart.options}
-                  listener={completedTasksChart.animation}
-                />
+          <GridItem xs={12} sm={6} md={6} lg={3}>
+            <Card>
+              <CardHeader color="primary" stats icon>
+                <CardIcon color="primary">
+                  <Icon>brightness_5</Icon>
+                </CardIcon>
+                <p className={classes.cardCategory}>Miércoles</p>
+                <h3 className={classes.cardTitle}>
+                  20 <small>ºC</small>
+                </h3>
               </CardHeader>
-              <CardBody>
-                <h4 className={classes.cardTitle}>Progreso de Propuestas</h4>
-                <p className={classes.cardCategory}>
-                  Porcentaje de realización de las propuestas.
-                </p>
-              </CardBody>
-              <CardFooter chart>
+              <CardFooter stats>
                 <div className={classes.stats}>
-                  <AccessTime /> Actualizado hace 10 min.
+                  <Icon>wb_cloudy</Icon>
+                  Probabilidad de lluvia: 30%
+                </div>
+              </CardFooter>
+            </Card>
+          </GridItem>
+          <GridItem xs={12} sm={6} md={6} lg={3}>
+            <Card>
+              <CardHeader color="primary" stats icon>
+                <CardIcon color="primary">
+                  <Icon>brightness_5</Icon>
+                </CardIcon>
+                <p className={classes.cardCategory}>Jueves</p>
+                <h3 className={classes.cardTitle}>
+                  19 <small>ºC</small>
+                </h3>
+              </CardHeader>
+              <CardFooter stats>
+                <div className={classes.stats}>
+                  <Icon>wb_cloudy</Icon>
+                  Probabilidad de lluvia: 40%
                 </div>
               </CardFooter>
             </Card>
           </GridItem>
         </GridContainer>
-
-        {/*
-        <GridContainer>
-          <GridItem xs={12} sm={12} md={6}>
-            <Card chart>
-              <CardHeader color="warning">
-                <ChartistGraph
-                  className="ct-chart"
-                  data={emailsSubscriptionChart.data}
-                  type="Bar"
-                  options={emailsSubscriptionChart.options}
-                  responsiveOptions={emailsSubscriptionChart.responsiveOptions}
-                  listener={emailsSubscriptionChart.animation}
-                />
-              </CardHeader>
-              <CardBody>
-                <h4 className={classes.cardTitle}>Email Subscriptions</h4>
-                <p className={classes.cardCategory}>
-                  Last Campaign Performance
-                </p>
-              </CardBody>
-              <CardFooter chart>
-                <div className={classes.stats}>
-                  <AccessTime /> campaign sent 2 days ago
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-          <GridItem xs={12} sm={12} md={6}>
-            <Card chart>
-              <CardHeader color="danger">
-                <ChartistGraph
-                  className="ct-chart"
-                  data={completedTasksChart.data}
-                  type="Line"
-                  options={completedTasksChart.options}
-                  listener={completedTasksChart.animation}
-                />
-              </CardHeader>
-              <CardBody>
-                <h4 className={classes.cardTitle}>Completed Tasks</h4>
-                <p className={classes.cardCategory}>
-                  Last Campaign Performance
-                </p>
-              </CardBody>
-              <CardFooter chart>
-                <div className={classes.stats}>
-                  <AccessTime /> campaign sent 2 days ago
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-        </GridContainer>*/}
       </div>
     );
   }
