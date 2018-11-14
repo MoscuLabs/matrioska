@@ -14,6 +14,7 @@ import CardBody from "components/Card/CardBody.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 
 import { Link } from "react-router-dom";
+import { fetchProposals } from "utils/apiServices.jsx";
 
 import {
   cardTitle,
@@ -73,8 +74,21 @@ const styles = {
 };
 
 class Proposals extends React.Component {
+  state = {
+    approved: [],
+    ongoing: []
+  };
+  componentDidMount() {
+    fetchProposals(3).then(rep => {
+      this.setState({ approved: rep });
+    });
+    fetchProposals(2).then(rep => {
+      this.setState({ ongoing: rep });
+    });
+  }
   render() {
     const { classes } = this.props;
+    const { approved, ongoing } = this.state;
     return (
       <div>
         <Heading
@@ -105,11 +119,7 @@ class Proposals extends React.Component {
                   hover
                   tableHeaderColor="warning"
                   tableHead={["Nombre", "Categoría", "Autor", "Votos"]}
-                  tableData={[
-                    ["Lorem ipsum", "Administración", "Miguel", "1/30"],
-                    ["Lorem ipsum", "Administración", "Miguel", "1/30"],
-                    ["Lorem ipsum", "Administración", "Miguel", "1/30"]
-                  ]}
+                  tableData={approved}
                 />
               </CardBody>
             </Card>
@@ -126,11 +136,7 @@ class Proposals extends React.Component {
                   hover
                   tableHeaderColor="warning"
                   tableHead={["Nombre", "Categoría", "Autor", "Votos"]}
-                  tableData={[
-                    ["Lorem ipsum", "Administración", "Miguel", "1/30"],
-                    ["Lorem ipsum", "Administración", "Miguel", "1/30"],
-                    ["Lorem ipsum", "Administración", "Miguel", "1/30"]
-                  ]}
+                  tableData={ongoing}
                 />
               </CardBody>
             </Card>
