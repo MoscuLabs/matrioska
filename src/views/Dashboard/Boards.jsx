@@ -20,6 +20,8 @@ import NavPills from "components/NavPills/NavPills.jsx";
 
 import dashboardStyle from "assets/jss/material-dashboard-pro-react/views/dashboardStyle";
 import { Timeline } from 'react-twitter-widgets'
+import CardBodyTweet from "../../components/Card/CardBodyTweet";
+import HalfCard from "components/Card/HalfCard.jsx";
 
 class Boards extends React.Component {
   render() {
@@ -45,17 +47,20 @@ class Boards extends React.Component {
                           (...)
                         </p>
                       </CardHeader>
-                      <Timeline
-                            dataSource={{
-                              sourceType: 'profile',
-                              screenName: 'PoliciaZapopan'
-                            }}
-                            options={{
-                              username: 'PoliciaZapopan',
-                              height: '400'
-                            }}
-                            onLoad={() => console.log('Timeline is loaded!')}
-                        />
+                    <CardBodyTweet>
+                        <Timeline
+                                dataSource={{
+                                sourceType: 'profile',
+                                screenName: 'Trafico_ZMG'
+                                }}
+                                options={{
+                                username: 'Trafico_ZMG',
+                                height: '400'
+                                }}
+                                onLoad={() => console.log('Timeline is loaded!')}
+                            />
+                    </CardBodyTweet>
+
                     </Card>
                   )
                 },
@@ -69,18 +74,22 @@ class Boards extends React.Component {
                           Location of the product
                         </h4>
                         <p className={classes.cardCategory}>
-                          More information here
+                            Emergencias: Llama al <strong>911</strong>
                         </p>
                       </CardHeader>
-                      <CardBody>
-                        Efficiently unleash cross-media information without
-                        cross-media value. Quickly maximize timely deliverables
-                        for real-time schemas.
-                        <br />
-                        <br />
-                        Dramatically maintain clicks-and-mortar solutions
-                        without functional solutions.
-                      </CardBody>
+                      <CardBodyTweet>
+                        <Timeline
+                                dataSource={{
+                                sourceType: 'profile',
+                                screenName: 'PoliciaZapopan'
+                                }}
+                                options={{
+                                username: 'PoliciaZapopan',
+                                height: '400'
+                                }}
+                                onLoad={() => console.log('Timeline is loaded!')}
+                            />
+                      </CardBodyTweet>
                     </Card>
                   )
                 },
@@ -88,7 +97,7 @@ class Boards extends React.Component {
                   tabButton: "Servicios Públicos",
                   tabIcon: EvStation,
                   tabContent: (
-                    <Card>
+                    <HalfCard>
                       <CardHeader>
                         <h4 className={classes.cardTitle}>
                           Legal info of the product
@@ -97,16 +106,35 @@ class Boards extends React.Component {
                           More information here
                         </p>
                       </CardHeader>
-                      <CardBody>
-                        Completely synergize resource taxing relationships via
-                        premier niche markets. Professionally cultivate
-                        one-to-one customer service with robust ideas.
-                        <br />
-                        <br />
-                        Dynamically innovate resource-leveling customer service
-                        for state of the art customer service.
-                      </CardBody>
-                    </Card>
+                      <CardBodyTweet>
+                        Siapa: llama al <strong>3668-2482</strong>
+                        <Timeline
+                            dataSource={{
+                            sourceType: 'profile',
+                            screenName: 'siapagdl'
+                            }}
+                            options={{
+                            username: 'siapagdl',
+                            height: '400'
+                            }}
+                            onLoad={() => console.log('Timeline is loaded!')}
+                            />
+                        </CardBodyTweet>
+                        <CardBodyTweet>
+                        CFE: llama al <strong>071</strong>
+                        <Timeline
+                            dataSource={{
+                            sourceType: 'profile',
+                            screenName: 'CFEmx'
+                            }}
+                            options={{
+                            username: 'CFEmx',
+                            height: '400'
+                            }}
+                            onLoad={() => console.log('Timeline is loaded!')}
+                            />
+                      </CardBodyTweet>
+                    </HalfCard>
                   )
                 },
                 {
@@ -120,18 +148,19 @@ class Boards extends React.Component {
                           More information here
                         </p>
                       </CardHeader>
-                      <CardBody>
-                        From the seamless transition of glass and metal to the
-                        streamlined profile, every detail was carefully
-                        considered to enhance your experience. So while its
-                        display is larger, the phone feels just right.
-                        <br />
-                        <br />
-                        Another Text. The first thing you notice when you hold
-                        the phone is how great it feels in your hand. The cover
-                        glass curves down around the sides to meet the anodized
-                        aluminum enclosure in a remarkable, simplified design.
-                      </CardBody>
+                      <CardBodyTweet>
+                        <Timeline
+                                dataSource={{
+                                sourceType: 'profile',
+                                screenName: 'PabloLemusN'
+                                }}
+                                options={{
+                                username: 'PabloLemusN',
+                                height: '400'
+                                }}
+                                onLoad={() => console.log('Timeline is loaded!')}
+                            />
+                      </CardBodyTweet>
                     </Card>
                   )
                 }
