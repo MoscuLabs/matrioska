@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -17,6 +18,7 @@ import CardIcon from "components/Card/CardIcon.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 
 import { cardTitle } from "assets/jss/material-dashboard-pro-react.jsx";
+import { fetchExpenses } from "utils/apiServices.jsx";
 
 const style = {
   customCardContentClass: {
@@ -30,62 +32,71 @@ const style = {
   }
 };
 
-function Transparency({ ...props }) {
-  const { classes } = props;
-  return (
-    <div>
-      <Heading
-        textAlign="center"
-        title="Rendición de Cuentas"
-        category={
-          <span>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            veniam, quis nostrud exercitation ullamco laboris nisi ut nisi nisi
-            minim veniam, quis nostrud exercitation ullamco laboris nisi ut nisi
-            nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            sunt in culpa qui officia deserunt mollit anim id est laborum.
-          </span>
-        }
-      />
-      <GridContainer>
-        <GridItem xs={12}>
-          <Card>
-            <CardHeader color="primary" icon>
-              <CardIcon color="primary">
-                <SwapHoriz />
-              </CardIcon>
-              <h4 className={classes.cardIconTitle}>
-                Últimos movimientos del mes
-              </h4>
-            </CardHeader>
-            <CardBody>
-              <Table
-                tableHeaderColor="primary"
-                tableHead={[
-                  "Responsable",
-                  "Concepto",
-                  "Beneficiario",
-                  "Monto",
-                  "Fecha"
-                ]}
-                tableData={[
-                  ["Dakota Rice", "Niger", "Oud-Turnhout", "Oud-Turnhout", "$36,738"],
-                  ["Minerva Hooper", "Curaçao", "Sinaai-Waas", "Oud-Turnhout", "$23,789"],
-                  ["Sage Rodriguez", "Netherlands", "Baileux", "Oud-Turnhout", "$56,142"],
-                  ["Philip Chaney", "Korea, South", "Overland Park", "Oud-Turnhout", "$38,735"],
-                  ["Mason Porter", "Chile", "Gloucester", "Oud-Turnhout", "$78,615"]
-                ]}
-                coloredColls={[3]}
-                colorsColls={["primary"]}
-              />
-            </CardBody>
-          </Card>
-        </GridItem>
-      </GridContainer>
-    </div>
-  );
+class Transparency extends React.Component {
+  state = {
+    expenses: []
+  };
+  componentDidMount() {
+    fetchExpenses().then(rep => {
+      this.setState({ expenses: rep });
+    });
+  }
+  render() {
+    const { classes } = this.props;
+    const { expenses } = this.state;
+    return (
+      <div>
+        <Heading
+          textAlign="center"
+          title="Rendición de Cuentas"
+          category={
+            <span>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              veniam, quis nostrud exercitation ullamco laboris nisi ut nisi nisi
+              minim veniam, quis nostrud exercitation ullamco laboris nisi ut nisi
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+              sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </span>
+          }
+        />
+        <GridContainer>
+          <GridItem xs={12}>
+            <Card>
+              <CardHeader color="primary" icon>
+                <CardIcon color="primary">
+                  <SwapHoriz />
+                </CardIcon>
+                <h4 className={classes.cardIconTitle}>
+                  Últimos movimientos del mes
+                </h4>
+              </CardHeader>
+              <CardBody>
+                <Table
+                  tableHeaderColor="primary"
+                  tableHead={[
+                    "Responsable",
+                    "Concepto",
+                    "Beneficiario",
+                    "Monto",
+                    "Fecha"
+                  ]}
+                  tableData={expenses}
+                  coloredColls={[3]}
+                  colorsColls={["primary"]}
+                />
+              </CardBody>
+            </Card>
+          </GridItem>
+        </GridContainer>
+      </div>
+    );
+  }
 }
+
+Transparency.propTypes = {
+  classes: PropTypes.object.isRequired
+};
 
 export default withStyles(style)(Transparency);
