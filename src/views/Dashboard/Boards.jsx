@@ -106,6 +106,7 @@ class Boards extends React.Component {
                           More information here
                         </p>
                       </CardHeader>
+                      <div style={{display:"flex"}}>
                       <CardBodyTweet>
                         Siapa: llama al <strong>3668-2482</strong>
                         <Timeline
@@ -134,6 +135,7 @@ class Boards extends React.Component {
                             onLoad={() => console.log('Timeline is loaded!')}
                             />
                       </CardBodyTweet>
+                      </div>
                     </HalfCard>
                   )
                 },

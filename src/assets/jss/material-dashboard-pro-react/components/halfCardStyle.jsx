@@ -14,7 +14,7 @@ const cardStyle = {
       boxShadow: "0 1px 4px 0 rgba(0, 0, 0, 0.14)",
       position: "relative",
       display: "flex",
-      flexDirection: "row",
+      flexDirection: "column",
       minWidth: "0",
       wordWrap: "break-word",
       fontSize: ".875rem"
