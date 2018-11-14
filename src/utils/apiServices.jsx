@@ -1,6 +1,6 @@
 import axios from "axios";
 import { URL } from "./apiConstants.jsx";
-import moment from 'moment';
+import moment from "moment";
 
 export const fetchRepresentatives = () => {
   return new Promise((resolve, rejects) => {
@@ -15,7 +15,7 @@ export const fetchRepresentatives = () => {
       }
     );
   });
-}
+};
 
 export const fetchExpenses = () => {
   return new Promise((resolve, rejects) => {
@@ -49,7 +49,7 @@ export const fetchExpenses = () => {
         }
       );
   });
-}
+};
 
 export const fetchProposals = status => {
   return new Promise((resolve, rejects) => {
@@ -74,28 +74,29 @@ export const fetchProposals = status => {
             );
             array[i] = cell;
           }
-          resolve(array)
+          resolve(array);
         },
         err => {
-          console.log('error en Proposals:', err);
+          console.log("error en Proposals:", err);
           rejects();
         }
       );
   });
-}
+};
 
-export const fetchProposalsToVote = (id) => {
+export const fetchProposalsToVote = id => {
   return new Promise((resolve, rejects) => {
-    axios.get(URL + "/Proposals?filter={\"where\":{\"categoryId\":\""+id+"\"}}")
+    axios
+      .get(URL + '/Proposals?filter={"where":{"categoryId":"' + id + '"}}')
       .then(
         res => {
           const ProposalsToVote = res.data;
-          resolve(ProposalsToVote)
+          resolve(ProposalsToVote);
         },
         err => {
-          console.log('error en ProposalsToVote:', err);
+          console.log("error en ProposalsToVote:", err);
           rejects();
         }
       );
   });
-}
+};
