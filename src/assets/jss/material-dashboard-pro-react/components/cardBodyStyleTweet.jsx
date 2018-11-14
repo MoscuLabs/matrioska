@@ -4,6 +4,7 @@ const cardBodyStyle = {
     flex: "1 1 auto",
     WebkitBoxFlex: "1",
     position: "relative",
+    maxWidth: "500px!important"
   },
   cardBodyBackground: {
     position: "relative",

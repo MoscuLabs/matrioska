@@ -36,7 +36,7 @@ class Step1 extends React.Component {
       simpleSelect: "",
       desgin: false,
       code: false,
-      develop: false
+      develop: false 
     };
   }
   sendState() {
@@ -47,6 +47,7 @@ class Step1 extends React.Component {
   };
   handleChange = name => event => {
     this.setState({ [name]: event.target.checked });
+    console.log(this.state.design)
   };
   isValidated() {
     return true;
@@ -54,6 +55,7 @@ class Step1 extends React.Component {
   render() {
     const { classes } = this.props;
     return (
+      
       <div>
         <h4 className={classes.infoText}>Selecciona una de las categorías</h4>
         <GridContainer justify="center">

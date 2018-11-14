@@ -23,7 +23,13 @@ import NavPills from "components/NavPills/NavPills.jsx";
 
 import dashboardStyle from "assets/jss/material-dashboard-pro-react/views/dashboardStyle";
 
+import { Timeline } from 'react-twitter-widgets'
+
+import HalfCard from "components/Card/HalfCard.jsx";
+
+
 class Dashboard extends React.Component {
+  
   state = {
     value: 0
   };
@@ -35,6 +41,8 @@ class Dashboard extends React.Component {
   };
   render() {
     const { classes } = this.props;
+    
+    
     return (
       <div>
         <GridContainer justify="center">
@@ -85,7 +93,7 @@ class Dashboard extends React.Component {
                   tabButton: "Policía",
                   tabIcon: Security,
                   tabContent: (
-                    <Card>
+                    <HalfCard>
                       <CardHeader>
                         <h4 className={classes.cardTitle}>
                           Location of the product
@@ -95,6 +103,20 @@ class Dashboard extends React.Component {
                         </p>
                       </CardHeader>
                       <CardBody>
+                        <div className="twitter">
+                          <Timeline
+                            dataSource={{
+                              sourceType: 'profile',
+                              screenName: 'PoliciaZapopan'
+                            }}
+                            options={{
+                              username: 'PoliciaZapopan',
+                              height: '400'
+                            }}
+                            onLoad={() => console.log('Timeline is loaded!')}
+                          />
+                        </div>
+                        
                         Efficiently unleash cross-media information without
                         cross-media value. Quickly maximize timely deliverables
                         for real-time schemas.
@@ -103,7 +125,7 @@ class Dashboard extends React.Component {
                         Dramatically maintain clicks-and-mortar solutions
                         without functional solutions.
                       </CardBody>
-                    </Card>
+                    </HalfCard>
                   )
                 },
                 {
