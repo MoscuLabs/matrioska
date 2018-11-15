@@ -23,14 +23,38 @@ import CardFooter from "components/Card/CardFooter.jsx";
 
 import loginPageStyle from "assets/jss/material-dashboard-pro-react/views/loginPageStyle.jsx";
 
+import { NeighborsLogIn } from "utils/apiServices.jsx";
+
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
-      cardAnimaton: "cardHidden"
+      cardAnimaton: "cardHidden",
+      password: "",
+      passwordState: "",
+      email: "",
+      emailState: "",
+      isToggleOn: false,
+      LogIn: []
     };
+    this.handleClick = this.handleClick.bind(this);
   }
+
+  handleClick() {
+
+    if(this.state.passwordState === "success" &&
+    this.state.emailState === "success"){
+        NeighborsLogIn(this.state.email, this.state.password).then(rep => {
+          this.setState({ LogIn: rep });
+        });
+    } else {
+      this.setState(state => ({
+        LogIn: []
+      }));
+    }
+  }
+
   componentDidMount() {
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
     this.timeOutFunction = setTimeout(
@@ -44,8 +68,45 @@ class LoginPage extends React.Component {
     clearTimeout(this.timeOutFunction);
     this.timeOutFunction = null;
   }
+  change(event, stateName, type, stateNameEqualTo) {
+    switch (type) {
+      case "email":
+        if (this.verifyEmail(event.target.value)) {
+          this.setState({ [stateName + "State"]: "success" });
+        } else {
+          this.setState({ [stateName + "State"]: "error" });
+        }
+        break;
+      case "length":
+        if (this.verifyLength(event.target.value, stateNameEqualTo)) {
+          this.setState({ [stateName + "State"]: "success" });
+        } else {
+          this.setState({ [stateName + "State"]: "error" });
+        }
+        break;
+      default:
+        break;
+    }
+    this.setState({ [stateName]: event.target.value });
+  }
+  verifyEmail(value) {
+    var emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (emailRex.test(value)) {
+      return true;
+    }
+    return false;
+  }
+  verifyLength(value, length) {
+    if (value.length >= length) {
+      return true;
+    }
+    return false;
+  }
+
   render() {
     const { classes } = this.props;
+    const { LogIn } = this.state;
+    console.log(LogIn);
     return (
       <div className={classes.container}>
         <GridContainer justify="center">
@@ -78,26 +139,19 @@ class LoginPage extends React.Component {
                 </CardHeader>
                 <CardBody>
                   <CustomInput
-                    labelText="First Name.."
-                    id="firstname"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <Face className={classes.inputAdornmentIcon} />
-                        </InputAdornment>
-                      )
-                    }}
-                  />
-                  <CustomInput
-                    labelText="Email..."
+                    success={this.state.emailState === "success"}
+                    error={this.state.emailState === "error"}
+                    labelText={
+                      <span>
+                        Email <small>(required)</small>
+                      </span>
+                    }
                     id="email"
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
+                      onChange: event => this.change(event, "email", "email"),
                       endAdornment: (
                         <InputAdornment position="end">
                           <Email className={classes.inputAdornmentIcon} />
@@ -106,12 +160,19 @@ class LoginPage extends React.Component {
                     }}
                   />
                   <CustomInput
-                    labelText="Password"
+                    success={this.state.passwordState === "success"}
+                    error={this.state.passwordState === "error"}
+                    labelText={
+                      <span>
+                        Password <small>(required)</small>
+                      </span>
+                    }
                     id="password"
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
+                      onChange: event => this.change(event, "password", "length", 1),
                       endAdornment: (
                         <InputAdornment position="end">
                           <Icon className={classes.inputAdornmentIcon}>
@@ -123,8 +184,8 @@ class LoginPage extends React.Component {
                   />
                 </CardBody>
                 <CardFooter className={classes.justifyContentCenter}>
-                  <Button color="rose" simple size="lg" block>
-                    Let's Go
+                  <Button onClick={this.handleClick} color="rose" simple size="lg" block>
+                  {this.state.isToggleOn ? 'ON' : 'OFF'}
                   </Button>
                 </CardFooter>
               </Card>
