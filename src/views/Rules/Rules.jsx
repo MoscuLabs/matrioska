@@ -60,13 +60,11 @@ class Rules extends React.Component {
           title="Reglamento"
           category={
             <span>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              veniam, quis nostrud exercitation ullamco laboris nisi ut nisi
-              nisi nisi nisi minim veniam, quis nostrud exercitation ullamco
-              nisi nisi ut aliquip ex ea commodo consequat. Duis aute irure
-              dolor in reprehenderit in voluptate velit esse cillum dolore eu
-              pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
+              El conglomerado de normas que forman el reglamento de una organización vecinal 
+              es indispensable, ya que no todas las personas funcionamos o pensamos de la misma 
+              manera y es mejor tener por escrito aquellas reglas que se consideran fundamentales 
+              para el ejercicio de una convivencia plena, pacifica y satisfactoria entre las 
+              personas que cohabitan un espacio determinado.
             </span>
           }
         />

@@ -17,6 +17,9 @@ import Sidebar from "components/Sidebar/Sidebar.jsx";
 import dashboardRoutes from "routes/dashboard.jsx";
 import Profile from "views/Profile/Profile.jsx";
 import Vote from "views/Vote/Vote.jsx";
+import Privacy from "views/Legal/Privacy.jsx";
+import Terms from "views/Legal/Terms.jsx";
+
 
 import appStyle from "assets/jss/material-dashboard-pro-react/layouts/dashboardStyle.jsx";
 
@@ -27,6 +30,10 @@ const switchRoutes = (
   <Switch>
     <Route path={"/profile"} exact component={Profile} />
     <Route path={"/vote"} exact component={Vote} />
+    <Route path={"/privacy"} exact component={Privacy}/>
+    <Route path={"/terms"} exact component={Terms}/>
+
+
     {dashboardRoutes.map((prop, key) => {
       if (prop.redirect)
         return <Redirect from={prop.path} to={prop.pathTo} key={key} />;

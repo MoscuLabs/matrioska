@@ -88,13 +88,12 @@ class Representatives extends React.Component {
           title="Representantes"
           category={
             <span>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
+              La representación legal de una asociación es de suma importancia. 
+              Es por eso que los comités de colonos son una clave especial, ya que 
+              facilitan y  transmiten los objetivos y obstáculos de una asociación 
+              vecinal internamente como externamente. Con el propósito de mejorar 
+              la calidad de vida en las colonias, mediante la participación activa 
+              en las asociaciones vecinales.
             </span>
           }
         />
