@@ -26,7 +26,8 @@
     "react-scripts": "1.1.5",
     "react-swipeable-views": "0.13.0",
     "react-table": "6.8.6",
-    "react-tagsinput": "3.19.0"
+    "react-tagsinput": "3.19.0",
+    "react-twitter-widgets": "^1.7.1"
   },
   "scripts": {
     "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
