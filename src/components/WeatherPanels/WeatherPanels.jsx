@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import moment from "moment";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -14,6 +15,8 @@ import CardIcon from "components/Card/CardIcon.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import dashboardStyle from "assets/jss/material-dashboard-pro-react/views/dashboardStyle";
 import { fetchForecast } from "utils/apiWeather.jsx";
+
+const WeatherIcon = () => <i className={"fas fa-sun "} />;
 
 class WeatherPanel extends React.Component {
   state = {
@@ -32,6 +35,19 @@ class WeatherPanel extends React.Component {
   render() {
     const { classes } = this.props;
     const { weather } = this.state;
+    const days = [
+      moment().format("dddd"),
+      moment()
+        .add(1, "days")
+        .format("dddd"),
+      moment()
+        .add(2, "days")
+        .format("dddd"),
+      moment()
+        .add(3, "days")
+        .format("dddd")
+    ];
+    console.log(weather);
     return (
       <div>
         <GridContainer>
@@ -39,9 +55,9 @@ class WeatherPanel extends React.Component {
             <Card>
               <CardHeader color="primary" stats icon>
                 <CardIcon color="primary">
-                  <Icon>brightness_5</Icon>
+                  <WeatherIcon />
                 </CardIcon>
-                <p className={classes.cardCategory}>Lunes</p>
+                <p className={classes.cardCategory}>{days[0]}</p>
                 <h3 className={classes.cardTitle}>
                   {weather[0].main.temp}
                   <small> ºC</small>
@@ -61,7 +77,7 @@ class WeatherPanel extends React.Component {
                 <CardIcon color="primary">
                   <Icon>brightness_5</Icon>
                 </CardIcon>
-                <p className={classes.cardCategory}>Martes</p>
+                <p className={classes.cardCategory}>{days[1]}</p>
                 <h3 className={classes.cardTitle}>
                   {weather[1].main.temp}
                   <small> ºC</small>
@@ -81,7 +97,7 @@ class WeatherPanel extends React.Component {
                 <CardIcon color="primary">
                   <Icon>brightness_5</Icon>
                 </CardIcon>
-                <p className={classes.cardCategory}>Miércoles</p>
+                <p className={classes.cardCategory}>{days[2]}</p>
                 <h3 className={classes.cardTitle}>
                   {weather[2].main.temp}
                   <small> ºC</small>
@@ -101,7 +117,7 @@ class WeatherPanel extends React.Component {
                 <CardIcon color="primary">
                   <Icon>brightness_5</Icon>
                 </CardIcon>
-                <p className={classes.cardCategory}>Jueves</p>
+                <p className={classes.cardCategory}>{days[3]}</p>
                 <h3 className={classes.cardTitle}>
                   {weather[3].main.temp}
                   <small> ºC</small>
