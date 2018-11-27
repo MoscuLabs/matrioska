@@ -11,13 +11,17 @@ const cardStyle = {
       color: "rgba(0, 0, 0, 0.87)",
       background: "#fff",
       width: "100%",
+      minHeight: "635px",
       boxShadow: "0 1px 4px 0 rgba(0, 0, 0, 0.14)",
       position: "relative",
       display: "flex",
       flexDirection: "column",
       minWidth: "0",
       wordWrap: "break-word",
-      fontSize: ".875rem"
+      fontSize: ".875rem",
+      /*backgroundImage: "url('/whiteboard.jpg')",
+      backgroundSize: "cover",
+      backgroundPosition: "center center"*/
     },
     cardPlain: {
       background: "transparent",

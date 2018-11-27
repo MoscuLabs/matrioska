@@ -15,13 +15,12 @@ import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
 import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
-import CardBody from "components/Card/CardBody.jsx";
 import NavPills from "components/NavPills/NavPills.jsx";
 
 import dashboardStyle from "assets/jss/material-dashboard-pro-react/views/dashboardStyle";
-import { Timeline } from 'react-twitter-widgets'
+import { Timeline } from "react-twitter-widgets";
 import CardBodyTweet from "../../components/Card/CardBodyTweet";
-import HalfCard from "components/Card/HalfCard.jsx";
+import CardWBackground from "components/Card/CardWBackground.jsx";
 
 class Boards extends React.Component {
   render() {
@@ -70,14 +69,16 @@ class Boards extends React.Component {
                   tabContent: (
                     <Card>
                       <CardHeader>
+                        {/*}
                         <h4 className={classes.cardTitle}>
                           Location of the product
                         </h4>
                         <p className={classes.cardCategory}>
                             Emergencias: Llama al <strong>911</strong>
-                        </p>
+                           </p>*/}
                       </CardHeader>
-                      <CardBodyTweet>
+                      <CardBodyTweet style={{background: "#ffc55a",borderRadius: ".5em", boxShadow: "0 3px 5px 0 rgba(0, 0, 0, 0.14)", marginBottom:"25px"}}>
+                        <p className="contactInfo">Emergencias: Llama al <strong>911</strong></p>
                         <Timeline
                                 dataSource={{
                                 sourceType: 'profile',
@@ -97,7 +98,7 @@ class Boards extends React.Component {
                   tabButton: "Servicios Públicos",
                   tabIcon: EvStation,
                   tabContent: (
-                    <HalfCard>
+                    <CardWBackground>
                       <CardHeader>
                         <h4 className={classes.cardTitle}>
                           Legal info of the product
@@ -106,8 +107,10 @@ class Boards extends React.Component {
                           More information here
                         </p>
                       </CardHeader>
-                      <CardBodyTweet>
-                        Siapa: llama al <strong>3668-2482</strong>
+                      <div style={{display:"flex", width: "95%",
+    margin: "auto"}}>
+                      <CardBodyTweet style={{background: "#a6d2ff",borderRadius: ".5em", boxShadow: "0 3px 5px 0 rgba(0, 0, 0, 0.14)"}}>
+                        <p className="contactInfo">Siapa: llama al <strong>3668-2482</strong></p>
                         <Timeline
                             dataSource={{
                             sourceType: 'profile',
@@ -120,8 +123,8 @@ class Boards extends React.Component {
                             onLoad={() => console.log('Timeline is loaded!')}
                             />
                         </CardBodyTweet>
-                        <CardBodyTweet>
-                        CFE: llama al <strong>071</strong>
+                        <CardBodyTweet style={{background: "#b1d6a1",borderRadius: ".5em", boxShadow: "0 3px 5px 0 rgba(0, 0, 0, 0.14)"}}>
+                        <p className="contactInfo">CFE: llama al <strong>071</strong></p>
                         <Timeline
                             dataSource={{
                             sourceType: 'profile',
@@ -134,7 +137,8 @@ class Boards extends React.Component {
                             onLoad={() => console.log('Timeline is loaded!')}
                             />
                       </CardBodyTweet>
-                    </HalfCard>
+                      </div>
+                    </CardWBackground>
                   )
                 },
                 {

@@ -36,7 +36,6 @@ function Header({ ...props }) {
       }
       return null;
     });
-    console.log(props.location.pathname);
     if (name) {
       return name;
     }
