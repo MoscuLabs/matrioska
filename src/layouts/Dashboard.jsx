@@ -17,6 +17,7 @@ import Sidebar from "components/Sidebar/Sidebar.jsx";
 import dashboardRoutes from "routes/dashboard.jsx";
 import Profile from "views/Profile/Profile.jsx";
 import Vote from "views/Vote/Vote.jsx";
+import ProposalsToVote from "views/Vote/ProposalsToVote.jsx";
 
 import appStyle from "assets/jss/material-dashboard-pro-react/layouts/dashboardStyle.jsx";
 
@@ -27,6 +28,7 @@ const switchRoutes = (
   <Switch>
     <Route path={"/profile"} exact component={Profile} />
     <Route path={"/vote"} exact component={Vote} />
+    <Route path={"/vote/proposals"} exact component={ProposalsToVote} />
     {dashboardRoutes.map((prop, key) => {
       if (prop.redirect)
         return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
@@ -127,7 +129,7 @@ class Dashboard extends React.Component {
             miniActive={this.state.miniActive}
             routes={dashboardRoutes}
             handleDrawerToggle={this.handleDrawerToggle}
-            {...rest} 
+            {...rest}
           />
           {/* On the /maps/full-screen-maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
           {this.getRoute() ? (

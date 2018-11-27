@@ -2,6 +2,9 @@ import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 
+// material-ui icons
+import HowToVote from "@material-ui/icons/HowToVote";
+
 // core components
 import Heading from "components/Heading/Heading.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -14,7 +17,7 @@ import CardBody from "components/Card/CardBody.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 
 import { Link } from "react-router-dom";
-import { fetchProposals } from "utils/apiServices.jsx";
+import { fetchBankProposals, fetchProposals } from "utils/apiServices.jsx";
 
 import {
   cardTitle,
@@ -75,20 +78,24 @@ const styles = {
 
 class Proposals extends React.Component {
   state = {
+    listOfProposals: [],
     approved: [],
     ongoing: []
   };
   componentDidMount() {
+    fetchProposals(2).then(rep => {
+      this.setState({ ongoing: rep });
+    });
     fetchProposals(3).then(rep => {
       this.setState({ approved: rep });
     });
-    fetchProposals(2).then(rep => {
-      this.setState({ ongoing: rep });
+    fetchBankProposals().then(rep => {
+      this.setState({ listOfProposals: rep });
     });
   }
   render() {
     const { classes } = this.props;
-    const { approved, ongoing } = this.state;
+    const { listOfProposals, approved, ongoing } = this.state;
     return (
       <div>
         <Heading
@@ -106,6 +113,27 @@ class Proposals extends React.Component {
             </span>
           }
         />
+        <GridContainer align="center">
+          <GridItem xs={12} sm={12} md={12}>
+            <Card>
+              <CardHeader color="primary" text>
+                <CardText color="primary">
+                  <h4 className={classes.cardTitleWhite}>
+                    Banco de propuestas
+                  </h4>
+                </CardText>
+              </CardHeader>
+              <CardBody>
+                <Table
+                  hover
+                  tableHeaderColor="warning"
+                  tableHead={["Nombre", "Descripción", "Categoría", "Autor"]}
+                  tableData={listOfProposals}
+                />
+              </CardBody>
+            </Card>
+          </GridItem>
+        </GridContainer>
         <GridContainer>
           <GridItem xs={12} sm={12} md={6}>
             <Card>

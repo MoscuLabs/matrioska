@@ -46,6 +46,7 @@ class Step1 extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
   handleChange = name => event => {
+    console.log("HALP");
     this.setState({ [name]: event.target.checked });
   };
   isValidated() {
@@ -53,9 +54,11 @@ class Step1 extends React.Component {
   }
   render() {
     const { classes } = this.props;
+    const { desgin } = this.state;
+    console.log(desgin);
     return (
       <div>
-        <h4 className={classes.infoText}>Selecciona una de las categorías</h4>
+        <h4 className={classes.infoText}>Selecciona al una categoría</h4>
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={12} lg={10}>
             <GridContainer>
@@ -63,7 +66,7 @@ class Step1 extends React.Component {
                 <div className={classes.choiche}>
                   <Checkbox
                     tabIndex={-1}
-                    onClick={this.handleChange("desgin")}
+                    onClick={this.handleChange("community")}
                     checkedIcon={
                       <i
                         className={

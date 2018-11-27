@@ -12,7 +12,6 @@ import Icon from "@material-ui/core/Icon";
 import Timeline from "@material-ui/icons/Timeline";
 import Code from "@material-ui/icons/Code";
 import Group from "@material-ui/icons/Group";
-import Face from "@material-ui/icons/Face";
 import Email from "@material-ui/icons/Email";
 // import LockOutline from "@material-ui/icons/LockOutline";
 import Check from "@material-ui/icons/Check";
@@ -31,6 +30,7 @@ import registerPageStyle from "assets/jss/material-dashboard-pro-react/views/reg
 class RegisterPage extends React.Component {
   constructor(props) {
     super(props);
+    this.input = React.createRef();
     this.state = {
       checked: []
     };
@@ -51,6 +51,7 @@ class RegisterPage extends React.Component {
       checked: newChecked
     });
   }
+
   render() {
     const { classes } = this.props;
     return (
@@ -58,7 +59,7 @@ class RegisterPage extends React.Component {
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={10}>
             <Card className={classes.cardSignup}>
-              <h2 className={classes.cardTitle}>Register</h2>
+              <h2 className={classes.cardTitle}>Regístrate</h2>
               <CardBody>
                 <GridContainer justify="center">
                   <GridItem xs={12} sm={12} md={5}>
@@ -82,21 +83,6 @@ class RegisterPage extends React.Component {
                     />
                   </GridItem>
                   <GridItem xs={12} sm={8} md={5}>
-                    <div className={classes.center}>
-                      <Button justIcon round color="twitter">
-                        <i className="fab fa-twitter" />
-                      </Button>
-                      {` `}
-                      <Button justIcon round color="dribbble">
-                        <i className="fab fa-dribbble" />
-                      </Button>
-                      {` `}
-                      <Button justIcon round color="facebook">
-                        <i className="fab fa-facebook-f" />
-                      </Button>
-                      {` `}
-                      <h4 className={classes.socialTitle}>or be classical</h4>
-                    </div>
                     <form className={classes.form}>
                       <CustomInput
                         formControlProps={{
@@ -104,15 +90,16 @@ class RegisterPage extends React.Component {
                           className: classes.customFormControlClasses
                         }}
                         inputProps={{
-                          startAdornment: (
-                            <InputAdornment
-                              position="start"
-                              className={classes.inputAdornment}
-                            >
-                              <Face className={classes.inputAdornmentIcon} />
-                            </InputAdornment>
-                          ),
-                          placeholder: "First Name..."
+                          placeholder: "Nombre(s)"
+                        }}
+                      />
+                      <CustomInput
+                        formControlProps={{
+                          fullWidth: true,
+                          className: classes.customFormControlClasses
+                        }}
+                        inputProps={{
+                          placeholder: "Apellidos"
                         }}
                       />
                       <CustomInput
@@ -172,14 +159,14 @@ class RegisterPage extends React.Component {
                         }
                         label={
                           <span>
-                            I agree to the{" "}
-                            <a href="#pablo">terms and conditions</a>.
+                            Acepto los{" "}
+                            <a href="#pablo">términos y condiciones</a>.
                           </span>
                         }
                       />
                       <div className={classes.center}>
                         <Button round color="primary">
-                          Get started
+                          Registrar
                         </Button>
                       </div>
                     </form>

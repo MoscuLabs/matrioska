@@ -39,17 +39,17 @@ class Vote extends React.Component {
   render() {
     const { classes } = this.props;
     const { selectedValue } = this.state;
-    let linkTo = "/vote/proposals?category=" + selectedValue;
+    console.log(selectedValue);
     return (
       <div>
         <GridContainer justify="center">
-          <h4 className={classes.infoText}>Selecciona una categoría</h4>
+          <h4 className={classes.infoText}>Vota perro</h4>
         </GridContainer>
         <GridContainer justify="center">
           <div className={classes.choiche} style={{ marginRight: "50px" }}>
             <Checkbox
               tabIndex={-1}
-              checked={this.state.selectedValue === "5bc75eaa2ded92052b327d1e"}
+              checked={this.state.selectedValue === "community"}
               onChange={this.handleChange}
               checkedIcon={
                 <i className={"fas fa-home " + classes.iconCheckboxIcon} />
@@ -59,7 +59,7 @@ class Vote extends React.Component {
                 checked: classes.iconCheckboxChecked,
                 root: classes.iconCheckbox
               }}
-              value="5bc75eaa2ded92052b327d1e"
+              value="community"
               aria-label="A"
             />
             <h6>Comunidad</h6>
@@ -67,7 +67,7 @@ class Vote extends React.Component {
           <div className={classes.choiche} style={{ marginRight: "50px" }}>
             <Checkbox
               tabIndex={-1}
-              checked={this.state.selectedValue === "5bc75eb32ded92052b327d1f"}
+              checked={this.state.selectedValue === "security"}
               onChange={this.handleChange}
               checkedIcon={
                 <i
@@ -83,7 +83,7 @@ class Vote extends React.Component {
                 checked: classes.iconCheckboxChecked,
                 root: classes.iconCheckbox
               }}
-              value="5bc75eb32ded92052b327d1f"
+              value="security"
               aria-label="B"
             />
             <h6>Seguridad</h6>
@@ -91,7 +91,7 @@ class Vote extends React.Component {
           <div className={classes.choiche}>
             <Checkbox
               tabIndex={-1}
-              checked={this.state.selectedValue === "5bc75ebd2ded92052b327d20"}
+              checked={this.state.selectedValue === "administration"}
               onChange={this.handleChange}
               checkedIcon={
                 <i className={"fas fa-server " + classes.iconCheckboxIcon} />
@@ -103,7 +103,7 @@ class Vote extends React.Component {
                 checked: classes.iconCheckboxChecked,
                 root: classes.iconCheckbox
               }}
-              value="5bc75ebd2ded92052b327d20"
+              value="administration"
               aria-label="C"
             />
             <h6>Administración</h6>
@@ -111,7 +111,7 @@ class Vote extends React.Component {
         </GridContainer>
         {selectedValue ? (
           <GridContainer justify="center" style={{ marginTop: "50px" }}>
-            <Link to={linkTo}>
+            <Link to="/vote">
               <Button color="info" size="lg" className={classes.marginRight}>
                 Ver propuestas
               </Button>

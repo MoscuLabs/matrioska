@@ -47,7 +47,6 @@ class WeatherPanel extends React.Component {
         .add(3, "days")
         .format("dddd")
     ];
-    console.log(weather);
     return (
       <div>
         <GridContainer>
