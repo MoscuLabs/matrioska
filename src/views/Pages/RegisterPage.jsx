@@ -32,9 +32,19 @@ class RegisterPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      checked: []
+      checked: [],
+      firstName: "",
+      firstNameState: "",
+      lastName: "",
+      lastNameState: "",
+      email: "",
+      emailState: "",
+      password:"",
+      passwordState: "",
+      isToggleOn: false
     };
     this.handleToggle = this.handleToggle.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
   handleToggle(value) {
     const { checked } = this.state;
@@ -51,6 +61,68 @@ class RegisterPage extends React.Component {
       checked: newChecked
     });
   }
+
+  handleClick() {
+
+    if(this.state.firstNameState === "success" &&
+    this.state.lastNameState === "success" &&
+    this.state.passwordState === "success" &&
+    this.state.emailState === "success" &&
+    this.state.isToggleOn){
+
+      console.log(this.state.firstName+ " firstName");
+
+      console.log(this.state.lastName+" lastName");
+  
+      console.log(this.state.email+ " email");
+  
+      console.log(this.state.password+ " password");
+
+    }
+
+
+  }
+
+  change(event, stateName, type, stateNameEqualTo) {
+    switch (type) {
+      case "email":
+        if (this.verifyEmail(event.target.value)) {
+          this.setState({ [stateName + "State"]: "success" });
+        } else {
+          this.setState({ [stateName + "State"]: "error" });
+        }
+        break;
+      case "length":
+        if (this.verifyLength(event.target.value, stateNameEqualTo)) {
+          this.setState({ [stateName + "State"]: "success" });
+        } else {
+          this.setState({ [stateName + "State"]: "error" });
+        }
+        break;
+      default:
+        break;
+    }
+    this.setState({ [stateName]: event.target.value });
+  }
+
+  ToggleCheck(){
+    this.state.isToggleOn = !this.state.isToggleOn ;
+  }
+
+  verifyEmail(value) {
+    var emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (emailRex.test(value)) {
+      return true;
+    }
+    return false;
+  }
+  verifyLength(value, length) {
+    if (value.length >= length) {
+      return true;
+    }
+    return false;
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -99,11 +171,15 @@ class RegisterPage extends React.Component {
                     </div>
                     <form className={classes.form}>
                       <CustomInput
+                      success={this.state.emailState === "success"}
+                      error={this.state.emailState === "error"}
+                      id="firstName"
                         formControlProps={{
                           fullWidth: true,
                           className: classes.customFormControlClasses
                         }}
                         inputProps={{
+                          onChange: event => this.change(event, "firstName", "length", 1),
                           startAdornment: (
                             <InputAdornment
                               position="start"
@@ -116,11 +192,36 @@ class RegisterPage extends React.Component {
                         }}
                       />
                       <CustomInput
+                      success={this.state.emailState === "success"}
+                      error={this.state.emailState === "error"}
+                      id="lastName"
                         formControlProps={{
                           fullWidth: true,
                           className: classes.customFormControlClasses
                         }}
                         inputProps={{
+                          onChange: event => this.change(event, "lastName", "length", 1),
+                          startAdornment: (
+                            <InputAdornment
+                              position="start"
+                              className={classes.inputAdornment}
+                            >
+                              <Face className={classes.inputAdornmentIcon} />
+                            </InputAdornment>
+                          ),
+                          placeholder: "Last Name..."
+                        }}
+                      />
+                      <CustomInput
+                        success={this.state.emailState === "success"}
+                        error={this.state.emailState === "error"}
+                        id="email"
+                        formControlProps={{
+                          fullWidth: true,
+                          className: classes.customFormControlClasses
+                        }}
+                        inputProps={{
+                          onChange: event => this.change(event, "email", "email"),
                           startAdornment: (
                             <InputAdornment
                               position="start"
@@ -133,11 +234,15 @@ class RegisterPage extends React.Component {
                         }}
                       />
                       <CustomInput
+                        success={this.state.emailState === "success"}
+                        error={this.state.emailState === "error"}
+                        id="password"
                         formControlProps={{
                           fullWidth: true,
                           className: classes.customFormControlClasses
                         }}
                         inputProps={{
+                          onChange: event => this.change(event, "password", "length", 1),
                           startAdornment: (
                             <InputAdornment
                               position="start"
@@ -159,7 +264,7 @@ class RegisterPage extends React.Component {
                         control={
                           <Checkbox
                             tabIndex={-1}
-                            onClick={() => this.handleToggle(1)}
+                            onClick={() => this.ToggleCheck()}
                             checkedIcon={
                               <Check className={classes.checkedIcon} />
                             }
@@ -178,7 +283,7 @@ class RegisterPage extends React.Component {
                         }
                       />
                       <div className={classes.center}>
-                        <Button round color="primary">
+                        <Button onClick={this.handleClick} round color="primary">
                           Get started
                         </Button>
                       </div>
