@@ -1,9 +1,13 @@
 import LoginPage from "views/Pages/LoginPage.jsx";
 import RegisterPage from "views/Pages/RegisterPage.jsx";
+import Terms from "views/Pages/Terms.jsx";
+import Privacy from "views/Pages/Privacy.jsx";
 
 // @material-ui/icons
 import PersonAdd from "@material-ui/icons/PersonAdd";
 import Fingerprint from "@material-ui/icons/Fingerprint";
+import InsertDriveFile from "@material-ui/icons/InsertDriveFile";
+import Security from "@material-ui/icons/Security";
 
 const pagesRoutes = [
   {
@@ -21,6 +25,22 @@ const pagesRoutes = [
     mini: "LP",
     icon: Fingerprint,
     component: LoginPage
+  },
+  {
+    path: "/pages/terms",
+    name: "Términos y Condiciones",
+    short: "Terms",
+    mini: "TC",
+    icon: InsertDriveFile,
+    component: Terms
+  },
+  {
+    path: "/pages/privacy",
+    name: "Privacidad de Datos",
+    short: "Privacy",
+    mini: "PR",
+    icon: Security,
+    component: Privacy
   },
   {
     redirect: true,
