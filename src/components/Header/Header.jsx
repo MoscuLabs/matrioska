@@ -41,6 +41,8 @@ function Header({ ...props }) {
     }
     if (props.location.pathname === "/vote") {
       return "Vota";
+    } if (props.location.pathname === "/vote/proposals") {
+      return "Vota";
     } if (props.location.pathname === "/profile") {
       return "Perfil";
     } else {

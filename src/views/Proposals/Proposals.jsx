@@ -113,29 +113,31 @@ class Proposals extends React.Component {
             </span>
           }
         />
-        <GridContainer align="center">
-          <GridItem xs={12} sm={12} md={12}>
+      <GridContainer justify="center">
+          <GridItem xs={12} sm={12} md={4} align="center">
             <Card>
-              <CardHeader color="primary" text>
-                <CardText color="primary">
-                  <h4 className={classes.cardTitleWhite}>
-                    Banco de propuestas
-                  </h4>
-                </CardText>
-              </CardHeader>
               <CardBody>
-                <Table
-                  hover
-                  tableHeaderColor="warning"
-                  tableHead={["Nombre", "Descripción", "Categoría", "Autor"]}
-                  tableData={listOfProposals}
-                />
+                <div className={classes.center}>
+                  <h5>
+                    Apoya a tu comunidad votando por las propuestas de tus
+                    convecinos
+                  </h5>
+                  <Link to="/vote">
+                    <Button
+                      color="info"
+                      size="lg"
+                      className={classes.marginRight}
+                    >
+                      ¡Vota!
+                    </Button>
+                  </Link>
+                </div>
               </CardBody>
             </Card>
           </GridItem>
         </GridContainer>
         <GridContainer>
-          <GridItem xs={12} sm={12} md={6}>
+          <GridItem xs={12} sm={12} md={6} align="left">
             <Card>
               <CardHeader color="primary" text>
                 <CardText color="primary">
@@ -152,7 +154,7 @@ class Proposals extends React.Component {
               </CardBody>
             </Card>
           </GridItem>
-          <GridItem xs={12} sm={12} md={6}>
+          <GridItem xs={12} sm={12} md={6} align="right">
             <Card>
               <CardHeader color="primary" text>
                 <CardText color="primary">
@@ -172,11 +174,23 @@ class Proposals extends React.Component {
         </GridContainer>
         <GridContainer align="center">
           <GridItem xs={12} sm={12} md={12}>
-            <Link to="/vote">
-              <Button color="info" size="lg" className={classes.marginRight}>
-                ¡Vota!
-              </Button>
-            </Link>
+            <Card>
+              <CardHeader color="primary" text>
+                <CardText color="primary">
+                  <h4 className={classes.cardTitleWhite}>
+                    Tus votos
+                  </h4>
+                </CardText>
+              </CardHeader>
+              <CardBody>
+                <Table
+                  hover
+                  tableHeaderColor="warning"
+                  tableHead={["Nombre", "Descripción", "Categoría", "Autor"]}
+                  tableData={listOfProposals}
+                />
+              </CardBody>
+            </Card>
           </GridItem>
         </GridContainer>
       </div>

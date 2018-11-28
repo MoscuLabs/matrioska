@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 
 // core components
 import withStyles from "@material-ui/core/styles/withStyles";
+import Stepper from "@material-ui/core/Stepper";
+import Step from "@material-ui/core/Step";
+import StepLabel from "@material-ui/core/StepLabel";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import Checkbox from "@material-ui/core/Checkbox";
 import customSelectStyle from "assets/jss/material-dashboard-pro-react/customSelectStyle.jsx";
@@ -29,6 +32,7 @@ const style = {
 
 class Vote extends React.Component {
   state = {
+    activeStep: 0,
     selectedValue: ""
   };
 
@@ -38,10 +42,23 @@ class Vote extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { selectedValue } = this.state;
-    let linkTo = "/vote/proposals?category=" + selectedValue;
+    const { selectedValue, activeStep } = this.state;
+    const linkTo = "/vote/proposals?category=" + selectedValue;
     return (
       <div>
+        <GridContainer justify="center" style={{ marginBottom: "50px" }}>
+          <Stepper activeStep={activeStep}>
+            <Step>
+              <StepLabel>Categorías</StepLabel>
+            </Step>
+            <Step>
+              <StepLabel>Propuestas</StepLabel>
+            </Step>
+            <Step>
+              <StepLabel>Vota</StepLabel>
+            </Step>
+          </Stepper>
+        </GridContainer>
         <GridContainer justify="center">
           <h4 className={classes.infoText}>Selecciona una categoría</h4>
         </GridContainer>

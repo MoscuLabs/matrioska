@@ -1,7 +1,41 @@
 import axios from "axios";
 import { URL } from "./apiConstants.jsx";
-import Button from "@material-ui/core/Button";
 import moment from "moment";
+
+export const fetchNeighbors = () => {
+  return new Promise((resolve, rejects) => {
+    axios.get(URL + "Neighbors")
+      .then(
+        res => {
+          const neighbors = res.data;
+          resolve(neighbors);
+        },
+        err => {
+          console.log('error en fetchNeighbors:', err);
+          rejects();
+        }
+      );
+  });
+}
+
+export const NeighborsLogIn = (email, password) => {
+  return new Promise((resolve, rejects) => {
+    axios.post(URL + "Neighbors/login", {
+      email: email, password: password
+    })
+      .then(
+        res => {
+          const neighborsToken = res.data;
+          resolve(neighborsToken);
+        },
+        err => {
+          console.log('error en fetchNeighbors:', err);
+          rejects();
+        }
+      );
+  });
+}
+
 
 export const fetchRepresentatives = () => {
   return new Promise((resolve, rejects) => {
@@ -107,6 +141,27 @@ export const fetchBankProposals = () => {
             array[i] = cell;
           }
           resolve(array);
+        },
+        err => {
+          console.log("error en Proposals:", err);
+          rejects();
+        }
+      );
+  });
+};
+
+export const fetchToVoteProposals = categoryId => {
+  return new Promise((resolve, rejects) => {
+    axios
+      .get(
+        URL +
+          '/Proposals?filter={"where":{"categoryId":"' +
+          categoryId +
+          '"}, "include":[{"relation":"neighbor","scope":{"fields":["first_name","last_name"]}}]}'
+      )
+      .then(
+        res => {
+          resolve(res.data);
         },
         err => {
           console.log("error en Proposals:", err);
