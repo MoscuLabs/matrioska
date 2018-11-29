@@ -13,6 +13,7 @@ export const fetchWeather = () => {
         resolve(weatherInfo);
       },
       err => {
+        // eslint-disable-next-line no-console
         console.log("error en fetchWeather:", err);
         rejects();
       }
@@ -28,6 +29,7 @@ export const fetchForecast = () => {
         resolve(weatherInfo);
       },
       err => {
+        // eslint-disable-next-line no-console
         console.log("error en fetchWeather:", err);
         rejects();
       }

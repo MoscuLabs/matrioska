@@ -10,6 +10,7 @@ export const fetchRepresentatives = () => {
         resolve(representatives);
       },
       err => {
+        // eslint-disable-next-line no-console
         console.log("error en fetchNeighbors:", err);
         rejects();
       }
@@ -30,6 +31,7 @@ export const fetchExpenses = () => {
           let length = expenses.length;
           let array = [];
           for (let i = 0; i < length; i++) {
+            // eslint-disable-next-line
             let cell = new Array(
               expenses[i].neighbor.first_name +
                 " " +
@@ -44,6 +46,7 @@ export const fetchExpenses = () => {
           resolve(array);
         },
         err => {
+          // eslint-disable-next-line no-console
           console.log("error en Expenses:", err);
           rejects();
         }
@@ -66,6 +69,7 @@ export const fetchProposals = status => {
           let length = proposals.length;
           let array = [];
           for (let i = 0; i < length; i++) {
+            // eslint-disable-next-line
             let cell = new Array(
               proposals[i].name,
               proposals[i].category.name,
@@ -77,6 +81,7 @@ export const fetchProposals = status => {
           resolve(array);
         },
         err => {
+          // eslint-disable-next-line no-console
           console.log("error en Proposals:", err);
           rejects();
         }
@@ -94,6 +99,7 @@ export const fetchProposalsToVote = id => {
           resolve(ProposalsToVote);
         },
         err => {
+          // eslint-disable-next-line no-console
           console.log("error en ProposalsToVote:", err);
           rejects();
         }

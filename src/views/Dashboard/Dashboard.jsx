@@ -23,7 +23,7 @@ class Dashboard extends React.Component {
   render() {
     return (
       <div>
-        <Boards/>
+        <Boards />
         <h3>Pronóstico del clima</h3>
         <br />
         <WeatherPanels />
