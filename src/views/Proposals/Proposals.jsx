@@ -103,13 +103,13 @@ class Proposals extends React.Component {
           title="Propuestas"
           category={
             <span>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
+              El voto es un derecho. Éste nos da la oportunidad de hacernos 
+              escuchar y expresar nuestras opiniones, sugerencias e inconformidades. 
+              Votar consiste en brindar apoyo a una propuesta en forma anónima, pues 
+              mediante este acto de participación ciudadana que ejercemos de acuerdo 
+              a nuestros ideales, se define los caminos a seguir por parte de una comunidad.
+              Es  por esto que es esencial estar informados sobre las propuestas que se 
+              encuentran en gestión en la asociación vecinal y ejercer nuestro derecho.
             </span>
           }
         />
@@ -174,6 +174,7 @@ class Proposals extends React.Component {
         </GridContainer>
         <GridContainer align="center">
           <GridItem xs={12} sm={12} md={12}>
+<<<<<<< HEAD
             <Card>
               <CardHeader color="primary" text>
                 <CardText color="primary">
@@ -191,6 +192,19 @@ class Proposals extends React.Component {
                 />
               </CardBody>
             </Card>
+=======
+            <Link to="/vote">
+              <Button color="info" size="lg" className={classes.marginRight}>
+                ¡Vota!
+              </Button>
+            </Link>
+            <Link to="/CreateProposal">
+              <Button color="info" size="lg" className={classes.marginRight}>
+                ¡Crear Propuesta!
+              </Button>
+            </Link>
+
+>>>>>>> 182ede87fa8ed768d069fc5f42cbc8219b30cbaa
           </GridItem>
         </GridContainer>
       </div>

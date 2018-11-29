@@ -17,11 +17,10 @@ import Sidebar from "components/Sidebar/Sidebar.jsx";
 import dashboardRoutes from "routes/dashboard.jsx";
 import Profile from "views/Profile/Profile.jsx";
 import Vote from "views/Vote/Vote.jsx";
-import ProposalsToVote from "views/Vote/ProposalsToVote.jsx";
+
 
 import appStyle from "assets/jss/material-dashboard-pro-react/layouts/dashboardStyle.jsx";
 
-import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/logo.png";
 
 import { validateAccess } from "utils/apiAuth.jsx";
@@ -30,7 +29,12 @@ const switchRoutes = (
   <Switch>
     <Route path={"/profile"} exact component={Profile} />
     <Route path={"/vote"} exact component={Vote} />
-    <Route path={"/vote/proposals"} exact component={ProposalsToVote} />
+    <Route path={"/privacy"} exact component={Privacy}/>
+    <Route path={"/terms"} exact component={Terms}/>
+    <Route path={"/CreateProposal"} exact component={CreateProposal}/>
+
+
+
     {dashboardRoutes.map((prop, key) => {
       if (prop.redirect)
         return <Redirect from={prop.path} to={prop.pathTo} key={key} />;

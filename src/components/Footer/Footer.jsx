@@ -31,12 +31,21 @@ function Footer({ ...props }) {
         <div className={classes.left}>
           <List className={classes.list}>
             <ListItem className={classes.inlineBlock}>
+<<<<<<< HEAD
               <a href="/pages/privacy" className={block}>
+=======
+              <a href="/privacy" className={block}>
+>>>>>>> 182ede87fa8ed768d069fc5f42cbc8219b30cbaa
                 Aviso de Privacidad
+
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
+<<<<<<< HEAD
               <a href="/pages/terms" className={block}>
+=======
+              <a href="/terms" className={block}>
+>>>>>>> 182ede87fa8ed768d069fc5f42cbc8219b30cbaa
                 Términos y Condiciones
               </a>
             </ListItem>
