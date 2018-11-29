@@ -25,7 +25,7 @@ const pagesRoutes = [
   {
     redirect: true,
     path: "/pages",
-    pathTo: "/pages/register",
+    pathTo: "/pages/login",
     name: "Register Page"
   }
 ];

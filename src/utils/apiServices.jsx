@@ -4,29 +4,10 @@ import moment from "moment";
 
 export const fetchNeighbors = () => {
   return new Promise((resolve, rejects) => {
-    axios.get(URL + "Neighbors")
-      .then(
-        res => {
+    axios.get(URL + "Neighbors").then(
+      res => {
           const neighbors = res.data;
           resolve(neighbors);
-        },
-        err => {
-          console.log('error en fetchNeighbors:', err);
-          rejects();
-        }
-      );
-  });
-}
-
-export const NeighborsLogIn = (email, password) => {
-  return new Promise((resolve, rejects) => {
-    axios.post(URL + "Neighbors/login", {
-      email: email, password: password
-    })
-      .then(
-        res => {
-          const neighborsToken = res.data;
-          resolve(neighborsToken);
         },
         err => {
           console.log('error en fetchNeighbors:', err);

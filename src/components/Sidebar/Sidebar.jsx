@@ -23,6 +23,8 @@ import sidebarStyle from "assets/jss/material-dashboard-pro-react/components/sid
 
 import avatar from "assets/img/faces/avatar.jpg";
 
+import { logout } from "utils/apiAuth.jsx";
+
 var ps;
 
 // We've created this component so we can have a ref to the wrapper of the links that appears in our sidebar.
@@ -68,6 +70,10 @@ class Sidebar extends React.Component {
       miniActive: true
     };
     this.activeRoute.bind(this);
+    this.handleLogout.bind(this);
+  }
+  handleLogout() {
+    logout();
   }
   // verifies if routeName is the one active (in browser input)
   activeRoute(routeName) {
@@ -180,10 +186,11 @@ class Sidebar extends React.Component {
                 </ListItem>
                 <ListItem className={classes.collapseItem}>
                   <NavLink
-                    to="/pages/login-page"
+                    to={"/pages/login"}
                     className={
                       classes.itemLink + " " + classes.userCollapseLinks
                     }
+                    onClick={this.handleLogout}
                   >
                     <span className={collapseItemMini}>S</span>
                     <ListItemText
@@ -191,7 +198,7 @@ class Sidebar extends React.Component {
                       disableTypography={true}
                       className={collapseItemText}
                     />
-                  </NavLink>
+                </NavLink>
                 </ListItem>
               </List>
             </Collapse>
