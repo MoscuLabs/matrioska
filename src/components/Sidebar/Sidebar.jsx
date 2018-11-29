@@ -23,7 +23,7 @@ import sidebarStyle from "assets/jss/material-dashboard-pro-react/components/sid
 
 import avatar from "assets/img/faces/avatar.jpg";
 
-import { logout } from "utils/apiAuth.jsx";
+import { logout, validateName } from "utils/apiAuth.jsx";
 
 var ps;
 
@@ -67,10 +67,17 @@ class Sidebar extends React.Component {
       openTables: this.activeRoute("/tables"),
       openMaps: this.activeRoute("/maps"),
       openPages: this.activeRoute("-page"),
-      miniActive: true
+      miniActive: true,
+      name: ""
     };
     this.activeRoute.bind(this);
     this.handleLogout.bind(this);
+  }
+
+  componentDidMount() {
+    validateName().then(rep => {
+      this.setState({ name: rep });
+    });
   }
   handleLogout() {
     logout();
@@ -151,7 +158,7 @@ class Sidebar extends React.Component {
               onClick={() => this.openCollapse("openAvatar")}
             >
               <ListItemText
-                primary="María José Parra"
+                primary={this.state.name}
                 secondary={
                   <b
                     className={

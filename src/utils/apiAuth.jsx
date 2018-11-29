@@ -62,7 +62,7 @@ export const validateAccess = () => {
       axios
         .get(
           URL +
-            "/Neighbors/" +
+            "Neighbors/" +
             convecinos.userId +
             "/accessTokens/" +
             convecinos.access_token
@@ -85,7 +85,7 @@ export const validateRepresentant = () => {
     if (convecinos === null) {
       rejects(false);
     } else {
-      axios.get(URL + "/Neighbors/" + convecinos.userId).then(
+      axios.get(URL + "Neighbors/" + convecinos.userId).then(
         res => {
           if (res.data.representant) {
             resolve(true);
@@ -94,6 +94,26 @@ export const validateRepresentant = () => {
           }
         },
         err => {
+          rejects("Error en validateRepresentant: ", err);
+        }
+      );
+    }
+  });
+};
+
+export const validateName = () => {
+  return new Promise((resolve, rejects) => {
+    let convecinos = JSON.parse(localStorage.getItem("convecinos"));
+    if (convecinos === null) {
+      rejects(false);
+    } else {
+      axios.get(URL + "Neighbors/" + convecinos.userId).then(
+        res => {
+          let name = res.data.first_name + " " + res.data.last_name;
+          resolve(name);
+        },
+        err => {
+          console.log("ERROR!");
           rejects("Error en validateRepresentant: ", err);
         }
       );
