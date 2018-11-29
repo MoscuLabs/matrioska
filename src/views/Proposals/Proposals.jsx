@@ -149,6 +149,12 @@ class Proposals extends React.Component {
                 ¡Vota!
               </Button>
             </Link>
+            <Link to="/CreateProposal">
+              <Button color="info" size="lg" className={classes.marginRight}>
+                ¡Crear Propuesta!
+              </Button>
+            </Link>
+
           </GridItem>
         </GridContainer>
       </div>

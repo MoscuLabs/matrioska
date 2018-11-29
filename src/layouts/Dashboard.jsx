@@ -19,6 +19,7 @@ import Profile from "views/Profile/Profile.jsx";
 import Vote from "views/Vote/Vote.jsx";
 import Privacy from "views/Legal/Privacy.jsx";
 import Terms from "views/Legal/Terms.jsx";
+import CreateProposal from "views/CreateProposals/CreateProposal.jsx";
 
 
 import appStyle from "assets/jss/material-dashboard-pro-react/layouts/dashboardStyle.jsx";
@@ -32,6 +33,8 @@ const switchRoutes = (
     <Route path={"/vote"} exact component={Vote} />
     <Route path={"/privacy"} exact component={Privacy}/>
     <Route path={"/terms"} exact component={Terms}/>
+    <Route path={"/CreateProposal"} exact component={CreateProposal}/>
+
 
 
     {dashboardRoutes.map((prop, key) => {
