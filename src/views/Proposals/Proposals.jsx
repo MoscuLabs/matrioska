@@ -174,25 +174,6 @@ class Proposals extends React.Component {
         </GridContainer>
         <GridContainer align="center">
           <GridItem xs={12} sm={12} md={12}>
-<<<<<<< HEAD
-            <Card>
-              <CardHeader color="primary" text>
-                <CardText color="primary">
-                  <h4 className={classes.cardTitleWhite}>
-                    Tus votos
-                  </h4>
-                </CardText>
-              </CardHeader>
-              <CardBody>
-                <Table
-                  hover
-                  tableHeaderColor="warning"
-                  tableHead={["Nombre", "Descripción", "Categoría", "Autor"]}
-                  tableData={listOfProposals}
-                />
-              </CardBody>
-            </Card>
-=======
             <Link to="/vote">
               <Button color="info" size="lg" className={classes.marginRight}>
                 ¡Vota!
@@ -204,7 +185,6 @@ class Proposals extends React.Component {
               </Button>
             </Link>
 
->>>>>>> 182ede87fa8ed768d069fc5f42cbc8219b30cbaa
           </GridItem>
         </GridContainer>
       </div>

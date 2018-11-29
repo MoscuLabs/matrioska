@@ -23,12 +23,23 @@ export const login = data => {
   return new Promise((resolve, rejects) => {
     axios.post(URL + "Neighbors/login", data).then(
       res => {
-        let convecinos = {
-          access_token: res.data.id,
-          userId: res.data.userId
-        };
-        localStorage.setItem("convecinos", JSON.stringify(convecinos));
-        resolve(res.data);
+        axios.get(URL + 'Neighbors/'+res.data.userId+'?filter={"fields":["neighborhoodId"]}').then(
+          res2 => {
+            let convecinos = {
+              access_token: res.data.id,
+              userId: res.data.userId,
+              neighborhoodId: res2.data.neighborhoodId
+            };
+            localStorage.setItem("convecinos", JSON.stringify(convecinos));
+            resolve(res.data);
+            const neighbors = res.data;
+            resolve(neighbors);
+          },
+          err => {
+            console.log("error en fetchNeighbors:", err);
+            rejects();
+          }
+        );
       },
       err => {
         console.log('error en login', err);

@@ -33,6 +33,9 @@ import Table from "components/Table/Table.jsx";
 import { fetchAllProposals } from "utils/apiServices.jsx";
 import { fetchNeighbors } from "utils/apiServices.jsx";
 
+import { makeNotice } from "utils/apiServices.jsx";
+import { makeTransaction } from "utils/apiServices.jsx";
+
 
 
 class Administration extends React.Component {
@@ -41,7 +44,6 @@ class Administration extends React.Component {
         this.state = {
             proposals: [],
             neighbors: [],
-            Responsable: "",
             Concepto: "",
             Beneficiario: "",
             Monto: "",
@@ -52,6 +54,7 @@ class Administration extends React.Component {
           };
         this.SubmitBoton = this.SubmitBoton.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.SubmitBotonAviso = this.SubmitBotonAviso.bind(this);
     
     };
 
@@ -66,9 +69,6 @@ class Administration extends React.Component {
       }
 
     Change(event, stateName){
-        if(stateName=="Responsable"){
-            this.setState({ [stateName]: event.target.value });        
-        }
         if(stateName=="Concepto"){
             this.setState({ [stateName]: event.target.value });        
         }
@@ -91,12 +91,40 @@ class Administration extends React.Component {
       }
 
     SubmitBoton(){
-        console.log(this.state.Responsable)
+
+        let convecinos = JSON.parse(localStorage.getItem("convecinos"));
         console.log(this.state.Concepto)
         console.log(this.state.Beneficiario)
         console.log(this.state.Monto)
-        console.log(this.state.Aviso)
         console.log(this.state.startDate)
+
+        if(this.state.Concepto != "" &&
+        this.state.Monto != "" &&
+        this.state.Beneficiario != "" &&
+        this.state.startDate != ""){
+            
+        let data ={
+            "concept":this.state.Concepto,
+            "amount": this.state.Monto,
+            "beneficiary": this.state.Beneficiario,
+            "issued_date": this.state.startDate,
+            "neighborhoodId": "5bc752c00bc8e9036dfbc1ef",
+            "neighborId": convecinos.userId
+        }
+
+        makeTransaction(data);
+        }else{
+            
+        }
+    }
+
+    SubmitBotonAviso(){
+        console.log(this.state.Aviso)
+        let data = {
+            "description": this.state.Aviso,
+            "neighborhoodId": "5bc752c00bc8e9036dfbc1ef"
+        };
+        makeNotice(data);
 
     }
 
@@ -140,7 +168,7 @@ class Administration extends React.Component {
                             </GridItem>
                         </GridContainer>
                         <center>
-                            <Button onClick={this.SubmitBoton} color="success" size="md" className={classes.marginRight}>
+                            <Button onClick={this.SubmitBotonAviso} color="success" size="md" className={classes.marginRight}>
                                 Publicar
                             </Button>
                         </center>
@@ -195,20 +223,6 @@ class Administration extends React.Component {
                       <CardHeader>
                         <h4 className={classes.cardTitle}>Transparencia</h4>
                         <p className={classes.cardCategory}>
-                        <GridContainer>
-                            <GridItem xs={12} sm={12} md={11}>
-                                <CustomInput
-                                    inputProps={{
-                                        onChange: event => this.Change(event, "Responsable"),
-                                      }}
-                                    labelText="Responsable"
-                                    id="username"
-                                    formControlProps={{
-                                    fullWidth: true
-                                    }}
-                                />
-                            </GridItem>
-                        </GridContainer>
                         <GridContainer>
                             <GridItem xs={12} sm={12} md={11}>
                                 <CustomInput

@@ -17,10 +17,13 @@ import Sidebar from "components/Sidebar/Sidebar.jsx";
 import dashboardRoutes from "routes/dashboard.jsx";
 import Profile from "views/Profile/Profile.jsx";
 import Vote from "views/Vote/Vote.jsx";
-
+import Privacy from "views/Pages/Privacy.jsx";
+import Terms from "views/Pages/Terms.jsx";
+import CreateProposal from "views/CreateProposals/CreateProposal.jsx";
 
 import appStyle from "assets/jss/material-dashboard-pro-react/layouts/dashboardStyle.jsx";
 
+import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/logo.png";
 
 import { validateAccess } from "utils/apiAuth.jsx";

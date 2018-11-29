@@ -2,9 +2,10 @@ import axios from "axios";
 import { URL } from "./apiConstants.jsx";
 import moment from "moment";
 
-export const fetchNeighbors = () => {
+
+export const patchNeighbor = (id, data) => {
   return new Promise((resolve, rejects) => {
-    axios.get(URL + "Neighbors").then(
+    axios.patch(URL + "Neighbors/"+id, data).then(
       res => {
           const neighbors = res.data;
           resolve(neighbors);
@@ -17,9 +18,24 @@ export const fetchNeighbors = () => {
   });
 }
 
-export const patchNeighbor = (id, data) => {
+export const makeNotice = data => {
   return new Promise((resolve, rejects) => {
-    axios.patch(URL + "Neighbors/"+id, data).then(
+    axios.post(URL + 'Notices', data).then(
+      res => {
+          const neighbors = res.data;
+          resolve(neighbors);
+        },
+        err => {
+          console.log('error en fetchNeighbors:', err);
+          rejects();
+        }
+      );
+  });
+}
+
+export const makeTransaction = data => {
+  return new Promise((resolve, rejects) => {
+    axios.post(URL + 'Expenses', data).then(
       res => {
           const neighbors = res.data;
           resolve(neighbors);
