@@ -251,7 +251,7 @@ class Administration extends React.Component {
                                 />
                             </GridItem>
                             <GridItem xs={12} sm={12} md={6}>
-                            <div style={{paddingTop: "40px", border: "none" }}>
+                            <div style={{paddingTop: "40px" }}>
                             <DatePicker
                                 selected={this.state.startDate}
                                 onChange={this.handleChange}
