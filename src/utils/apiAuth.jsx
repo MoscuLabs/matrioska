@@ -101,20 +101,26 @@ export const validateRepresentant = () => {
   });
 };
 
-export const validateName = () => {
+export const fetchUserName= () => {
   return new Promise((resolve, rejects) => {
     let convecinos = JSON.parse(localStorage.getItem("convecinos"));
     if (convecinos === null) {
       rejects(false);
     } else {
-      axios.get(URL + "Neighbors/" + convecinos.userId).then(
+      axios
+        .get(
+          URL +
+            "Neighbors/" +
+            convecinos.userId +
+            '?filter={"fields":["first_name","last_name","profile_img"]}'
+        )
+        .then(
         res => {
-          let name = res.data.first_name + " " + res.data.last_name;
-          resolve(name);
+          resolve(res.data);
         },
         err => {
-          console.log("ERROR!");
-          rejects("Error en validateRepresentant: ", err);
+          console.log("ERROR!", err);
+          rejects(err);
         }
       );
     }

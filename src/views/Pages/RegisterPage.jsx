@@ -213,6 +213,7 @@ class RegisterPage extends React.Component {
                         inputProps={{
                           onChange: event =>
                             this.change(event, "password", "length", 1),
+                          type: "password",
                           startAdornment: (
                             <InputAdornment
                               position="start"

@@ -21,9 +21,9 @@ import HeaderLinks from "components/Header/HeaderLinks.jsx";
 
 import sidebarStyle from "assets/jss/material-dashboard-pro-react/components/sidebarStyle.jsx";
 
-import avatar from "assets/img/faces/avatar.jpg";
+import defaultImage from "assets/img/default-avatar.png";
 
-import { logout, validateName } from "utils/apiAuth.jsx";
+import { logout, fetchUserName } from "utils/apiAuth.jsx";
 
 var ps;
 
@@ -68,15 +68,20 @@ class Sidebar extends React.Component {
       openMaps: this.activeRoute("/maps"),
       openPages: this.activeRoute("-page"),
       miniActive: true,
-      name: ""
+      name: "",
+      profile_img: ""
     };
     this.activeRoute.bind(this);
     this.handleLogout.bind(this);
   }
 
   componentDidMount() {
-    validateName().then(rep => {
-      this.setState({ name: rep });
+    fetchUserName().then(rep => {
+      let nameToDisplay = rep.first_name + " " + rep.last_name;
+      this.setState({ name: nameToDisplay });
+      if (rep.profile_img) {
+        this.setState({ profile_img: rep.profile_img });
+      }
     });
   }
   handleLogout() {
@@ -148,7 +153,10 @@ class Sidebar extends React.Component {
     var user = (
       <div className={userWrapperClass}>
         <div className={photo}>
-          <img src={avatar} className={classes.avatarImg} alt="..." />
+          {this.state.profile_img ? (
+            <img src={this.state.profile_img} className={classes.avatarImg} alt="..." />
+            ) : (
+            <img src={defaultImage} className={classes.avatarImg} alt="..." />)}
         </div>
         <List className={classes.list}>
           <ListItem className={classes.item + " " + classes.userItem}>

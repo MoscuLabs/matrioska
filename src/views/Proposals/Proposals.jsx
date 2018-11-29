@@ -100,12 +100,12 @@ class Proposals extends React.Component {
           title="Propuestas"
           category={
             <span>
-              El voto es un derecho. Éste nos da la oportunidad de hacernos 
-              escuchar y expresar nuestras opiniones, sugerencias e inconformidades. 
-              Votar consiste en brindar apoyo a una propuesta en forma anónima, pues 
-              mediante este acto de participación ciudadana que ejercemos de acuerdo 
+              El voto es un derecho. Éste nos da la oportunidad de hacernos
+              escuchar y expresar nuestras opiniones, sugerencias e inconformidades.
+              Votar consiste en brindar apoyo a una propuesta en forma anónima, pues
+              mediante este acto de participación ciudadana que ejercemos de acuerdo
               a nuestros ideales, se define los caminos a seguir por parte de una comunidad.
-              Es  por esto que es esencial estar informados sobre las propuestas que se 
+              Es  por esto que es esencial estar informados sobre las propuestas que se
               encuentran en gestión en la asociación vecinal y ejercer nuestro derecho.
             </span>
           }

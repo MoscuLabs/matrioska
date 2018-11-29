@@ -17,16 +17,14 @@ import dashboardRoutes from "routes/dashboard.jsx";
 import dashboardRoutesRep from "routes/dashboardRep.jsx";
 import Profile from "views/Profile/Profile.jsx";
 import Vote from "views/Vote/Vote.jsx";
+import ProposalsToVote from "views/Vote/ProposalsToVote.jsx";
 
 import appStyle from "assets/jss/material-dashboard-pro-react/layouts/dashboardStyle.jsx";
 
-import ProposalsToVote from "@material-ui/icons/Gavel";
 import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/logo.png";
 
 import { validateAccess, validateRepresentant } from "utils/apiAuth.jsx";
-
-var ps;
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -59,12 +57,6 @@ class Dashboard extends React.Component {
     });
   }
 
-  componentWillUnmount() {
-    if (navigator.platform.indexOf("Win") > -1) {
-      ps.destroy();
-    }
-    window.removeEventListener("resize", this.resizeFunction);
-  }
   componentDidUpdate(e) {
     if (e.history.location.pathname !== e.location.pathname) {
       this.refs.mainPanel.scrollTop = 0;

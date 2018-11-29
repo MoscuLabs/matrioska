@@ -201,6 +201,7 @@ class LoginPage extends React.Component {
                     }}
                     inputProps={{
                       onChange: event => this.change(event, "password", "length", 1),
+                      type: "password",
                       endAdornment: (
                         <InputAdornment position="end">
                           <Icon className={classes.inputAdornmentIcon}>

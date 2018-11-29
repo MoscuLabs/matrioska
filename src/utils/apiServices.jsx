@@ -2,21 +2,49 @@ import axios from "axios";
 import { URL } from "./apiConstants.jsx";
 import moment from "moment";
 
-
-export const patchNeighbor = (id, data) => {
+export const fetchNeighborInfo = () => {
   return new Promise((resolve, rejects) => {
-    axios.patch(URL + "Neighbors/"+id, data).then(
-      res => {
-          const neighbors = res.data;
-          resolve(neighbors);
+    let convecinos = JSON.parse(localStorage.getItem("convecinos"));
+    if (convecinos === null) {
+      rejects(false);
+    } else {
+      axios.get(URL + "Neighbors/" + convecinos.userId).then(
+        res => {
+          resolve(res.data);
         },
         err => {
-          console.log('error en fetchNeighbors:', err);
+          console.log("ERROR!", err);
+          rejects(err);
+        }
+      );
+    }
+  });
+};
+
+export const editProfileInfo = (data) => {
+  return new Promise((resolve, rejects) => {
+    let convecinos = JSON.parse(localStorage.getItem("convecinos"));
+    axios
+      .patch(
+        URL +
+          "Neighbors/" +
+          convecinos.userId +
+          "?access_token=" +
+          convecinos.access_token,
+        data
+      )
+      .then(
+        res => {
+          console.log(res.data);
+          resolve(res.data);
+        },
+        err => {
+          console.log("error en fetchNeighbors:", err);
           rejects();
         }
       );
   });
-}
+};
 
 export const makeNotice = data => {
   return new Promise((resolve, rejects) => {
@@ -254,8 +282,10 @@ export const uploadFile = file => {
   return new Promise((resolve, rejects) => {
     axios.post(URL + "Containers/reglamentos/upload", formData).then(
       res => {
-        console.log("success: ", res);
-        resolve(res.data);
+        let img_url =
+          "https://kremlin-api.herokuapp.com/api/Containers/reglamentos/download/" +
+          res.data.result[0].filename;
+        resolve(img_url);
       },
       err => {
         // eslint-disable-next-line no-console
