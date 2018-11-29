@@ -45,21 +45,26 @@ export const logout = () => {
 export const validateAccess = () => {
   return new Promise((resolve, rejects) => {
     let convecinos = JSON.parse(localStorage.getItem("convecinos"));
-    axios
-      .get(
-        URL +
-          "/Neighbors/" +
-          convecinos.userId +
-          "/accessTokens/" +
-          convecinos.access_token
-      )
-      .then(
-        res => {
-          resolve(true);
-        },
-        err => {
-          rejects(false);
-        }
-    );
+    if (convecinos === null) {
+      rejects(false);
+    }
+    else {
+      axios
+        .get(
+          URL +
+            "/Neighbors/" +
+            convecinos.userId +
+            "/accessTokens/" +
+            convecinos.access_token
+        )
+        .then(
+          res => {
+            resolve(true);
+          },
+          err => {
+            resolve(false);
+          }
+      );
+    }
   });
 };
