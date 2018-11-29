@@ -47,6 +47,8 @@ class WeatherPanel extends React.Component {
         .add(3, "days")
         .format("dddd")
     ];
+    // eslint-disable-next-line no-console
+    console.log(weather);
     return (
       <div>
         <GridContainer>
@@ -74,7 +76,7 @@ class WeatherPanel extends React.Component {
             <Card>
               <CardHeader color="primary" stats icon>
                 <CardIcon color="primary">
-                  <Icon>brightness_5</Icon>
+                  <WeatherIcon />
                 </CardIcon>
                 <p className={classes.cardCategory}>{days[1]}</p>
                 <h3 className={classes.cardTitle}>
