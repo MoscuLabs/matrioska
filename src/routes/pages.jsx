@@ -2,6 +2,7 @@ import LoginPage from "views/Pages/LoginPage.jsx";
 import RegisterPage from "views/Pages/RegisterPage.jsx";
 import Terms from "views/Pages/Terms.jsx";
 import Privacy from "views/Pages/Privacy.jsx";
+import Request from "views/Pages/Request.jsx";
 
 // @material-ui/icons
 import PersonAdd from "@material-ui/icons/PersonAdd";
@@ -41,6 +42,14 @@ const pagesRoutes = [
     mini: "PR",
     icon: Security,
     component: Privacy
+  },
+  {
+    path: "/pages/request",
+    name: "Solicitar Acceso",
+    short: "Request",
+    mini: "RQ",
+    icon: Security,
+    component: Request
   },
   {
     redirect: true,
