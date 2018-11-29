@@ -11,10 +11,16 @@ import HowToVote from "@material-ui/icons/HowToVote";
 import Book from "@material-ui/icons/Book";
 import Group from "@material-ui/icons/Group";
 
-var dashRoutes = [
+var dashRoutesRep = [
   {
     path: "/dashboard",
     name: "Tablero",
+    icon: DashboardIcon,
+    component: Dashboard
+  },
+  {
+    path: "/dashboard",
+    name: "ADMIN",
     icon: DashboardIcon,
     component: Dashboard
   },
@@ -45,4 +51,4 @@ var dashRoutes = [
   { redirect: true, path: "/", pathTo: "/dashboard", name: "Tablero" }
 ];
 
-export default dashRoutes;
+export default dashRoutesRep;

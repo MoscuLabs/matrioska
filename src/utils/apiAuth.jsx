@@ -12,7 +12,7 @@ export const register = data => {
         resolve(res.data);
       },
       err => {
-        console.log('error en register', err);
+        console.log("error en register", err);
         rejects();
       }
     );
@@ -23,12 +23,23 @@ export const login = data => {
   return new Promise((resolve, rejects) => {
     axios.post(URL + "Neighbors/login", data).then(
       res => {
-        let convecinos = {
-          access_token: res.data.id,
-          userId: res.data.userId
-        };
-        localStorage.setItem("convecinos", JSON.stringify(convecinos));
-        resolve(res.data);
+        axios.get(URL + 'Neighbors/'+res.data.userId+'?filter={"fields":["neighborhoodId"]}').then(
+          res2 => {
+            let convecinos = {
+              access_token: res.data.id,
+              userId: res.data.userId,
+              neighborhoodId: res2.data.neighborhoodId
+            };
+            localStorage.setItem("convecinos", JSON.stringify(convecinos));
+            resolve(res.data);
+            const neighbors = res.data;
+            resolve(neighbors);
+          },
+          err => {
+            console.log("error en fetchNeighbors:", err);
+            rejects();
+          }
+        );
       },
       err => {
         console.log('error en login', err);
@@ -47,8 +58,7 @@ export const validateAccess = () => {
     let convecinos = JSON.parse(localStorage.getItem("convecinos"));
     if (convecinos === null) {
       rejects(false);
-    }
-    else {
+    } else {
       axios
         .get(
           URL +
@@ -58,12 +68,34 @@ export const validateAccess = () => {
             convecinos.access_token
         )
         .then(
-          res => {
+          () => {
             resolve(true);
           },
-          err => {
+          () => {
             resolve(false);
           }
+      );
+    }
+  });
+};
+
+export const validateRepresentant = () => {
+  return new Promise((resolve, rejects) => {
+    let convecinos = JSON.parse(localStorage.getItem("convecinos"));
+    if (convecinos === null) {
+      rejects(false);
+    } else {
+      axios.get(URL + "/Neighbors/" + convecinos.userId).then(
+        res => {
+          if (res.data.representant) {
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        },
+        err => {
+          rejects("Error en validateRepresentant: ", err);
+        }
       );
     }
   });

@@ -5,6 +5,7 @@ import moment from "moment";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import Icon from "@material-ui/core/Icon";
+import WeatherIcon from "components/WeatherPanels/WeatherIcon.jsx";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -16,15 +17,13 @@ import CardFooter from "components/Card/CardFooter.jsx";
 import dashboardStyle from "assets/jss/material-dashboard-pro-react/views/dashboardStyle";
 import { fetchForecast } from "utils/apiWeather.jsx";
 
-const WeatherIcon = () => <i className={"fas fa-sun "} />;
-
 class WeatherPanel extends React.Component {
   state = {
     weather: [
-      { main: { temp: " " }, weather: { icon: " " } },
-      { main: { temp: " " } },
-      { main: { temp: " " } },
-      { main: { temp: " " } }
+      { main: { temp: " " }, weather: [{ icon: " " }], clouds: { all: 0 } },
+      { main: { temp: " " }, weather: [{ icon: " " }], clouds: { all: 0 } },
+      { main: { temp: " " }, weather: [{ icon: " " }], clouds: { all: 0 } },
+      { main: { temp: " " }, weather: [{ icon: " " }], clouds: { all: 0 } }
     ]
   };
   componentDidMount() {
@@ -47,8 +46,6 @@ class WeatherPanel extends React.Component {
         .add(3, "days")
         .format("dddd")
     ];
-    // eslint-disable-next-line no-console
-    console.log(weather);
     return (
       <div>
         <GridContainer>
@@ -56,7 +53,7 @@ class WeatherPanel extends React.Component {
             <Card>
               <CardHeader color="primary" stats icon>
                 <CardIcon color="primary">
-                  <WeatherIcon />
+                  <WeatherIcon status={weather[0].weather[0].icon} />
                 </CardIcon>
                 <p className={classes.cardCategory}>{days[0]}</p>
                 <h3 className={classes.cardTitle}>
@@ -67,7 +64,7 @@ class WeatherPanel extends React.Component {
               <CardFooter stats>
                 <div className={classes.stats}>
                   <Icon>wb_cloudy</Icon>
-                  Probabilidad de lluvia: 20%
+                  Nubosidad: {weather[0].clouds.all}%
                 </div>
               </CardFooter>
             </Card>
@@ -76,7 +73,7 @@ class WeatherPanel extends React.Component {
             <Card>
               <CardHeader color="primary" stats icon>
                 <CardIcon color="primary">
-                  <WeatherIcon />
+                  <WeatherIcon status={weather[1].weather[0].icon} />
                 </CardIcon>
                 <p className={classes.cardCategory}>{days[1]}</p>
                 <h3 className={classes.cardTitle}>
@@ -87,7 +84,7 @@ class WeatherPanel extends React.Component {
               <CardFooter stats>
                 <div className={classes.stats}>
                   <Icon>wb_cloudy</Icon>
-                  Probabilidad de lluvia: 20%
+                  Nubosidad: {weather[1].clouds.all}%
                 </div>
               </CardFooter>
             </Card>
@@ -96,7 +93,7 @@ class WeatherPanel extends React.Component {
             <Card>
               <CardHeader color="primary" stats icon>
                 <CardIcon color="primary">
-                  <Icon>brightness_5</Icon>
+                  <WeatherIcon status={weather[2].weather[0].icon} />
                 </CardIcon>
                 <p className={classes.cardCategory}>{days[2]}</p>
                 <h3 className={classes.cardTitle}>
@@ -107,7 +104,7 @@ class WeatherPanel extends React.Component {
               <CardFooter stats>
                 <div className={classes.stats}>
                   <Icon>wb_cloudy</Icon>
-                  Probabilidad de lluvia: 30%
+                  Nubosidad: {weather[2].clouds.all}%
                 </div>
               </CardFooter>
             </Card>
@@ -116,7 +113,7 @@ class WeatherPanel extends React.Component {
             <Card>
               <CardHeader color="primary" stats icon>
                 <CardIcon color="primary">
-                  <Icon>brightness_5</Icon>
+                  <WeatherIcon status={weather[3].weather[0].icon} />
                 </CardIcon>
                 <p className={classes.cardCategory}>{days[3]}</p>
                 <h3 className={classes.cardTitle}>
@@ -127,7 +124,7 @@ class WeatherPanel extends React.Component {
               <CardFooter stats>
                 <div className={classes.stats}>
                   <Icon>wb_cloudy</Icon>
-                  Probabilidad de lluvia: 40%
+                  Nubosidad: {weather[3].clouds.all}%
                 </div>
               </CardFooter>
             </Card>

@@ -157,3 +157,21 @@ export const fetchToVoteProposals = categoryId => {
       );
   });
 };
+
+export const uploadFile = file => {
+  const formData = new FormData();
+  formData.append("file", file);
+  return new Promise((resolve, rejects) => {
+    axios.post(URL + "Containers/reglamentos/upload", formData).then(
+      res => {
+        console.log("success: ", res);
+        resolve(res.data);
+      },
+      err => {
+        // eslint-disable-next-line no-console
+        console.log("error en ProposalsToVote:", err);
+        rejects();
+      }
+    );
+  });
+};

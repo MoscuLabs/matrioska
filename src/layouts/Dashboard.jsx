@@ -2,8 +2,7 @@ import React from "react";
 import cx from "classnames";
 import PropTypes from "prop-types";
 import { Switch, Route, Redirect } from "react-router-dom";
-// creates a beautiful scrollbar
-import PerfectScrollbar from "perfect-scrollbar";
+
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 
 // @material-ui/core components
@@ -15,6 +14,7 @@ import Footer from "components/Footer/Footer.jsx";
 import Sidebar from "components/Sidebar/Sidebar.jsx";
 
 import dashboardRoutes from "routes/dashboard.jsx";
+import dashboardRoutesRep from "routes/dashboardRep.jsx";
 import Profile from "views/Profile/Profile.jsx";
 import Vote from "views/Vote/Vote.jsx";
 import ProposalsToVote from "views/Vote/ProposalsToVote.jsx";
@@ -24,33 +24,7 @@ import appStyle from "assets/jss/material-dashboard-pro-react/layouts/dashboardS
 import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/logo.png";
 
-import { validateAccess } from "utils/apiAuth.jsx";
-
-const switchRoutes = (
-  <Switch>
-    <Route path={"/profile"} exact component={Profile} />
-    <Route path={"/vote"} exact component={Vote} />
-    <Route path={"/vote/proposals"} exact component={ProposalsToVote} />
-    {dashboardRoutes.map((prop, key) => {
-      if (prop.redirect)
-        return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
-      if (prop.collapse)
-        return prop.views.map((prop, key) => {
-          return (
-            <Route
-              path={prop.path}
-              exact
-              component={prop.component}
-              key={key}
-            />
-          );
-        });
-      return (
-        <Route path={prop.path} exact component={prop.component} key={key} />
-      );
-    })}
-  </Switch>
-);
+import { validateAccess, validateRepresentant } from "utils/apiAuth.jsx";
 
 var ps;
 
@@ -59,6 +33,7 @@ class Dashboard extends React.Component {
     super(props);
     this.state = {
       auth: false,
+      routes: dashboardRoutes,
       mobileOpen: false,
       miniActive: false
     };
@@ -68,11 +43,19 @@ class Dashboard extends React.Component {
     validateAccess().then(rep => {
       if (rep) {
         this.setState({ auth: rep });
-      }
-      else {
+        } else {
         window.location = "/pages/login";
       }
-    }, err => {window.location = "/pages/login";});
+      },
+      err => {
+        window.location = "/pages/login";
+      }
+    );
+    validateRepresentant().then(rep => {
+      if (rep) {
+        this.setState({ routes: dashboardRoutesRep });
+      }
+    });
   }
   componentWillUnmount() {
     if (navigator.platform.indexOf("Win") > -1) {
@@ -104,7 +87,7 @@ class Dashboard extends React.Component {
   }
   render() {
     const { classes, ...rest } = this.props;
-    const { auth } = this.state;
+    const { auth, routes } = this.state;
     const mainPanel =
       classes.mainPanel +
       " " +
@@ -113,11 +96,36 @@ class Dashboard extends React.Component {
         [classes.mainPanelWithPerfectScrollbar]:
           navigator.platform.indexOf("Win") > -1
       });
+    const switchRoutes = (
+      <Switch>
+        <Route path={"/profile"} exact component={Profile} />
+        <Route path={"/vote"} exact component={Vote} />
+        <Route path={"/vote/proposals"} exact component={ProposalsToVote} />
+        {routes.map((prop, key) => {
+          if (prop.redirect)
+            return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
+          if (prop.collapse)
+            return prop.views.map((prop, key) => {
+              return (
+                <Route
+                  path={prop.path}
+                  exact
+                  component={prop.component}
+                  key={key}
+                />
+              );
+            });
+          return (
+            <Route path={prop.path} exact component={prop.component} key={key} />
+          );
+        })}
+      </Switch>
+    );
     if (auth) {
       return (
         <div className={classes.wrapper}>
           <Sidebar
-            routes={dashboardRoutes}
+            routes={routes}
             logoText={"Chapalita Sur"}
             logo={logo}
             image={image}
@@ -132,7 +140,7 @@ class Dashboard extends React.Component {
             <Header
               sidebarMinimize={this.sidebarMinimize.bind(this)}
               miniActive={this.state.miniActive}
-              routes={dashboardRoutes}
+              routes={routes}
               handleDrawerToggle={this.handleDrawerToggle}
               {...rest}
             />
