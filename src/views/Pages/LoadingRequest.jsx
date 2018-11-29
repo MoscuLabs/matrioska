@@ -9,7 +9,6 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
-import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
@@ -18,39 +17,21 @@ import CardFooter from "components/Card/CardFooter.jsx";
 
 import loginPageStyle from "assets/jss/material-dashboard-pro-react/views/loginPageStyle.jsx";
 
-import { makeRequest } from "utils/apiRequest.jsx";
+import { cancelRequest } from "utils/apiRequest.jsx";
 
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
-      cardAnimaton: "cardHidden",
-      codigo: "",
-      mensaje: ""
+      cardAnimaton: "cardHidden"
     };
     this.handleRequest = this.handleRequest.bind(this);
   }
 
   handleRequest = () => {
     let convecinos = JSON.parse(localStorage.getItem("convecinos"));
-    if (this.state.codigo != "") {
-      let data = {
-        //message: this.state.message
-      };
-      makeRequest(convecinos.userId, this.state.codigo, data);
-    }
-    console.log(this.state.codigo);
-    console.log(this.state.mensaje);
-  };
-
-  change = (event, stateValue) => {
-    if (stateValue === "codigo") {
-      this.setState({ [stateValue]: event.target.value });
-    }
-    if(stateValue === "mensaje") {
-      this.setState({ [stateValue]: event.target.value });
-    }
+    cancelRequest(convecinos.userId);
   };
 
   componentDidMount() {
@@ -73,26 +54,19 @@ class LoginPage extends React.Component {
     return (
       <div className={classes.container}>
         <GridContainer justify="center">
-          <GridItem xs={12} sm={6} md={4}>
+          <GridItem xs={12} sm={6} md={6}>
             <form>
               <Card login className={classes[this.state.cardAnimaton]}>
                 <CardHeader
                   className={`${classes.cardHeader} ${classes.textCenter}`}
                   color="rose"
                 >
-                  <h4 className={classes.cardTitle}>Ingresar Código</h4>
+                  <h4 className={classes.cardTitle}>CONVECINOS</h4>
                 </CardHeader>
                 <CardBody>
-                  <CustomInput
-                    labelText="Código..."
-                    id="codigo"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      onChange: event => this.change(event, "codigo")
-                    }}
-                  />
+                <GridItem xs={12} sm={12} md={12}>
+                    <h3 align="center">Procesando Solicitud...</h3>
+                  </GridItem>
                 </CardBody>
                 <CardFooter className={classes.justifyContentCenter}>
                   <Button
@@ -102,7 +76,7 @@ class LoginPage extends React.Component {
                     block
                     onClick={this.handleRequest}
                   >
-                    Solicitar
+                    Cancelar Solicitud
                   </Button>
                 </CardFooter>
               </Card>
