@@ -2,6 +2,53 @@ import axios from "axios";
 import { URL } from "./apiConstants.jsx";
 import moment from "moment";
 
+
+export const patchNeighbor = (id, data) => {
+  return new Promise((resolve, rejects) => {
+    axios.patch(URL + "Neighbors/"+id, data).then(
+      res => {
+          const neighbors = res.data;
+          resolve(neighbors);
+        },
+        err => {
+          console.log('error en fetchNeighbors:', err);
+          rejects();
+        }
+      );
+  });
+}
+
+export const makeNotice = data => {
+  return new Promise((resolve, rejects) => {
+    axios.post(URL + 'Notices', data).then(
+      res => {
+          const neighbors = res.data;
+          resolve(neighbors);
+        },
+        err => {
+          console.log('error en fetchNeighbors:', err);
+          rejects();
+        }
+      );
+  });
+}
+
+export const makeTransaction = data => {
+  return new Promise((resolve, rejects) => {
+    axios.post(URL + 'Expenses', data).then(
+      res => {
+          const neighbors = res.data;
+          resolve(neighbors);
+        },
+        err => {
+          console.log('error en fetchNeighbors:', err);
+          rejects();
+        }
+      );
+  });
+}
+
+
 export const fetchRepresentatives = () => {
   return new Promise((resolve, rejects) => {
     axios.get(URL + 'Neighbors?filter={"where":{"representant":true}}').then(
@@ -89,14 +136,49 @@ export const fetchProposals = status => {
   });
 };
 
-export const fetchProposalsToVote = id => {
+export const fetchBankProposals = () => {
   return new Promise((resolve, rejects) => {
     axios
-      .get(URL + '/Proposals?filter={"where":{"categoryId":"' + id + '"}}')
+      .get(
+        URL +
+          '/Proposals?filter={"include":[{"relation":"category","scope":{"fields":["name"]}},{"relation":"neighbor","scope":{"fields":["first_name","last_name"]}}]}'
+      )
       .then(
         res => {
-          const ProposalsToVote = res.data;
-          resolve(ProposalsToVote);
+          const proposals = res.data;
+          let length = proposals.length;
+          let array = [];
+          for (let i = 0; i < length; i++) {
+            let cell = new Array(
+              proposals[i].name,
+              proposals[i].description,
+              proposals[i].category.name,
+              proposals[i].neighbor.first_name
+            );
+            array[i] = cell;
+          }
+          resolve(array);
+        },
+        err => {
+          console.log("error en Proposals:", err);
+          rejects();
+        }
+      );
+  });
+};
+
+export const fetchToVoteProposals = categoryId => {
+  return new Promise((resolve, rejects) => {
+    axios
+      .get(
+        URL +
+          '/Proposals?filter={"where":{"categoryId":"' +
+          categoryId +
+          '"}, "include":[{"relation":"neighbor","scope":{"fields":["first_name","last_name"]}}]}'
+      )
+      .then(
+        res => {
+          resolve(res.data);
         },
         err => {
           // eslint-disable-next-line no-console
@@ -104,5 +186,64 @@ export const fetchProposalsToVote = id => {
           rejects();
         }
       );
+  });
+};
+
+
+export const fetchAllProposals = status => {
+  return new Promise((resolve, rejects) => {
+    axios
+      .get(
+        URL +
+          '/Proposals?filter={"include":[{"relation":"category","scope":{"fields":["name"]}},{"relation":"neighbor","scope":{"fields":["first_name","last_name"]}}]}'
+      )
+      .then(
+        res => {
+          const proposals = res.data;
+          let length = proposals.length;
+          let array = [];
+          for (let i = 0; i < length; i++) {
+            let cell = new Array(
+              proposals[i].name,
+              proposals[i].category.name,
+              proposals[i].neighbor.first_name,
+              proposals[i].current_votes + "/" + proposals[i].max_votes,
+              proposals[i].status
+
+            );
+            array[i] = cell;
+          }
+          resolve(array);
+        },
+        err => {
+          console.log("error en Proposals:", err);
+          rejects();
+        }
+      );
+  });
+};
+
+export const fetchNeighbors = () => {
+  return new Promise((resolve, rejects) => {
+    axios.get(URL + '/Neighbors').then(
+      res => {
+        const neighbor = res.data;
+        let length = neighbor.length;
+        let array = [];
+        for (let i = 0; i < length; i++) {
+          let cell = new Array(
+            neighbor[i].first_name + " " + neighbor[i].last_name,
+            
+
+          );
+          array[i] = cell;
+        }
+        resolve(array);
+      },
+      err => {
+        console.log("error en fetchNeighbors:", err);
+        rejects();
+      }
+    );
   });
 };

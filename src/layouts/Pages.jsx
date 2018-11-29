@@ -6,7 +6,6 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 // core components
-import PagesHeader from "components/Header/PagesHeader.jsx";
 import Footer from "components/Footer/Footer.jsx";
 
 import pagesRoutes from "routes/pages.jsx";
@@ -20,11 +19,10 @@ class Pages extends React.Component {
     document.body.style.overflow = "unset";
   }
   render() {
-    const { classes, ...rest } = this.props;
+    const { classes } = this.props;
     return (
       <div>
-        <PagesHeader {...rest} />
-        <div className={classes.wrapper} ref="wrapper">
+        <div className={classes.wrapper}>
           <div
             className={classes.fullPage}
             style={{ backgroundImage: "url(" + bgImage + ")" }}

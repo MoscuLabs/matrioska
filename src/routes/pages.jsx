@@ -12,7 +12,7 @@ import Security from "@material-ui/icons/Security";
 
 const pagesRoutes = [
   {
-    path: "/pages/register-page",
+    path: "/pages/register",
     name: "Register Page",
     short: "Register",
     mini: "RP",
@@ -20,7 +20,7 @@ const pagesRoutes = [
     component: RegisterPage
   },
   {
-    path: "/pages/login-page",
+    path: "/pages/login",
     name: "Login Page",
     short: "Login",
     mini: "LP",
@@ -54,7 +54,7 @@ const pagesRoutes = [
   {
     redirect: true,
     path: "/pages",
-    pathTo: "/pages/register-page",
+    pathTo: "/pages/login",
     name: "Register Page"
   }
 ];

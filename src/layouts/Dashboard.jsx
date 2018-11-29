@@ -17,16 +17,27 @@ import Sidebar from "components/Sidebar/Sidebar.jsx";
 import dashboardRoutes from "routes/dashboard.jsx";
 import Profile from "views/Profile/Profile.jsx";
 import Vote from "views/Vote/Vote.jsx";
+import Privacy from "views/Pages/Privacy.jsx";
+import Terms from "views/Pages/Terms.jsx";
+import CreateProposal from "views/CreateProposals/CreateProposal.jsx";
 
 import appStyle from "assets/jss/material-dashboard-pro-react/layouts/dashboardStyle.jsx";
 
 import image from "assets/img/sidebar-2.jpg";
-import logo from "assets/img/neighborhood.png";
+import logo from "assets/img/logo.png";
+
+import { validateAccess } from "utils/apiAuth.jsx";
 
 const switchRoutes = (
   <Switch>
     <Route path={"/profile"} exact component={Profile} />
     <Route path={"/vote"} exact component={Vote} />
+    <Route path={"/privacy"} exact component={Privacy}/>
+    <Route path={"/terms"} exact component={Terms}/>
+    <Route path={"/CreateProposal"} exact component={CreateProposal}/>
+
+
+
     {dashboardRoutes.map((prop, key) => {
       if (prop.redirect)
         return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
@@ -54,21 +65,24 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      auth: false,
       mobileOpen: false,
       miniActive: false
     };
     this.resizeFunction = this.resizeFunction.bind(this);
   }
+
   componentDidMount() {
-    if (navigator.platform.indexOf("Win") > -1) {
-      ps = new PerfectScrollbar(this.refs.mainPanel, {
-        suppressScrollX: true,
-        suppressScrollY: false
-      });
-      document.body.style.overflow = "hidden";
-    }
-    window.addEventListener("resize", this.resizeFunction);
+    validateAccess().then(rep => {
+      if (rep) {
+        this.setState({ auth: rep });
+      }
+      else {
+        window.location = "/pages/login";
+      }
+    }, err => {window.location = "/pages/login";});
   }
+
   componentWillUnmount() {
     if (navigator.platform.indexOf("Win") > -1) {
       ps.destroy();
@@ -99,6 +113,7 @@ class Dashboard extends React.Component {
   }
   render() {
     const { classes, ...rest } = this.props;
+    const { auth } = this.state;
     const mainPanel =
       classes.mainPanel +
       " " +
@@ -107,40 +122,44 @@ class Dashboard extends React.Component {
         [classes.mainPanelWithPerfectScrollbar]:
           navigator.platform.indexOf("Win") > -1
       });
-    return (
-      <div className={classes.wrapper}>
-        <Sidebar
-          routes={dashboardRoutes}
-          logoText={"Chapalita Sur"}
-          logo={logo}
-          image={image}
-          handleDrawerToggle={this.handleDrawerToggle}
-          open={this.state.mobileOpen}
-          color="blue"
-          bgColor="black"
-          miniActive={this.state.miniActive}
-          {...rest}
-        />
-        <div className={mainPanel} ref="mainPanel">
-          <Header
-            sidebarMinimize={this.sidebarMinimize.bind(this)}
-            miniActive={this.state.miniActive}
+    if (auth) {
+      return (
+        <div className={classes.wrapper}>
+          <Sidebar
             routes={dashboardRoutes}
+            logoText={"Chapalita Sur"}
+            logo={logo}
+            image={image}
             handleDrawerToggle={this.handleDrawerToggle}
-            {...rest} 
+            open={this.state.mobileOpen}
+            color="blue"
+            bgColor="black"
+            miniActive={this.state.miniActive}
+            {...rest}
           />
-          {/* On the /maps/full-screen-maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
-          {this.getRoute() ? (
-            <div className={classes.content}>
-              <div className={classes.container}>{switchRoutes}</div>
-            </div>
-          ) : (
-            <div className={classes.map}>{switchRoutes}</div>
-          )}
-          {this.getRoute() ? <Footer fluid /> : null}
+          <div className={mainPanel} ref="mainPanel">
+            <Header
+              sidebarMinimize={this.sidebarMinimize.bind(this)}
+              miniActive={this.state.miniActive}
+              routes={dashboardRoutes}
+              handleDrawerToggle={this.handleDrawerToggle}
+              {...rest}
+            />
+            {/* On the /maps/full-screen-maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
+            {this.getRoute() ? (
+              <div className={classes.content}>
+                <div className={classes.container}>{switchRoutes}</div>
+              </div>
+            ) : (
+              <div className={classes.map}>{switchRoutes}</div>
+            )}
+            {this.getRoute() ? <Footer fluid /> : null}
+          </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return <div />;
+    }
   }
 }
 

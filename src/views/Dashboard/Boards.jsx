@@ -42,24 +42,20 @@ class Boards extends React.Component {
                         <h4 className={classes.cardTitle}>
                           Últimas noticias en Zapopan
                         </h4>
-                        <p className={classes.cardCategory}>
-                          (...)
-                        </p>
+                        <p className={classes.cardCategory}>(...)</p>
                       </CardHeader>
                     <CardBodyTweet>
-                        <Timeline
-                                dataSource={{
-                                sourceType: 'profile',
-                                screenName: 'Trafico_ZMG'
-                                }}
-                                options={{
-                                username: 'Trafico_ZMG',
-                                height: '400'
-                                }}
-                                onLoad={() => console.log('Timeline is loaded!')}
-                            />
-                    </CardBodyTweet>
-
+                      <Timeline
+                        dataSource={{
+                            sourceType: "profile",
+                            screenName: "Trafico_ZMG"
+                        }}
+                          options={{
+                            username: "Trafico_ZMG",
+                            height: "400"
+                        }}
+                      />
+                      </CardBodyTweet>
                     </Card>
                   )
                 },
@@ -88,7 +84,6 @@ class Boards extends React.Component {
                                 username: 'PoliciaZapopan',
                                 height: '400'
                                 }}
-                                onLoad={() => console.log('Timeline is loaded!')}
                             />
                       </CardBodyTweet>
                     </Card>
@@ -120,7 +115,6 @@ class Boards extends React.Component {
                             username: 'siapagdl',
                             height: '400'
                             }}
-                            onLoad={() => console.log('Timeline is loaded!')}
                             />
                         </CardBodyTweet>
                         <CardBodyTweet style={{background: "#b1d6a1",borderRadius: ".5em", boxShadow: "0 3px 5px 0 rgba(0, 0, 0, 0.14)"}}>
@@ -134,7 +128,6 @@ class Boards extends React.Component {
                             username: 'CFEmx',
                             height: '400'
                             }}
-                            onLoad={() => console.log('Timeline is loaded!')}
                             />
                       </CardBodyTweet>
                       </div>
@@ -162,7 +155,6 @@ class Boards extends React.Component {
                                 username: 'PabloLemusN',
                                 height: '400'
                                 }}
-                                onLoad={() => console.log('Timeline is loaded!')}
                             />
                       </CardBodyTweet>
                     </Card>

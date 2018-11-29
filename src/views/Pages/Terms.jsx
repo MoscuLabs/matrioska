@@ -14,8 +14,10 @@ import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
+import Button from "components/CustomButtons/Button.jsx";
 
 import loginPageStyle from "assets/jss/material-dashboard-pro-react/views/loginPageStyle.jsx";
+import { validateAccess } from "utils/apiAuth.jsx";
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -38,6 +40,15 @@ class LoginPage extends React.Component {
     clearTimeout(this.timeOutFunction);
     this.timeOutFunction = null;
   }
+  handleClick = () => {
+    validateAccess().then(() => {
+        window.location = "/dashboard";
+      },
+      () => {
+        window.location = "/pages/login";
+      }
+    );
+  };
   render() {
     const { classes } = this.props;
     return (
@@ -137,9 +148,14 @@ class LoginPage extends React.Component {
                   </p>
                 </CardBody>
                 <CardFooter className={classes.justifyContentCenter}>
-                  <h5 color="rose" simple size="lg" block>
+                  <Button
+                    onClick={this.handleClick}
+                    color="rose"
+                    size="lg"
+                    block
+                  >
                     Convecinos App
-                  </h5>
+                  </Button>
                 </CardFooter>
               </Card>
             </form>

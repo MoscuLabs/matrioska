@@ -51,13 +51,13 @@ class Transparency extends React.Component {
           title="Rendición de Cuentas"
           category={
             <span>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              veniam, quis nostrud exercitation ullamco laboris nisi ut nisi nisi
-              minim veniam, quis nostrud exercitation ullamco laboris nisi ut nisi
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
+              Generar transparencia es el objetivo de la rendición de cuentas, 
+              como también generar condiciones de confianza entre representantes 
+              y miembros de la asociación mediante los mecanismos de rendición 
+              de cuentas que permiten obtener con mayor facilidad información 
+              sobre la gestión de los representantes y sus resultados; dando 
+              margen a que que los comités representativos tomen mejores decisiones, 
+              incrementando la efectividad y legitimidad de su ejercicio.
             </span>
           }
         />
