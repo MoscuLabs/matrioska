@@ -161,7 +161,7 @@ class LoginPage extends React.Component {
                   color="rose"
                 >
                   <div className={classes.socialLine}>
-                    <img src={logo} style={{ width: "100px" }} />
+                    <img src={logo} style={{ width: "100px" }} alt="C" />
                     <h3>Convecinos</h3>
                   </div>
                 </CardHeader>

@@ -6,13 +6,13 @@ export const fetchNeighbors = () => {
   return new Promise((resolve, rejects) => {
     axios.get(URL + "Neighbors").then(
       res => {
-          const neighbors = res.data;
-          resolve(neighbors);
-        },
-        err => {
-          console.log('error en fetchNeighbors:', err);
-          rejects();
-        }
+        const neighbors = res.data;
+        resolve(neighbors);
+      },
+      err => {
+        console.log('error en fetchNeighbors:', err);
+        rejects();
+      }
       );
   });
 }

@@ -66,16 +66,13 @@ class Dashboard extends React.Component {
   }
   componentDidMount() {
     validateAccess().then(rep => {
-      this.setState({ auth: rep });
-    });
-    if (navigator.platform.indexOf("Win") > -1) {
-      ps = new PerfectScrollbar(this.refs.mainPanel, {
-        suppressScrollX: true,
-        suppressScrollY: false
-      });
-      document.body.style.overflow = "hidden";
-    }
-    window.addEventListener("resize", this.resizeFunction);
+      if (rep) {
+        this.setState({ auth: rep });
+      }
+      else {
+        window.location = "/pages/login";
+      }
+    }, err => {window.location = "/pages/login";});
   }
   componentWillUnmount() {
     if (navigator.platform.indexOf("Win") > -1) {

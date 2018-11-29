@@ -2,9 +2,6 @@ import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 
-// material-ui icons
-import HowToVote from "@material-ui/icons/HowToVote";
-
 // core components
 import Heading from "components/Heading/Heading.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
