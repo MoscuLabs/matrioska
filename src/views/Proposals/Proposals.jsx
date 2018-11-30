@@ -14,8 +14,11 @@ import CardBody from "components/Card/CardBody.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 
 import { Link } from "react-router-dom";
-import { fetchBankProposals, fetchProposals } from "utils/apiServices.jsx";
-import { validateCreateProposal } from "utils/apiAuth.jsx";
+import { fetchVotedProposals, fetchProposals } from "utils/apiServices.jsx";
+import {
+  validateCreateProposal,
+  validateRepresentant
+} from "utils/apiAuth.jsx";
 
 import {
   cardTitle,
@@ -77,13 +80,19 @@ const styles = {
 class Proposals extends React.Component {
   state = {
     create: false,
-    listOfProposals: [],
+    voted: [],
     approved: [],
     ongoing: []
   };
   componentDidMount() {
-    validateCreateProposal().then(rep => {
-      this.setState({ create: rep });
+    validateRepresentant().then(rep => {
+      if (rep) {
+        this.setState({ create: true });
+      } else {
+        validateCreateProposal().then(rep => {
+          this.setState({ create: rep });
+        });
+      }
     });
     fetchProposals(2).then(rep => {
       this.setState({ ongoing: rep });
@@ -91,13 +100,13 @@ class Proposals extends React.Component {
     fetchProposals(3).then(rep => {
       this.setState({ approved: rep });
     });
-    fetchBankProposals().then(rep => {
-      this.setState({ listOfProposals: rep });
+    fetchVotedProposals().then(rep => {
+      this.setState({ voted: rep });
     });
   }
   render() {
     const { classes } = this.props;
-    const { create, listOfProposals, approved, ongoing } = this.state;
+    const { create, voted, approved, ongoing } = this.state;
     return (
       <div>
         <Heading
@@ -198,6 +207,29 @@ class Proposals extends React.Component {
             </Card>
           </GridItem>
         </GridContainer>
+        {voted.length ? (
+          <GridContainer>
+            <GridItem xs={12} sm={12} md={12} align="center">
+              <Card>
+                <CardHeader color="primary" text>
+                  <CardText color="primary">
+                    <h4 className={classes.cardTitleWhite}>Tus votos</h4>
+                  </CardText>
+                </CardHeader>
+                <CardBody>
+                  <Table
+                    hover
+                    tableHeaderColor="warning"
+                    tableHead={["Nombre", "Descripción", "Votos", "Decisión"]}
+                    tableData={voted}
+                  />
+                </CardBody>
+              </Card>
+            </GridItem>
+          </GridContainer>
+        ) : (
+          <div/>
+        )}
       </div>
     );
   }

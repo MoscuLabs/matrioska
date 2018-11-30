@@ -148,6 +148,32 @@ export const fetchUserName= () => {
   });
 };
 
+export const fetchNeighborhoodName= () => {
+  return new Promise((resolve, rejects) => {
+    let convecinos = JSON.parse(localStorage.getItem("convecinos"));
+    if (convecinos === null) {
+      rejects(false);
+    } else {
+      axios
+        .get(
+          URL +
+            "Neighborhoods/" +
+            convecinos.neighborhoodId +
+            '?filter={"fields":["name"]}'
+        )
+        .then(
+        res => {
+          resolve(res.data.name);
+        },
+        err => {
+          console.log("ERROR!", err);
+          rejects(err);
+        }
+      );
+    }
+  });
+};
+
 export const validateCreateProposal = () => {
   return new Promise((resolve, rejects) => {
     let convecinos = JSON.parse(localStorage.getItem("convecinos"));

@@ -11,6 +11,7 @@ import AssignmentInd from "@material-ui/icons/AssignmentInd";
 import NoteAdd from "@material-ui/icons/NoteAdd";
 import Add from "@material-ui/icons/Add";
 import FormatListBulleted from "@material-ui/icons/FormatListBulleted";
+import HowToReg from "@material-ui/icons/HowToReg";
 import defaultImage from "assets/img/images.png";
 
 // core components
@@ -26,6 +27,9 @@ import CardWBackground from "components/Card/CardWBackground.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import Table from "components/Table/Table.jsx";
+
+import NeighborsList from "views/Administration/NeighborsList.jsx";
+import RequestList from "views/Administration/RequestList.jsx";
 
 import {
   fetchAllProposals,
@@ -43,7 +47,6 @@ class Administration extends React.Component {
       rulesFile: null,
       imagePreviewUrl: defaultImage,
       proposals: [],
-      neighbors: [],
       Concepto: "",
       Beneficiario: "",
       Monto: "",
@@ -65,7 +68,7 @@ class Administration extends React.Component {
     });
   }
 
-Change(event, stateName) {
+  Change(event, stateName) {
     if (stateName === "Concepto") {
       this.setState({ [stateName]: event.target.value });
     }
@@ -76,7 +79,7 @@ Change(event, stateName) {
       this.setState({ [stateName]: event.target.value });
     }
     //Fecha
-    if (stateName === "aviso") {
+    if (stateName === "Aviso") {
       this.setState({ [stateName]: event.target.value });
     }
   }
@@ -150,7 +153,7 @@ Change(event, stateName) {
 
   render() {
     const { classes } = this.props;
-    const { proposals, neighbors } = this.state;
+    const { proposals } = this.state;
     return (
       <div>
         <GridContainer justify="center">
@@ -205,21 +208,7 @@ Change(event, stateName) {
                 {
                   tabButton: "Lista de Usuarios",
                   tabIcon: AssignmentInd,
-                  tabContent: (
-                    <Card>
-                      <CardHeader>
-                        <h4 className={classes.cardTitle}>
-                          Usuarios activos en la comunidad
-                        </h4>
-                        <Table
-                          hover
-                          tableHeaderColor="warning"
-                          tableHead={["Usuario"]}
-                          tableData={neighbors}
-                        />
-                      </CardHeader>
-                    </Card>
-                  )
+                  tabContent: <NeighborsList classes={classes} />
                 },
                 {
                   tabButton: "Subir Reglamento",
@@ -310,14 +299,12 @@ Change(event, stateName) {
                               />
                             </GridItem>
                             <GridItem xs={12} sm={12} md={6}>
-                              <div
-                                style={{ paddingTop: "40px", border: "none" }}
-                              >
-                                <DatePicker
-                                  selected={this.state.startDate}
-                                  onChange={this.handleChange}
-                                />
-                              </div>
+                            <div style={{paddingTop: "40px" }}>
+                            <DatePicker
+                                selected={this.state.startDate}
+                                onChange={this.handleChange}
+                            />
+                            </div>
                             </GridItem>
                           </GridContainer>
                         </p>
@@ -364,6 +351,11 @@ Change(event, stateName) {
                       />
                     </CardWBackground>
                   )
+                },
+                {
+                  tabButton: "Lista de Solicitudes",
+                  tabIcon: HowToReg,
+                  tabContent: <RequestList classes={classes} />
                 }
               ]}
             />

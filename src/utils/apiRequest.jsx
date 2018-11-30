@@ -33,18 +33,46 @@ export const cancelRequest = id => {
             .delete(URL + 'Requests/' + res.data[0].id)
             .then(
               res2 => {
-                console.log(res2.data);
                 resolve(res2.data);
               },
               err2 => {
-                rejects("Error en validateRepresentant, fetchRequests: ", err2);
+                rejects("Error en cancelRequest, delete: ", err2);
               }
             );
         },
         err => {
-          rejects("Error en validateRepresentant, fetchRequests: ", err);
+          rejects("Error en cancelRequest, fetchRequests: ", err);
         }
       );
+  });
+};
+
+export const acceptRequest = id => {
+  return new Promise((resolve, rejects) => {
+    cancelRequest(id).then(rep => {
+      let convecinos = JSON.parse(localStorage.getItem("convecinos"));
+        let data = { neighborhoodId: convecinos.neighborhoodId };
+      axios
+        .patch(
+          URL +
+            "Neighbors/" +
+            id +
+            "?access_token=" +
+            convecinos.access_token,
+          data
+        )
+        .then(
+          res => {
+            resolve(res.data);
+          },
+          err => {
+            console.log("error en patchNeighbor:", err);
+            rejects();
+          }
+        );
+    }, err => {
+      rejects(err);
+    })
   });
 };
 

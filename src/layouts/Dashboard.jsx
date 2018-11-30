@@ -18,16 +18,19 @@ import dashboardRoutes from "routes/dashboard.jsx";
 import dashboardRoutesRep from "routes/dashboardRep.jsx";
 import Profile from "views/Profile/Profile.jsx";
 import Vote from "views/Vote/Vote.jsx";
-import ProposalsToVote from "views/Vote/ProposalsToVote.jsx";
 import CreateProposals from "views/CreateProposals/CreateProposal.jsx";
+import ProposalsToVote from "views/Vote/ProposalsToVote.jsx";
 
 import appStyle from "assets/jss/material-dashboard-pro-react/layouts/dashboardStyle.jsx";
-
 
 import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/logo.png";
 
-import { validateAccess, validateRepresentant } from "utils/apiAuth.jsx";
+import {
+  validateAccess,
+  validateRepresentant,
+  fetchNeighborhoodName
+} from "utils/apiAuth.jsx";
 
 var ps;
 
@@ -36,6 +39,7 @@ class Dashboard extends React.Component {
     super(props);
     this.state = {
       auth: false,
+      neighborhoodName: "",
       routes: dashboardRoutes,
       mobileOpen: false,
       miniActive: false
@@ -67,6 +71,9 @@ class Dashboard extends React.Component {
         this.setState({ routes: dashboardRoutesRep });
       }
     });
+    fetchNeighborhoodName().then(rep => {
+      this.setState({ neighborhoodName: rep });
+    })
   }
   componentWillUnmount() {
     if (navigator.platform.indexOf("Win") > -1) {
@@ -98,7 +105,7 @@ class Dashboard extends React.Component {
   }
   render() {
     const { classes, ...rest } = this.props;
-    const { auth, routes } = this.state;
+    const { auth, routes, neighborhoodName } = this.state;
     const mainPanel =
       classes.mainPanel +
       " " +
@@ -143,7 +150,7 @@ class Dashboard extends React.Component {
         {auth ? (
           <Sidebar
             routes={routes}
-            logoText={"Chapalita Sur"}
+            logoText={neighborhoodName}
             logo={logo}
             image={image}
             handleDrawerToggle={this.handleDrawerToggle}

@@ -46,16 +46,63 @@ export const editProfileInfo = data => {
   });
 };
 
+export const toggleRepresentant = (id, toggle) => {
+  return new Promise((resolve, rejects) => {
+    let convecinos = JSON.parse(localStorage.getItem("convecinos"));
+    let data = { representant: toggle };
+    axios
+      .patch(
+        URL + "Neighbors/" + id + "?access_token=" + convecinos.access_token,
+        data
+      )
+      .then(
+        res => {
+          resolve(res.data);
+        },
+        err => {
+          console.log("error en toggleRepresentant:", err);
+          rejects();
+        }
+      );
+  });
+};
+
 export const fetchNotices = () => {
   return new Promise((resolve, rejects) => {
     let convecinos = JSON.parse(localStorage.getItem("convecinos"));
     axios.get(URL + 'Notices?filter={"where":{"neighborhoodId":"'+convecinos.neighborhoodId+'"}}').then(
       res => {
-          console.log(res.data);
           resolve(res.data);
         },
         err => {
-          console.log('error en fetchNeighbors:', err);
+          console.log('error en patchNeighbor:', err);
+          rejects();
+        }
+      );
+  });
+}
+
+export const createProposal = data => {
+  return new Promise((resolve, rejects) => {
+    let convecinos = JSON.parse(localStorage.getItem("convecinos"));
+    axios.get(URL + 'Neighbors/count?where={"neighborhoodId":"'+convecinos.neighborhoodId+'"}').then(
+      res => {
+        let proposalData = data;
+        proposalData.max_votes = res.data.count;
+        proposalData.neighborhoodId = convecinos.neighborhoodId;
+        proposalData.neighborId = convecinos.userId;
+        axios.post(URL + "Proposals", proposalData).then(
+          res2 => {
+              resolve(res2.data);
+            },
+            err2 => {
+              console.log('error en createProposal POST:', err2);
+              rejects();
+            }
+          );
+      },
+        err => {
+          console.log('error en createProposal GET:', err);
           rejects();
         }
       );
@@ -66,11 +113,10 @@ export const makeNotice = data => {
   return new Promise((resolve, rejects) => {
     axios.post(URL + 'Notices', data).then(
       res => {
-          console.log(res.data);
           resolve(res.data);
         },
         err => {
-          console.log('error en fetchNeighbors:', err);
+          console.log('error en makeNotice:', err);
           rejects();
         }
       );
@@ -85,7 +131,7 @@ export const makeTransaction = data => {
         resolve(neighbors);
       },
       err => {
-        console.log('error en fetchNeighbors:', err);
+        console.log('error en makeTransaction:', err);
         rejects();
       }
       );
@@ -110,7 +156,7 @@ export const fetchRepresentatives = () => {
       },
       err => {
         // eslint-disable-next-line no-console
-        console.log("error en fetchNeighbors:", err);
+        console.log("error en fetchRepresentatives:", err);
         rejects();
       }
     );
@@ -123,7 +169,7 @@ export const fetchExpenses = () => {
     axios
       .get(
         URL +
-          '/Expenses?filter={"where":{"neighborhoodId":"'+convecinos.neighborhoodId+'"},"include":[{"relation":"neighbor","scope":{"fields":["first_name","last_name"]}}]}'
+          'Expenses?filter={"where":{"neighborhoodId":"'+convecinos.neighborhoodId+'"},"include":[{"relation":"neighbor","scope":{"fields":["first_name","last_name"]}}]}'
       )
       .then(
         res => {
@@ -188,35 +234,41 @@ export const fetchProposals = status => {
   });
 };
 
-export const fetchBankProposals = () => {
+export const fetchVotedProposals = () => {
   return new Promise((resolve, rejects) => {
     let convecinos = JSON.parse(localStorage.getItem("convecinos"));
     axios
       .get(
         URL +
-          '/Proposals?filter={"where":{"neighborhoodId":"'+convecinos.neighborhoodId+'"},"include":[{"relation":"category","scope":{"fields":["name"]}},{"relation":"neighbor","scope":{"fields":["first_name","last_name"]}}]}'
+          'Votes?filter={"where":{"neighborId":"'+convecinos.userId+'"},"include":[{"relation":"proposal"}]}'
       )
       .then(
-        res => {
-          const proposals = res.data;
-          let length = proposals.length;
-          let array = [];
-          for (let i = 0; i < length; i++) {
-            let cell = new Array(
-              proposals[i].name,
-              proposals[i].description,
-              proposals[i].category.name,
-              proposals[i].neighbor.first_name
-            );
-            array[i] = cell;
+      res => {
+        const proposals = res.data;
+        let length = proposals.length;
+        let array = [];
+        for (let i = 0; i < length; i++) {
+          let decision = "En Contra";
+          if (proposals[i].option === 1) {
+            decision = "A Favor";
+          } else if (proposals[i].option === 2) {
+            decision = "Nulo";
           }
-          resolve(array);
-        },
-        err => {
-          console.log("error en Proposals:", err);
-          rejects();
+          // eslint-disable-next-line
+          let cell = new Array(
+            proposals[i].proposal.name,
+            proposals[i].proposal.description,
+            proposals[i].proposal.current_votes + "/" + proposals[i].proposal.max_votes,
+            decision
+          );
+          array[i] = cell;
         }
-      );
+        resolve(array);
+      },
+      err => {
+        console.log("error en Proposals:", err);
+        rejects();
+      });
   });
 };
 
@@ -266,7 +318,7 @@ export const fetchAllProposals = status => {
     axios
       .get(
         URL +
-          '/Proposals?filter={"include":[{"relation":"category","scope":{"fields":["name"]}},{"relation":"neighbor","scope":{"fields":["first_name","last_name"]}}]}'
+          'Proposals?filter={"include":[{"relation":"category","scope":{"fields":["name"]}},{"relation":"neighbor","scope":{"fields":["first_name","last_name"]}}]}'
       )
       .then(
         res => {
@@ -295,18 +347,11 @@ export const fetchAllProposals = status => {
 
 export const fetchNeighbors = () => {
   return new Promise((resolve, rejects) => {
-    axios.get(URL + "Neighbors").then(
+    let convecinos = JSON.parse(localStorage.getItem("convecinos"));
+    axios.get(URL + 'Neighbors?filter={"where":{"neighborhoodId":"'+convecinos.neighborhoodId+'"}}').then(
       res => {
-        const neighbor = res.data;
-        let length = neighbor.length;
-        let array = [];
-        for (let i = 0; i < length; i++) {
-          let cell = new Array(
-            neighbor[i].first_name + " " + neighbor[i].last_name
-          );
-          array[i] = cell;
-        }
-        resolve(array);
+        console.log(res.data);
+        resolve(res.data);
       },
       err => {
         console.log("error en fetchNeighbors:", err);
@@ -341,6 +386,32 @@ export const fetchNeighborhoodRules = () => {
   });
 };
 
+export const fetchNeighborsRequest = () => {
+  return new Promise((resolve, rejects) => {
+    let convecinos = JSON.parse(localStorage.getItem("convecinos"));
+    if (convecinos === null) {
+      rejects(false);
+    } else {
+      axios
+        .get(
+          URL +
+            'Requests?filter={"where":{"neighborhoodId":"' +
+            convecinos.neighborhoodId +
+            '"},"include":[{"relation":"neighbor"}]}'
+        )
+        .then(
+        res => {
+          resolve(res.data);
+        },
+        err => {
+          console.log("error en fetchNeighborsRequest: ", err);
+          rejects(err);
+        }
+      );
+    }
+  });
+};
+
 export const changeRulesFile = data => {
   return new Promise((resolve, rejects) => {
     let convecinos = JSON.parse(localStorage.getItem("convecinos"));
@@ -355,7 +426,6 @@ export const changeRulesFile = data => {
       )
       .then(
         res => {
-          console.log(res.data);
           resolve(res.data);
         },
         err => {

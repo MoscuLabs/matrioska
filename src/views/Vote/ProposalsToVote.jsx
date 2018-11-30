@@ -9,6 +9,7 @@ import dashboardStyle from "assets/jss/material-dashboard-pro-react/views/dashbo
 
 // react component used to create sweet alerts
 import SweetAlert from "react-bootstrap-sweetalert";
+import Info from "@material-ui/icons/Info";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -24,6 +25,7 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import priceImage3 from "assets/img/card-1.jpeg";
+import SnackbarContent from "components/Snackbar/SnackbarContent.jsx";
 
 import { fetchToVoteProposals, vote } from "utils/apiServices.jsx";
 
@@ -255,7 +257,13 @@ class ProposalsToVote extends React.Component {
             </Step>
           </Stepper>
         </GridContainer>
-        <GridContainer justify="center">{proposalsList}</GridContainer>
+        <GridContainer justify="center">
+          {proposals.length === 0 ? (<SnackbarContent
+            message={<span>Ya no hay más propuestas por las que votar</span>}
+            color="#FFEBCD" icon={Info}
+          />) : (<div />)}
+          {proposalsList}
+        </GridContainer>
       </div>
     );
   }

@@ -14,7 +14,7 @@ import Card from "components/Card/Card.jsx";
 import CardAvatar from "components/Card/CardAvatar.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import Button from "components/CustomButtons/Button.jsx";
-import avatar from "assets/img/faces/marc.jpg";
+import defaultImage from "assets/img/default-avatar.png";
 
 import { cardTitle } from "assets/jss/material-dashboard-pro-react.jsx";
 
@@ -88,11 +88,11 @@ class Representatives extends React.Component {
           title="Representantes"
           category={
             <span>
-              La representación legal de una asociación es de suma importancia. 
-              Es por eso que los comités de colonos son una clave especial, ya que 
-              facilitan y  transmiten los objetivos y obstáculos de una asociación 
-              vecinal internamente como externamente. Con el propósito de mejorar 
-              la calidad de vida en las colonias, mediante la participación activa 
+              La representación legal de una asociación es de suma importancia.
+              Es por eso que los comités de colonos son una clave especial, ya que
+              facilitan y  transmiten los objetivos y obstáculos de una asociación
+              vecinal internamente como externamente. Con el propósito de mejorar
+              la calidad de vida en las colonias, mediante la participación activa
               en las asociaciones vecinales.
             </span>
           }
@@ -103,7 +103,11 @@ class Representatives extends React.Component {
               <Card profile>
                 <CardAvatar profile>
                   <a href="#pablo" onClick={e => e.preventDefault()}>
-                    <img src={avatar} alt="..." />
+                    {item.profile_img ? (
+                      <img src={item.profile_img} alt="..." />
+                    ) : (
+                      <img src={defaultImage} alt="..." />
+                    )}
                   </a>
                 </CardAvatar>
                 <CardBody profile>
