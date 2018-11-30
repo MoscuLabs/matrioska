@@ -36,11 +36,12 @@ function Header({ ...props }) {
       }
       return null;
     });
-    console.log(props.location.pathname);
     if (name) {
       return name;
     }
     if (props.location.pathname === "/vote") {
+      return "Vota";
+    } if (props.location.pathname === "/vote/proposals") {
       return "Vota";
     } if (props.location.pathname === "/profile") {
       return "Perfil";

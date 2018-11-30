@@ -14,6 +14,11 @@ import CardBody from "components/Card/CardBody.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 
 import { Link } from "react-router-dom";
+import { fetchVotedProposals, fetchProposals } from "utils/apiServices.jsx";
+import {
+  validateCreateProposal,
+  validateRepresentant
+} from "utils/apiAuth.jsx";
 
 import {
   cardTitle,
@@ -73,8 +78,35 @@ const styles = {
 };
 
 class Proposals extends React.Component {
+  state = {
+    create: false,
+    voted: [],
+    approved: [],
+    ongoing: []
+  };
+  componentDidMount() {
+    validateRepresentant().then(rep => {
+      if (rep) {
+        this.setState({ create: true });
+      } else {
+        validateCreateProposal().then(rep => {
+          this.setState({ create: rep });
+        });
+      }
+    });
+    fetchProposals(2).then(rep => {
+      this.setState({ ongoing: rep });
+    });
+    fetchProposals(3).then(rep => {
+      this.setState({ approved: rep });
+    });
+    fetchVotedProposals().then(rep => {
+      this.setState({ voted: rep });
+    });
+  }
   render() {
     const { classes } = this.props;
+    const { create, voted, approved, ongoing } = this.state;
     return (
       <div>
         <Heading
@@ -82,18 +114,65 @@ class Proposals extends React.Component {
           title="Propuestas"
           category={
             <span>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
+              El voto es un derecho. Éste nos da la oportunidad de hacernos
+              escuchar y expresar nuestras opiniones, sugerencias e inconformidades.
+              Votar consiste en brindar apoyo a una propuesta en forma anónima, pues
+              mediante este acto de participación ciudadana que ejercemos de acuerdo
+              a nuestros ideales, se define los caminos a seguir por parte de una comunidad.
+              Es  por esto que es esencial estar informados sobre las propuestas que se
+              encuentran en gestión en la asociación vecinal y ejercer nuestro derecho.
             </span>
           }
         />
+        <GridContainer justify="center">
+          <GridItem xs={12} sm={12} md={4} align="center">
+            <Card>
+              <CardBody>
+                <div className={classes.center}>
+                  <h5>
+                    Apoya a tu comunidad votando por las propuestas de tus
+                    convecinos
+                  </h5>
+                  <Link to="/vote">
+                    <Button
+                      color="info"
+                      size="lg"
+                      className={classes.marginRight}
+                    >
+                      ¡Vota!
+                    </Button>
+                  </Link>
+                </div>
+              </CardBody>
+            </Card>
+          </GridItem>
+          {create ? (
+            <GridItem xs={12} sm={12} md={4} align="center">
+              <Card>
+                <CardBody>
+                  <div className={classes.center}>
+                    <h5>
+                      Es momento de crear una propuesta para mejorar tu comunidad.
+                    </h5>
+                    <Link to="/CreateProposal">
+                      <Button
+                        color="info"
+                        size="lg"
+                        className={classes.marginRight}
+                      >
+                        ¡Crear Propuesta!
+                      </Button>
+                    </Link>
+                  </div>
+                </CardBody>
+              </Card>
+            </GridItem>
+          ) : (
+            <div />
+          )}
+        </GridContainer>
         <GridContainer>
-          <GridItem xs={12} sm={12} md={6}>
+          <GridItem xs={12} sm={12} md={6} align="left">
             <Card>
               <CardHeader color="primary" text>
                 <CardText color="primary">
@@ -105,16 +184,12 @@ class Proposals extends React.Component {
                   hover
                   tableHeaderColor="warning"
                   tableHead={["Nombre", "Categoría", "Autor", "Votos"]}
-                  tableData={[
-                    ["Lorem ipsum", "Administración", "Miguel", "1/30"],
-                    ["Lorem ipsum", "Administración", "Miguel", "1/30"],
-                    ["Lorem ipsum", "Administración", "Miguel", "1/30"]
-                  ]}
+                  tableData={approved}
                 />
               </CardBody>
             </Card>
           </GridItem>
-          <GridItem xs={12} sm={12} md={6}>
+          <GridItem xs={12} sm={12} md={6} align="right">
             <Card>
               <CardHeader color="primary" text>
                 <CardText color="primary">
@@ -126,25 +201,35 @@ class Proposals extends React.Component {
                   hover
                   tableHeaderColor="warning"
                   tableHead={["Nombre", "Categoría", "Autor", "Votos"]}
-                  tableData={[
-                    ["Lorem ipsum", "Administración", "Miguel", "1/30"],
-                    ["Lorem ipsum", "Administración", "Miguel", "1/30"],
-                    ["Lorem ipsum", "Administración", "Miguel", "1/30"]
-                  ]}
+                  tableData={ongoing}
                 />
               </CardBody>
             </Card>
           </GridItem>
         </GridContainer>
-        <GridContainer align="center">
-          <GridItem xs={12} sm={12} md={12}>
-            <Link to="/vote">
-              <Button color="info" size="lg" className={classes.marginRight}>
-                ¡Vota!
-              </Button>
-            </Link>
-          </GridItem>
-        </GridContainer>
+        {voted.length ? (
+          <GridContainer>
+            <GridItem xs={12} sm={12} md={12} align="center">
+              <Card>
+                <CardHeader color="primary" text>
+                  <CardText color="primary">
+                    <h4 className={classes.cardTitleWhite}>Tus votos</h4>
+                  </CardText>
+                </CardHeader>
+                <CardBody>
+                  <Table
+                    hover
+                    tableHeaderColor="warning"
+                    tableHead={["Nombre", "Descripción", "Votos", "Decisión"]}
+                    tableData={voted}
+                  />
+                </CardBody>
+              </Card>
+            </GridItem>
+          </GridContainer>
+        ) : (
+          <div/>
+        )}
       </div>
     );
   }

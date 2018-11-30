@@ -24,7 +24,7 @@ class Pages extends React.Component {
     return (
       <div>
         <PagesHeader {...rest} />
-        <div className={classes.wrapper} ref="wrapper">
+        <div className={classes.wrapper}>
           <div
             className={classes.fullPage}
             style={{ backgroundImage: "url(" + bgImage + ")" }}

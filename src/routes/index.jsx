@@ -1,9 +1,11 @@
 import Pages from "layouts/Pages.jsx";
 import Dashboard from "layouts/Dashboard.jsx";
 
-var indexRoutes = [
+export const indexRoutes = [
   { path: "/pages", name: "Pages", component: Pages },
   { path: "/", name: "Home", component: Dashboard }
 ];
 
-export default indexRoutes;
+export const noAuthRoutes = [
+  { path: "/pages", name: "Pages", component: Pages }
+];

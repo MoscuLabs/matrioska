@@ -15,38 +15,22 @@ import Footer from "components/Footer/Footer.jsx";
 import Sidebar from "components/Sidebar/Sidebar.jsx";
 
 import dashboardRoutes from "routes/dashboard.jsx";
+import dashboardRoutesRep from "routes/dashboardRep.jsx";
 import Profile from "views/Profile/Profile.jsx";
 import Vote from "views/Vote/Vote.jsx";
+import CreateProposals from "views/CreateProposals/CreateProposal.jsx";
+import ProposalsToVote from "views/Vote/ProposalsToVote.jsx";
 
 import appStyle from "assets/jss/material-dashboard-pro-react/layouts/dashboardStyle.jsx";
 
 import image from "assets/img/sidebar-2.jpg";
-import logo from "assets/img/neighborhood.png";
+import logo from "assets/img/logo.png";
 
-const switchRoutes = (
-  <Switch>
-    <Route path={"/profile"} exact component={Profile} />
-    <Route path={"/vote"} exact component={Vote} />
-    {dashboardRoutes.map((prop, key) => {
-      if (prop.redirect)
-        return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
-      if (prop.collapse)
-        return prop.views.map((prop, key) => {
-          return (
-            <Route
-              path={prop.path}
-              exact
-              component={prop.component}
-              key={key}
-            />
-          );
-        });
-      return (
-        <Route path={prop.path} exact component={prop.component} key={key} />
-      );
-    })}
-  </Switch>
-);
+import {
+  validateAccess,
+  validateRepresentant,
+  fetchNeighborhoodName
+} from "utils/apiAuth.jsx";
 
 var ps;
 
@@ -54,6 +38,9 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      auth: false,
+      neighborhoodName: "",
+      routes: dashboardRoutes,
       mobileOpen: false,
       miniActive: false
     };
@@ -68,6 +55,25 @@ class Dashboard extends React.Component {
       document.body.style.overflow = "hidden";
     }
     window.addEventListener("resize", this.resizeFunction);
+    validateAccess().then(rep => {
+      if (rep) {
+        this.setState({ auth: rep });
+        } else {
+        window.location = "/pages/request";
+      }
+      },
+      err => {
+        window.location = "/pages/login";
+      }
+    );
+    validateRepresentant().then(rep => {
+      if (rep) {
+        this.setState({ routes: dashboardRoutesRep });
+      }
+    });
+    fetchNeighborhoodName().then(rep => {
+      this.setState({ neighborhoodName: rep });
+    })
   }
   componentWillUnmount() {
     if (navigator.platform.indexOf("Win") > -1) {
@@ -99,6 +105,7 @@ class Dashboard extends React.Component {
   }
   render() {
     const { classes, ...rest } = this.props;
+    const { auth, routes, neighborhoodName } = this.state;
     const mainPanel =
       classes.mainPanel +
       " " +
@@ -107,37 +114,73 @@ class Dashboard extends React.Component {
         [classes.mainPanelWithPerfectScrollbar]:
           navigator.platform.indexOf("Win") > -1
       });
+    const switchRoutes = (
+      <Switch>
+        <Route path={"/profile"} exact component={Profile} />
+        <Route path={"/vote"} exact component={Vote} />
+        <Route path={"/vote/proposals"} exact component={ProposalsToVote} />
+        <Route path={"/CreateProposal"} exact component={CreateProposals} />
+        {routes.map((prop, key) => {
+          if (prop.redirect)
+            return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
+          if (prop.collapse)
+            return prop.views.map((prop, key) => {
+              return (
+                <Route
+                  path={prop.path}
+                  exact
+                  component={prop.component}
+                  key={key}
+                />
+              );
+            });
+          return (
+            <Route
+              path={prop.path}
+              exact
+              component={prop.component}
+              key={key}
+            />
+          );
+        })}
+      </Switch>
+    );
     return (
       <div className={classes.wrapper}>
-        <Sidebar
-          routes={dashboardRoutes}
-          logoText={"Chapalita Sur"}
-          logo={logo}
-          image={image}
-          handleDrawerToggle={this.handleDrawerToggle}
-          open={this.state.mobileOpen}
-          color="blue"
-          bgColor="black"
-          miniActive={this.state.miniActive}
-          {...rest}
-        />
-        <div className={mainPanel} ref="mainPanel">
-          <Header
-            sidebarMinimize={this.sidebarMinimize.bind(this)}
-            miniActive={this.state.miniActive}
-            routes={dashboardRoutes}
+        {auth ? (
+          <Sidebar
+            routes={routes}
+            logoText={neighborhoodName}
+            logo={logo}
+            image={image}
             handleDrawerToggle={this.handleDrawerToggle}
-            {...rest} 
+            open={this.state.mobileOpen}
+            color="blue"
+            bgColor="black"
+            miniActive={this.state.miniActive}
+            {...rest}
           />
-          {/* On the /maps/full-screen-maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
-          {this.getRoute() ? (
-            <div className={classes.content}>
-              <div className={classes.container}>{switchRoutes}</div>
+        ) : (
+          <div />
+        )}
+        <div className={mainPanel} ref="mainPanel">
+          {auth ? (
+            <div>
+              <Header
+                sidebarMinimize={this.sidebarMinimize.bind(this)}
+                miniActive={this.state.miniActive}
+                routes={routes}
+                handleDrawerToggle={this.handleDrawerToggle}
+                {...rest}
+              />
+              <div className={classes.content}>
+                <div className={classes.container}>{switchRoutes}</div>
+              </div>
+              <Footer fluid />
             </div>
           ) : (
-            <div className={classes.map}>{switchRoutes}</div>
+            <div />
           )}
-          {this.getRoute() ? <Footer fluid /> : null}
         </div>
       </div>
     );

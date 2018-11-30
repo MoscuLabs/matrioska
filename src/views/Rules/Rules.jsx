@@ -15,6 +15,7 @@ import GridItem from "components/Grid/GridItem.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 
 import { cardTitle } from "assets/jss/material-dashboard-pro-react.jsx";
+import { fetchNeighborhoodRules } from "utils/apiServices.jsx"
 
 const style = {
   customCardContentClass: {
@@ -30,9 +31,16 @@ const style = {
 
 class Rules extends React.Component {
   state = {
+    rules: "",
     numPages: 1,
     pageNumber: 1
   };
+
+  componentDidMount() {
+    fetchNeighborhoodRules().then(rep => {
+      this.setState({ rules: rep });
+    });
+  }
 
   onDocumentLoad = ({ numPages }) => {
     this.setState({ numPages });
@@ -51,8 +59,9 @@ class Rules extends React.Component {
   };
 
   render() {
-    const { pageNumber, numPages } = this.state;
+    const { pageNumber, numPages, rules } = this.state;
     const { classes } = this.props;
+    console.log(rules);
     return (
       <div>
         <Heading
@@ -60,20 +69,18 @@ class Rules extends React.Component {
           title="Reglamento"
           category={
             <span>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              veniam, quis nostrud exercitation ullamco laboris nisi ut nisi
-              nisi nisi nisi minim veniam, quis nostrud exercitation ullamco
-              nisi nisi ut aliquip ex ea commodo consequat. Duis aute irure
-              dolor in reprehenderit in voluptate velit esse cillum dolore eu
-              pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
+              El conglomerado de normas que forman el reglamento de una organización vecinal
+              es indispensable, ya que no todas las personas funcionamos o pensamos de la misma
+              manera y es mejor tener por escrito aquellas reglas que se consideran fundamentales
+              para el ejercicio de una convivencia plena, pacifica y satisfactoria entre las
+              personas que cohabitan un espacio determinado.
             </span>
           }
         />
         <GridContainer align="center">
           <GridItem xs={12} sm={12} md={12}>
             <Document
-              file="https://kremlin-api.herokuapp.com/api/Containers/reglamentos/download/1R.pdf"
+              file={rules}
               onLoadSuccess={this.onDocumentLoad}
             >
               <Page pageNumber={pageNumber} />

@@ -21,15 +21,42 @@ import Menu from "@material-ui/icons/Menu";
 // core components
 import Button from "components/CustomButtons/Button";
 
-import pagesRoutes from "routes/pages.jsx";
-
 import pagesHeaderStyle from "assets/jss/material-dashboard-pro-react/components/pagesHeaderStyle.jsx";
+
+import LoginPage from "views/Pages/LoginPage.jsx";
+import RegisterPage from "views/Pages/RegisterPage.jsx";
+
+// @material-ui/icons
+import PersonAdd from "@material-ui/icons/PersonAdd";
+import Fingerprint from "@material-ui/icons/Fingerprint";
+
+import { validateAccess } from "utils/apiAuth.jsx";
+
+const pagesRoutes = [
+  {
+    path: "/pages/register",
+    name: "Register Page",
+    short: "Registrar",
+    mini: "RP",
+    icon: PersonAdd,
+    component: RegisterPage
+  },
+  {
+    path: "/pages/login",
+    name: "Iniciar Sesión",
+    short: "Login",
+    mini: "LP",
+    icon: Fingerprint,
+    component: LoginPage
+  }
+];
 
 class PagesHeader extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false
+      open: false,
+      auth: false
     };
   }
   handleDrawerToggle = () => {
@@ -39,6 +66,15 @@ class PagesHeader extends React.Component {
   activeRoute(routeName) {
     return this.props.location.pathname.indexOf(routeName) > -1 ? true : false;
   }
+  componentDidMount() {
+    validateAccess().then(rep => {
+      if (rep) {
+        this.setState({ auth: rep });
+      } else {
+        this.setState({ auth: false });
+      }
+    });
+  }
   componentDidUpdate(e) {
     if (e.history.location.pathname !== e.location.pathname) {
       this.setState({ open: false });
@@ -46,23 +82,30 @@ class PagesHeader extends React.Component {
   }
   render() {
     const { classes, color } = this.props;
+    const { auth } = this.state;
     const appBarClasses = cx({
       [" " + classes[color]]: color
     });
     var list = (
       <List className={classes.list}>
-        <ListItem className={classes.listItem}>
-          <NavLink to={"/dashboard"} className={classes.navLink}>
-            <ListItemIcon className={classes.listItemIcon}>
-              <Dashboard />
-            </ListItemIcon>
-            <ListItemText
-              primary={"Tablero"}
-              disableTypography={true}
-              className={classes.listItemText}
-            />
-          </NavLink>
-        </ListItem>
+        {
+          auth ? (
+            <ListItem className={classes.listItem}>
+              <NavLink to={"/dashboard"} className={classes.navLink}>
+                <ListItemIcon className={classes.listItemIcon}>
+                  <Dashboard />
+                </ListItemIcon>
+                <ListItemText
+                  primary={"Tablero"}
+                  disableTypography={true}
+                  className={classes.listItemText}
+                />
+              </NavLink>
+            </ListItem>
+          ) : (
+            <div />
+          )
+        }
         {pagesRoutes.map((prop, key) => {
           if (prop.redirect) {
             return null;
