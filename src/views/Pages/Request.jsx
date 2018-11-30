@@ -36,14 +36,16 @@ class LoginPage extends React.Component {
 
   handleRequest = () => {
     let convecinos = JSON.parse(localStorage.getItem("convecinos"));
-    if (this.state.codigo !== "") {
-      let data = {
-        //message: this.state.message
-      };
-      makeRequest(convecinos.userId, this.state.codigo, data);
+    if (convecinos) {
+      if (this.state.codigo !== "") {
+        let data = {
+          //message: this.state.message
+        };
+        makeRequest(convecinos.userId, this.state.codigo, data);
+      }
+    } else {
+      window.location = "pages/login";
     }
-    console.log(this.state.codigo);
-    console.log(this.state.mensaje);
   };
 
   change = (event, stateValue) => {
