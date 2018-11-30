@@ -11,7 +11,7 @@ import Table from "components/Table/Table.jsx";
 
 import { fetchNeighbors, toggleRepresentant } from "utils/apiServices.jsx";
 
-class RequestList extends React.Component {
+class NeighborsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -83,4 +83,4 @@ class RequestList extends React.Component {
   }
 }
 
-export default RequestList;
+export default NeighborsList;

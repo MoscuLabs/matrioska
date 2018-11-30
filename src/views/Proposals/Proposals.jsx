@@ -94,10 +94,10 @@ class Proposals extends React.Component {
         });
       }
     });
-    fetchProposals(2).then(rep => {
+    fetchProposals(3).then(rep => {
       this.setState({ ongoing: rep });
     });
-    fetchProposals(3).then(rep => {
+    fetchProposals(2).then(rep => {
       this.setState({ approved: rep });
     });
     fetchVotedProposals().then(rep => {
