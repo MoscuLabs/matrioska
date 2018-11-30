@@ -61,17 +61,17 @@ class Administration extends React.Component {
   }
 
 Change(event, stateName) {
-    if (stateName == "Concepto") {
+    if (stateName === "Concepto") {
       this.setState({ [stateName]: event.target.value });
     }
-    if (stateName == "Beneficiario") {
+    if (stateName === "Beneficiario") {
       this.setState({ [stateName]: event.target.value });
     }
-    if (stateName == "Monto") {
+    if (stateName === "Monto") {
       this.setState({ [stateName]: event.target.value });
     }
     //Fecha
-    if (stateName == "Aviso") {
+    if (stateName === "Aviso") {
       this.setState({ [stateName]: event.target.value });
     }
   }
@@ -90,10 +90,10 @@ Change(event, stateName) {
     console.log(this.state.startDate);
 
     if (
-      this.state.Concepto != "" &&
-      this.state.Monto != "" &&
-      this.state.Beneficiario != "" &&
-      this.state.startDate != ""
+      this.state.Concepto !== "" &&
+      this.state.Monto !== "" &&
+      this.state.Beneficiario !== "" &&
+      this.state.startDate !== ""
     ) {
       let data = {
         concept: this.state.Concepto,

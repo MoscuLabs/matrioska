@@ -69,7 +69,28 @@ export const validateAccess = () => {
         )
         .then(
           () => {
-            resolve(true);
+            axios
+              .get(
+                URL +
+                  "Neighbors/" +
+                  convecinos.userId +
+                  '?filter={"fields":["neighborhoodId"]}&access_token=' +
+                  convecinos.access_token
+              )
+              .then(
+                rep => {
+                  if (rep.data.neighborhoodId) {
+                    resolve(true);
+                  }
+                  else {
+                    resolve(false);
+                  }
+                },
+                err => {
+                  console.log(err);
+                  resolve(false);
+                }
+            );
           },
           () => {
             resolve(false);
@@ -124,5 +145,30 @@ export const fetchUserName= () => {
         }
       );
     }
+  });
+};
+
+export const validateCreateProposal = () => {
+  return new Promise((resolve, rejects) => {
+    let convecinos = JSON.parse(localStorage.getItem("convecinos"));
+    axios
+      .get(
+        URL +
+          'Votes?filter={"where":{"neighborId":"' +
+          convecinos.userId +
+          '"}}'
+      )
+      .then(
+      res => {
+        if (res.data.length) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      },
+      err => {
+        rejects("Error en validateRepresentant: ", err);
+      }
+    );
   });
 };

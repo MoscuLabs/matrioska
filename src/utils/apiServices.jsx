@@ -21,7 +21,7 @@ export const fetchNeighborInfo = () => {
   });
 };
 
-export const editProfileInfo = (data) => {
+export const editProfileInfo = data => {
   return new Promise((resolve, rejects) => {
     let convecinos = JSON.parse(localStorage.getItem("convecinos"));
     axios
@@ -253,16 +253,14 @@ export const fetchAllProposals = status => {
 
 export const fetchNeighbors = () => {
   return new Promise((resolve, rejects) => {
-    axios.get(URL + '/Neighbors').then(
+    axios.get(URL + "Neighbors").then(
       res => {
         const neighbor = res.data;
         let length = neighbor.length;
         let array = [];
         for (let i = 0; i < length; i++) {
           let cell = new Array(
-            neighbor[i].first_name + " " + neighbor[i].last_name,
-
-
+            neighbor[i].first_name + " " + neighbor[i].last_name
           );
           array[i] = cell;
         }

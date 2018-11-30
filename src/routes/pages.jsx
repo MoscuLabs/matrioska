@@ -3,7 +3,6 @@ import RegisterPage from "views/Pages/RegisterPage.jsx";
 import Terms from "views/Pages/Terms.jsx";
 import Privacy from "views/Pages/Privacy.jsx";
 import Request from "views/Pages/Request.jsx";
-import LoadingRequest from "views/Pages/LoadingRequest.jsx";
 
 // @material-ui/icons
 import PersonAdd from "@material-ui/icons/PersonAdd";
@@ -51,14 +50,6 @@ const pagesRoutes = [
     mini: "RQ",
     icon: Security,
     component: Request
-  },
-  {
-    path: "/pages/loading",
-    name: "Cargando Solicitud",
-    short: "Loading",
-    mini: "LD",
-    icon: Security,
-    component: LoadingRequest
   },
   {
     redirect: true,

@@ -15,6 +15,7 @@ import Button from "components/CustomButtons/Button.jsx";
 
 import { Link } from "react-router-dom";
 import { fetchBankProposals, fetchProposals } from "utils/apiServices.jsx";
+import { validateCreateProposal } from "utils/apiAuth.jsx";
 
 import {
   cardTitle,
@@ -75,11 +76,15 @@ const styles = {
 
 class Proposals extends React.Component {
   state = {
+    create: false,
     listOfProposals: [],
     approved: [],
     ongoing: []
   };
   componentDidMount() {
+    validateCreateProposal().then(rep => {
+      this.setState({ create: rep });
+    });
     fetchProposals(2).then(rep => {
       this.setState({ ongoing: rep });
     });
@@ -92,7 +97,7 @@ class Proposals extends React.Component {
   }
   render() {
     const { classes } = this.props;
-    const { listOfProposals, approved, ongoing } = this.state;
+    const { create, listOfProposals, approved, ongoing } = this.state;
     return (
       <div>
         <Heading
@@ -110,7 +115,7 @@ class Proposals extends React.Component {
             </span>
           }
         />
-      <GridContainer justify="center">
+        <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={4} align="center">
             <Card>
               <CardBody>
@@ -132,6 +137,30 @@ class Proposals extends React.Component {
               </CardBody>
             </Card>
           </GridItem>
+          {create ? (
+            <GridItem xs={12} sm={12} md={4} align="center">
+              <Card>
+                <CardBody>
+                  <div className={classes.center}>
+                    <h5>
+                      Es momento de crear una propuesta para mejorar tu comunidad.
+                    </h5>
+                    <Link to="/CreateProposal">
+                      <Button
+                        color="info"
+                        size="lg"
+                        className={classes.marginRight}
+                      >
+                        ¡Crear Propuesta!
+                      </Button>
+                    </Link>
+                  </div>
+                </CardBody>
+              </Card>
+            </GridItem>
+          ) : (
+            <div />
+          )}
         </GridContainer>
         <GridContainer>
           <GridItem xs={12} sm={12} md={6} align="left">
@@ -167,21 +196,6 @@ class Proposals extends React.Component {
                 />
               </CardBody>
             </Card>
-          </GridItem>
-        </GridContainer>
-        <GridContainer align="center">
-          <GridItem xs={12} sm={12} md={12}>
-            <Link to="/vote">
-              <Button color="info" size="lg" className={classes.marginRight}>
-                ¡Vota!
-              </Button>
-            </Link>
-            <Link to="/CreateProposal">
-              <Button color="info" size="lg" className={classes.marginRight}>
-                ¡Crear Propuesta!
-              </Button>
-            </Link>
-
           </GridItem>
         </GridContainer>
       </div>
