@@ -24,6 +24,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
+import { createProposal } from "utils/apiServices.jsx";
+
 const styles = theme => ({
   root: {
     display: 'flex',
@@ -43,16 +45,14 @@ const styles = theme => ({
 
 class CreateProposal extends React.Component {
   
-
-
-
   constructor(props) { 
     super(props);
     this.state = {
         NombrePropuesta: "", 
         Descripcion: "",
         age: "",
-        open: false
+        open: false,
+        isToggle: false
         
       };
 
@@ -60,6 +60,14 @@ class CreateProposal extends React.Component {
   }
 
     Change(event, stateName){
+      
+      if(this.state.NombrePropuesta!=="" &&
+      this.state.Descripcion!==""&&
+      this.state.age!==""){
+        this.setState({ isToggle: true });  
+      }else{
+        this.setState({ isToggle: false });  
+      }
         if(stateName=="NombrePropuesta"){
             this.setState({ [stateName]: event.target.value });        
         }
@@ -73,10 +81,23 @@ class CreateProposal extends React.Component {
     }
 
     ProponerBoton(){
+      let convecinos = JSON.parse(localStorage.getItem("convecinos"));
         console.log(this.state.NombrePropuesta)
         console.log(this.state.Descripcion)
         console.log(this.state.age)
 
+        console.log(convecinos.userId)
+        console.log(convecinos.neighborhoodId)
+
+          let data = {
+            name: this.state.NombrePropuesta,
+            description: this.state.Descripcion,
+            categoryId: this.state.age,
+            neighborId: String(convecinos.userId),
+            neighborhoodId: String(convecinos.neighborhoodId)
+          }
+          createProposal(String(convecinos.neighborhoodId),data); 
+        
     }
 
   render() {
@@ -152,10 +173,16 @@ class CreateProposal extends React.Component {
                       />
                     </GridItem>
                   </GridContainer>
+                      {
+                        this.state.isToggle ? (
+                          <Button onClick={this.ProponerBoton} color="rose" className={classes.updateProfileButton} >
+                          Crear Propuesta
+                        </Button>
+                        ) : (
+                          <div></div>
+                        )
 
-                  <Button onClick={this.ProponerBoton} color="rose" className={classes.updateProfileButton} >
-                    Crear Propuesta
-                  </Button>
+                      }
                   <Clearfix />
                 </CardBody>
               </Card>

@@ -18,6 +18,8 @@ import dashboardRoutesRep from "routes/dashboardRep.jsx";
 import Profile from "views/Profile/Profile.jsx";
 import Vote from "views/Vote/Vote.jsx";
 
+import CreateProposals from "views/CreateProposals/CreateProposal.jsx";
+
 import appStyle from "assets/jss/material-dashboard-pro-react/layouts/dashboardStyle.jsx";
 
 import ProposalsToVote from "@material-ui/icons/Gavel";
@@ -103,6 +105,7 @@ class Dashboard extends React.Component {
         <Route path={"/profile"} exact component={Profile} />
         <Route path={"/vote"} exact component={Vote} />
         <Route path={"/vote/proposals"} exact component={ProposalsToVote} />
+        <Route path={"/CreateProposal"} exact component={CreateProposals} />
         {routes.map((prop, key) => {
           if (prop.redirect)
             return <Redirect from={prop.path} to={prop.pathTo} key={key} />;

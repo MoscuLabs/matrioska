@@ -11,7 +11,43 @@ export const patchNeighbor = (id, data) => {
           resolve(neighbors);
         },
         err => {
-          console.log('error en fetchNeighbors:', err);
+          console.log('error en patchNeighbor:', err);
+          rejects();
+        }
+      );
+  });
+}
+// {"where":{"neighborhoodId":"5bc752c00bc8e9036dfbc1ef"}}
+// http://kremlin-api.herokuapp.com/api/Neighbors?filter={"where":{"neighborhoodId":"5bc752c00bc8e9036dfbc1ef"}}
+export const createProposal = (id,data) => {
+  return new Promise((resolve, rejects) => {
+    let convecinos = JSON.parse(localStorage.getItem("convecinos"));
+    axios.get(URL + 'Neighbors?filter={"where":{"neighborhoodId":"'+id+'"}}').then(
+      res => {
+        let datos ={
+          name: data.name,
+          description: data.description,
+          categoryId: data.categoryId,
+          neighborId: String(convecinos.userId),
+          neighborhoodId: String(convecinos.neighborhoodId),
+          max_votes: res.data.length
+        }
+        console.log(datos);
+        axios.post(URL + "Proposals", datos).then(
+          res2 => {
+              const neighbors = res2.data;
+              resolve(neighbors);
+            },
+            err2 => {
+              console.log('error en createProposal:', err2);
+              rejects();
+            }
+          );
+          const neighbors = res.data;
+          resolve(neighbors);
+        },
+        err => {
+          console.log('error en createProposal:', err);
           rejects();
         }
       );
@@ -26,7 +62,7 @@ export const makeNotice = data => {
           resolve(neighbors);
         },
         err => {
-          console.log('error en fetchNeighbors:', err);
+          console.log('error en makeNotice:', err);
           rejects();
         }
       );
@@ -41,7 +77,7 @@ export const makeTransaction = data => {
         resolve(neighbors);
       },
       err => {
-        console.log('error en fetchNeighbors:', err);
+        console.log('error en makeTransaction:', err);
         rejects();
       }
       );
@@ -58,7 +94,7 @@ export const fetchRepresentatives = () => {
       },
       err => {
         // eslint-disable-next-line no-console
-        console.log("error en fetchNeighbors:", err);
+        console.log("error en fetchRepresentatives:", err);
         rejects();
       }
     );
@@ -146,6 +182,7 @@ export const fetchBankProposals = () => {
       .then(
         res => {
           const proposals = res.data;
+          console.log(proposals[0].name);
           let length = proposals.length;
           let array = [];
           for (let i = 0; i < length; i++) {

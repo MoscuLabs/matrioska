@@ -108,7 +108,7 @@ class Administration extends React.Component {
             "amount": this.state.Monto,
             "beneficiary": this.state.Beneficiario,
             "issued_date": this.state.startDate,
-            "neighborhoodId": "5bc752c00bc8e9036dfbc1ef",
+            "neighborhoodId": convecinos.neighborhoodId,
             "neighborId": convecinos.userId
         }
 
@@ -119,10 +119,11 @@ class Administration extends React.Component {
     }
 
     SubmitBotonAviso(){
+        let convecinos = JSON.parse(localStorage.getItem("convecinos"));
         console.log(this.state.Aviso)
         let data = {
             "description": this.state.Aviso,
-            "neighborhoodId": "5bc752c00bc8e9036dfbc1ef"
+            "neighborhoodId": convecinos.neighborhoodId
         };
         makeNotice(data);
 
