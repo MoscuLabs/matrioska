@@ -54,7 +54,7 @@ class Dashboard extends React.Component {
       if (rep) {
         this.setState({ auth: rep });
         } else {
-        window.location = "/pages/login";
+        window.location = "/pages/request";
       }
       },
       err => {
