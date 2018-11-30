@@ -127,7 +127,12 @@ class Dashboard extends React.Component {
               );
             });
           return (
-            <Route path={prop.path} exact component={prop.component} key={key} />
+            <Route
+              path={prop.path}
+              exact
+              component={prop.component}
+              key={key}
+            />
           );
         })}
       </Switch>
@@ -136,17 +141,17 @@ class Dashboard extends React.Component {
       <div className={classes.wrapper}>
         {auth ? (
           <Sidebar
-          routes={routes}
-          logoText={"Chapalita Sur"}
-          logo={logo}
-          image={image}
-          handleDrawerToggle={this.handleDrawerToggle}
-          open={this.state.mobileOpen}
-          color="blue"
-          bgColor="black"
-          miniActive={this.state.miniActive}
-          {...rest}
-        />
+            routes={routes}
+            logoText={"Chapalita Sur"}
+            logo={logo}
+            image={image}
+            handleDrawerToggle={this.handleDrawerToggle}
+            open={this.state.mobileOpen}
+            color="blue"
+            bgColor="black"
+            miniActive={this.state.miniActive}
+            {...rest}
+          />
         ) : (
           <div />
         )}
@@ -154,16 +159,16 @@ class Dashboard extends React.Component {
           {auth ? (
             <div>
               <Header
-            sidebarMinimize={this.sidebarMinimize.bind(this)}
-            miniActive={this.state.miniActive}
-            routes={routes}
-            handleDrawerToggle={this.handleDrawerToggle}
-            {...rest}
-          />
-          <div className={classes.content}>
-            <div className={classes.container}>{switchRoutes}</div>
-          </div>
-          <Footer fluid />
+                sidebarMinimize={this.sidebarMinimize.bind(this)}
+                miniActive={this.state.miniActive}
+                routes={routes}
+                handleDrawerToggle={this.handleDrawerToggle}
+                {...rest}
+              />
+              <div className={classes.content}>
+                <div className={classes.container}>{switchRoutes}</div>
+              </div>
+              <Footer fluid />
             </div>
           ) : (
             <div />
