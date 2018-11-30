@@ -35,7 +35,6 @@ export const editProfileInfo = data => {
       )
       .then(
         res => {
-          console.log(res.data);
           resolve(res.data);
         },
         err => {
@@ -350,7 +349,6 @@ export const fetchNeighbors = () => {
     let convecinos = JSON.parse(localStorage.getItem("convecinos"));
     axios.get(URL + 'Neighbors?filter={"where":{"neighborhoodId":"'+convecinos.neighborhoodId+'"}}').then(
       res => {
-        console.log(res.data);
         resolve(res.data);
       },
       err => {
