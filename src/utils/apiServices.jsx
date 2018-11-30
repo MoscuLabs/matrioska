@@ -46,12 +46,28 @@ export const editProfileInfo = data => {
   });
 };
 
+export const fetchNotices = () => {
+  return new Promise((resolve, rejects) => {
+    let convecinos = JSON.parse(localStorage.getItem("convecinos"));
+    axios.get(URL + 'Notices?filter={"where":{"neighborhoodId":"'+convecinos.neighborhoodId+'"}}').then(
+      res => {
+          console.log(res.data);
+          resolve(res.data);
+        },
+        err => {
+          console.log('error en fetchNeighbors:', err);
+          rejects();
+        }
+      );
+  });
+}
+
 export const makeNotice = data => {
   return new Promise((resolve, rejects) => {
     axios.post(URL + 'Notices', data).then(
       res => {
-          const neighbors = res.data;
-          resolve(neighbors);
+          console.log(res.data);
+          resolve(res.data);
         },
         err => {
           console.log('error en fetchNeighbors:', err);
@@ -79,8 +95,16 @@ export const makeTransaction = data => {
 
 export const fetchRepresentatives = () => {
   return new Promise((resolve, rejects) => {
-    axios.get(URL + 'Neighbors?filter={"where":{"representant":true}}').then(
-      res => {
+    let convecinos = JSON.parse(localStorage.getItem("convecinos"));
+    axios
+      .get(
+        URL +
+          'Neighbors?filter={"where":{"representant":true,"neighborhoodId":"' +
+          convecinos.neighborhoodId +
+          '"}}'
+      )
+      .then(
+        res => {
         const representatives = res.data;
         resolve(representatives);
       },
@@ -95,10 +119,11 @@ export const fetchRepresentatives = () => {
 
 export const fetchExpenses = () => {
   return new Promise((resolve, rejects) => {
+    let convecinos = JSON.parse(localStorage.getItem("convecinos"));
     axios
       .get(
         URL +
-          '/Expenses?filter={"include":[{"relation":"neighbor","scope":{"fields":["first_name","last_name"]}}]}'
+          '/Expenses?filter={"where":{"neighborhoodId":"'+convecinos.neighborhoodId+'"},"include":[{"relation":"neighbor","scope":{"fields":["first_name","last_name"]}}]}'
       )
       .then(
         res => {
@@ -131,12 +156,11 @@ export const fetchExpenses = () => {
 
 export const fetchProposals = status => {
   return new Promise((resolve, rejects) => {
+    let convecinos = JSON.parse(localStorage.getItem("convecinos"));
     axios
       .get(
         URL +
-          '/Proposals?filter={"where":{"status":' +
-          status +
-          '},"include":[{"relation":"category","scope":{"fields":["name"]}},{"relation":"neighbor","scope":{"fields":["first_name","last_name"]}}]}'
+          'Proposals?filter={"where":{"neighborhoodId":"'+convecinos.neighborhoodId+'","status":'+status+'},"include":[{"relation":"category","scope":{"fields":["name"]}},{"relation":"neighbor","scope":{"fields":["first_name","last_name"]}}]}'
       )
       .then(
         res => {
@@ -157,7 +181,7 @@ export const fetchProposals = status => {
         },
         err => {
           // eslint-disable-next-line no-console
-          console.log("error en Proposals:", err);
+          console.log("error en fetchProposals:", err);
           rejects();
         }
       );
@@ -166,10 +190,11 @@ export const fetchProposals = status => {
 
 export const fetchBankProposals = () => {
   return new Promise((resolve, rejects) => {
+    let convecinos = JSON.parse(localStorage.getItem("convecinos"));
     axios
       .get(
         URL +
-          '/Proposals?filter={"include":[{"relation":"category","scope":{"fields":["name"]}},{"relation":"neighbor","scope":{"fields":["first_name","last_name"]}}]}'
+          '/Proposals?filter={"where":{"neighborhoodId":"'+convecinos.neighborhoodId+'"},"include":[{"relation":"category","scope":{"fields":["name"]}},{"relation":"neighbor","scope":{"fields":["first_name","last_name"]}}]}'
       )
       .then(
         res => {
@@ -197,12 +222,16 @@ export const fetchBankProposals = () => {
 
 export const fetchToVoteProposals = categoryId => {
   return new Promise((resolve, rejects) => {
+    let convecinos = JSON.parse(localStorage.getItem("convecinos"));
     axios
       .get(
         URL +
-          '/Proposals?filter={"where":{"categoryId":"' +
-          categoryId +
-          '"}, "include":[{"relation":"neighbor","scope":{"fields":["first_name","last_name"]}}]}'
+          "Proposals/toVote?id=" +
+          convecinos.userId +
+          "&fk=" +
+          convecinos.neighborhoodId +
+          "&Categoryfk=" +
+          categoryId
       )
       .then(
         res => {
@@ -217,6 +246,20 @@ export const fetchToVoteProposals = categoryId => {
   });
 };
 
+export const vote = data => {
+  return new Promise((resolve, rejects) => {
+    let convecinos = JSON.parse(localStorage.getItem("convecinos"));
+    axios.post(URL + "Neighbors/" + convecinos.userId + "/vote", data).then(
+      res => {
+        resolve(res);
+      },
+      err => {
+        // eslint-disable-next-line no-console
+        console.log("error en vote:", err);
+      }
+    );
+  });
+}
 
 export const fetchAllProposals = status => {
   return new Promise((resolve, rejects) => {
@@ -237,7 +280,6 @@ export const fetchAllProposals = status => {
               proposals[i].neighbor.first_name,
               proposals[i].current_votes + "/" + proposals[i].max_votes,
               proposals[i].status
-
             );
             array[i] = cell;
           }

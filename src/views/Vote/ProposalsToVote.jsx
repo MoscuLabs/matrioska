@@ -25,7 +25,7 @@ import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import priceImage3 from "assets/img/card-1.jpeg";
 
-import { fetchToVoteProposals } from "utils/apiServices.jsx";
+import { fetchToVoteProposals, vote } from "utils/apiServices.jsx";
 
 function combineStyles(...styles) {
   return function CombineStyles(theme) {
@@ -68,6 +68,16 @@ class ProposalsToVote extends React.Component {
     this.setState({ selectedValue: event.target.value, result: res });
   };
 
+  handleVote = () => {
+    let data = {
+      Option: this.state.result.option,
+      proposalId: this.state.result.proposal
+    };
+    vote(data).then(() => {
+      window.location.href = "/proposals"
+    });
+  };
+
   successAlert() {
     this.setState({
       alert: (
@@ -75,7 +85,7 @@ class ProposalsToVote extends React.Component {
           success
           style={{ marginTop: "-200px", marginLeft: "-120px" }}
           title="¡Muchas gracias!"
-          onConfirm={() => window.location.href = "/proposals"}
+          onConfirm={this.handleVote}
           onCancel={() => this.hideAlert()}
           confirmBtnCssClass={
             this.props.classes.button + " " + this.props.classes.success
@@ -157,7 +167,7 @@ class ProposalsToVote extends React.Component {
                     root: classes.iconCheckbox
                   }}
                   value={'{"option":2,"proposal":"' + proposal.id + '"}'}
-                  aria-label="A"
+                  aria-label="B"
                 />
               </Tooltip>
               <Tooltip
@@ -170,7 +180,7 @@ class ProposalsToVote extends React.Component {
                   tabIndex={-1}
                   checked={
                     selectedValue ===
-                    '{"vote":0,"proposal":"' + proposal.id + '"}'
+                    '{"option":0,"proposal":"' + proposal.id + '"}'
                   }
                   onChange={this.handleChange}
                   checkedIcon={
@@ -191,8 +201,8 @@ class ProposalsToVote extends React.Component {
                     checked: classes.iconCheckboxChecked,
                     root: classes.iconCheckbox
                   }}
-                  value={'{"vote":0,"proposal":"' + proposal.id + '"}'}
-                  aria-label="A"
+                  value={'{"option":0,"proposal":"' + proposal.id + '"}'}
+                  aria-label="C"
                 />
               </Tooltip>
             </div>
@@ -206,9 +216,6 @@ class ProposalsToVote extends React.Component {
               <h4>
                 {proposal.current_votes}/{proposal.max_votes}
               </h4>
-            </div>
-            <div className={`${classes.stats} ${classes.productStats}`}>
-              {proposal.neighbor.first_name} {proposal.neighbor.last_name}
             </div>
           </CardFooter>
           {result.proposal === proposal.id ? (

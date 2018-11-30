@@ -18,11 +18,12 @@ import dashboardRoutes from "routes/dashboard.jsx";
 import dashboardRoutesRep from "routes/dashboardRep.jsx";
 import Profile from "views/Profile/Profile.jsx";
 import Vote from "views/Vote/Vote.jsx";
+import ProposalsToVote from "views/Vote/ProposalsToVote.jsx";
 import CreateProposals from "views/CreateProposals/CreateProposal.jsx";
 
 import appStyle from "assets/jss/material-dashboard-pro-react/layouts/dashboardStyle.jsx";
 
-import ProposalsToVote from "@material-ui/icons/Gavel";
+
 import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/logo.png";
 

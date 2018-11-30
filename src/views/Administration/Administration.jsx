@@ -48,7 +48,7 @@ class Administration extends React.Component {
       Beneficiario: "",
       Monto: "",
       //Fecha:
-      Aviso: "",
+      aviso: "",
       startDate: new Date()
     };
     this.SubmitBoton = this.SubmitBoton.bind(this);
@@ -76,7 +76,7 @@ Change(event, stateName) {
       this.setState({ [stateName]: event.target.value });
     }
     //Fecha
-    if (stateName === "Aviso") {
+    if (stateName === "aviso") {
       this.setState({ [stateName]: event.target.value });
     }
   }
@@ -115,12 +115,14 @@ Change(event, stateName) {
   }
 
   SubmitBotonAviso() {
-    console.log(this.state.Aviso);
+    let convecinos = JSON.parse(localStorage.getItem("convecinos"));
     let data = {
-      description: this.state.Aviso,
-      neighborhoodId: "5bc752c00bc8e9036dfbc1ef"
+      description: this.state.aviso,
+      neighborhoodId: convecinos.neighborhoodId
     };
-    makeNotice(data);
+    makeNotice(data).then(() => {
+      window.location = "/dashboard";
+    })
   }
 
   handleImageChange(e) {
@@ -168,12 +170,12 @@ Change(event, stateName) {
                           <GridItem xs={12} sm={12} md={12}>
                             <CustomInput
                               inputProps={{
-                                onChange: event => this.Change(event, "Aviso"),
+                                onChange: event => this.Change(event, "aviso"),
                                 multiline: true,
                                 rows: 5
                               }}
                               labelText="Aquí escribe tu aviso."
-                              id="Aviso"
+                              id="aviso"
                               formControlProps={{
                                 fullWidth: true
                               }}
@@ -181,14 +183,20 @@ Change(event, stateName) {
                           </GridItem>
                         </GridContainer>
                         <center>
-                          <Button
-                            onClick={this.SubmitBotonAviso}
-                            color="success"
-                            size="md"
-                            className={classes.marginRight}
-                          >
-                            Publicar
-                          </Button>
+                          {
+                            this.state.aviso ? (
+                              <Button
+                                onClick={this.SubmitBotonAviso}
+                                color="success"
+                                size="md"
+                                className={classes.marginRight}
+                              >
+                                Publicar
+                              </Button>
+                            ) : (
+                              <div />
+                            )
+                          }
                         </center>
                       </CardHeader>
                     </Card>

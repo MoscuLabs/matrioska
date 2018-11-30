@@ -3,14 +3,21 @@ import { URL } from "./apiConstants.jsx";
 
 export const makeRequest = (id, fk, data) => {
   return new Promise((resolve, rejects) => {
-    axios.post(URL + "Neighbors/" + id + "/request/" + fk, data).then(
-      res => {
-        resolve(res.data);
+    axios.get(URL + "Neighborhoods/" + fk).then(
+      () => {
+        axios.post(URL + "Neighbors/" + id + "/request/" + fk, data).then(
+          res => {
+            resolve(res.data);
+          },
+          err => {
+            // eslint-disable-next-line no-console
+            console.log("error en makeRequest:", err);
+            rejects();
+          }
+        );
       },
-      err => {
-        // eslint-disable-next-line no-console
-        console.log("error en makeRequest:", err);
-        rejects();
+      () => {
+        rejects("Not found");
       }
     );
   });
@@ -18,17 +25,26 @@ export const makeRequest = (id, fk, data) => {
 
 export const cancelRequest = id => {
   return new Promise((resolve, rejects) => {
-    axios.post(URL + "Neighbors/" + id + "/cancelRequest").then(
-      res => {
-        const representatives = res.data;
-        resolve(representatives);
-      },
-      err => {
-        // eslint-disable-next-line no-console
-        console.log("error en fetchNeighbors:", err);
-        rejects();
-      }
-    );
+    axios
+      .get(URL + 'Requests?filter={"where":{"neighborId":"' + id + '"}}')
+      .then(
+        res => {
+          axios
+            .delete(URL + 'Requests/' + res.data[0].id)
+            .then(
+              res2 => {
+                console.log(res2.data);
+                resolve(res2.data);
+              },
+              err2 => {
+                rejects("Error en validateRepresentant, fetchRequests: ", err2);
+              }
+            );
+        },
+        err => {
+          rejects("Error en validateRepresentant, fetchRequests: ", err);
+        }
+      );
   });
 };
 
@@ -66,7 +82,7 @@ export const validateRequest = () => {
                 }
               },
               err => {
-                    rejects("Error en validateRepresentant, fetchRequests: ", err);
+                rejects("Error en validateRepresentant, fetchRequests: ", err);
               }
             );
           }

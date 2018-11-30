@@ -5,8 +5,10 @@ import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 // @material-ui/icons
+import AddAlert from "@material-ui/icons/AddAlert";
 
 // core components
+import Snackbar from "components/Snackbar/Snackbar.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
@@ -17,8 +19,28 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 
 import loginPageStyle from "assets/jss/material-dashboard-pro-react/views/loginPageStyle.jsx";
+import notificationsStyle from "assets/jss/material-dashboard-pro-react/views/notificationsStyle.jsx";
 
-import { makeRequest, validateRequest } from "utils/apiRequest.jsx";
+import {
+  makeRequest,
+  cancelRequest,
+  validateRequest
+} from "utils/apiRequest.jsx";
+
+function combineStyles(...styles) {
+  return function CombineStyles(theme) {
+    const outStyles = styles.map(arg => {
+      // Apply the "theme" object for style functions.
+      if (typeof arg === "function") {
+        return arg(theme);
+      }
+      // Objects need no change.
+      return arg;
+    });
+
+    return outStyles.reduce((acc, val) => Object.assign(acc, val));
+  };
+}
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -32,6 +54,23 @@ class LoginPage extends React.Component {
       loading: false
     };
     this.handleRequest = this.handleRequest.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+    this.showNotification = this.showNotification.bind(this);
+  }
+
+  showNotification(place) {
+    if (!this.state[place]) {
+      var x = [];
+      x[place] = true;
+      this.setState(x);
+      setTimeout(
+        function() {
+          x[place] = false;
+          this.setState(x);
+        }.bind(this),
+        6000
+      );
+    }
   }
 
   handleRequest = () => {
@@ -41,10 +80,25 @@ class LoginPage extends React.Component {
         let data = {
           //message: this.state.message
         };
-        makeRequest(convecinos.userId, this.state.codigo, data);
+        makeRequest(convecinos.userId, this.state.codigo, data).then(() => {
+          window.location = "request";
+        }, () => {
+          this.showNotification("tc");
+        })
       }
     } else {
-      window.location = "pages/login";
+      window.location = "login";
+    }
+  };
+
+  handleCancel = () => {
+    let convecinos = JSON.parse(localStorage.getItem("convecinos"));
+    if (convecinos) {
+      cancelRequest(convecinos.userId).then(() => {
+        window.location = "request";
+      })
+    } else {
+      window.location = "login";
     }
   };
 
@@ -84,6 +138,15 @@ class LoginPage extends React.Component {
     const { loading } = this.state;
     return (
       <div className={classes.container}>
+        <Snackbar
+          place="tc"
+          color="danger"
+          icon={AddAlert}
+          message="Código inválido"
+          open={this.state.tc}
+          closeNotification={() => this.setState({ tc: false })}
+          close
+        />
         <GridContainer justify="center">
           <GridItem xs={12} sm={6} md={4}>
             <form>
@@ -94,7 +157,7 @@ class LoginPage extends React.Component {
                       className={`${classes.cardHeader} ${classes.textCenter}`}
                       color="rose"
                     >
-                      <h4 className={classes.cardTitle}>CONVECINOS</h4>
+                      <h4>CONVECINOS</h4>
                     </CardHeader>
                     <CardBody>
                     <GridItem xs={12} sm={12} md={12}>
@@ -107,7 +170,7 @@ class LoginPage extends React.Component {
                         simple
                         size="lg"
                         block
-                        onClick={this.handleRequest}
+                        onClick={this.handleCancel}
                       >
                         Cancelar Solicitud
                       </Button>
@@ -119,7 +182,7 @@ class LoginPage extends React.Component {
                       className={`${classes.cardHeader} ${classes.textCenter}`}
                       color="rose"
                     >
-                      <h4 className={classes.cardTitle}>Ingresar Código</h4>
+                      <h4>Ingresar Código</h4>
                     </CardHeader>
                     <CardBody>
                       <CustomInput
@@ -159,4 +222,5 @@ LoginPage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(loginPageStyle)(LoginPage);
+const combinedStyles = combineStyles(loginPageStyle, notificationsStyle);
+export default withStyles(combinedStyles)(LoginPage);
