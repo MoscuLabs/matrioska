@@ -23,6 +23,8 @@ import sidebarStyle from "assets/jss/material-dashboard-pro-react/components/sid
 
 import avatar from "assets/img/faces/avatar.jpg";
 
+import { logout, validateName } from "utils/apiAuth.jsx";
+
 var ps;
 
 // We've created this component so we can have a ref to the wrapper of the links that appears in our sidebar.
@@ -65,9 +67,20 @@ class Sidebar extends React.Component {
       openTables: this.activeRoute("/tables"),
       openMaps: this.activeRoute("/maps"),
       openPages: this.activeRoute("-page"),
-      miniActive: true
+      miniActive: true,
+      name: ""
     };
     this.activeRoute.bind(this);
+    this.handleLogout.bind(this);
+  }
+
+  componentDidMount() {
+    validateName().then(rep => {
+      this.setState({ name: rep });
+    });
+  }
+  handleLogout() {
+    logout();
   }
   // verifies if routeName is the one active (in browser input)
   activeRoute(routeName) {
@@ -145,7 +158,7 @@ class Sidebar extends React.Component {
               onClick={() => this.openCollapse("openAvatar")}
             >
               <ListItemText
-                primary="María José Parra"
+                primary={this.state.name}
                 secondary={
                   <b
                     className={
@@ -180,10 +193,11 @@ class Sidebar extends React.Component {
                 </ListItem>
                 <ListItem className={classes.collapseItem}>
                   <NavLink
-                    to="/pages/login-page"
+                    to={"/pages/login"}
                     className={
                       classes.itemLink + " " + classes.userCollapseLinks
                     }
+                    onClick={this.handleLogout}
                   >
                     <span className={collapseItemMini}>S</span>
                     <ListItemText
@@ -191,7 +205,7 @@ class Sidebar extends React.Component {
                       disableTypography={true}
                       className={collapseItemText}
                     />
-                  </NavLink>
+                </NavLink>
                 </ListItem>
               </List>
             </Collapse>

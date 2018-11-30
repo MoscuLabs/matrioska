@@ -1,11 +1,12 @@
 import axios from "axios";
 import { URL } from "./apiConstants.jsx";
+import moment from "moment";
 
-export const fetchNeighbors = () => {
+
+export const patchNeighbor = (id, data) => {
   return new Promise((resolve, rejects) => {
-    axios.get(URL + "Neighbors")
-      .then(
-        res => {
+    axios.patch(URL + "Neighbors/"+id, data).then(
+      res => {
           const neighbors = res.data;
           resolve(neighbors);
         },
@@ -13,6 +14,36 @@ export const fetchNeighbors = () => {
           console.log('error en fetchNeighbors:', err);
           rejects();
         }
+      );
+  });
+}
+
+export const makeNotice = data => {
+  return new Promise((resolve, rejects) => {
+    axios.post(URL + 'Notices', data).then(
+      res => {
+          const neighbors = res.data;
+          resolve(neighbors);
+        },
+        err => {
+          console.log('error en fetchNeighbors:', err);
+          rejects();
+        }
+      );
+  });
+}
+
+export const makeTransaction = data => {
+  return new Promise((resolve, rejects) => {
+    axios.post(URL + 'Expenses', data).then(
+      res => {
+        const neighbors = res.data;
+        resolve(neighbors);
+      },
+      err => {
+        console.log('error en fetchNeighbors:', err);
+        rejects();
+      }
       );
   });
 }
@@ -26,57 +57,210 @@ export const fetchRepresentatives = () => {
         resolve(representatives);
       },
       err => {
+        // eslint-disable-next-line no-console
         console.log("error en fetchNeighbors:", err);
         rejects();
       }
     );
   });
-}
+};
 
 export const fetchExpenses = () => {
   return new Promise((resolve, rejects) => {
-    axios.get(URL + "/Expenses?filter=%7B%22include%22%3A%5B%7B%22relation%22%3A%22neighbor%22%7D%5D%7D")
+    axios
+      .get(
+        URL +
+          '/Expenses?filter={"include":[{"relation":"neighbor","scope":{"fields":["first_name","last_name"]}}]}'
+      )
       .then(
         res => {
-          const Expenses = res.data;
-          resolve(Expenses)
+          const expenses = res.data;
+          let length = expenses.length;
+          let array = [];
+          for (let i = 0; i < length; i++) {
+            // eslint-disable-next-line
+            let cell = new Array(
+              expenses[i].neighbor.first_name +
+                " " +
+                expenses[i].neighbor.last_name,
+              expenses[i].concept,
+              expenses[i].beneficiary,
+              "$ " + expenses[i].amount,
+              moment(expenses[i].issued_date).format("DD/MM/YYYY")
+            );
+            array[i] = cell;
+          }
+          resolve(array);
         },
         err => {
-          console.log('error en Expenses:', err);
+          // eslint-disable-next-line no-console
+          console.log("error en Expenses:", err);
           rejects();
         }
       );
   });
-}
+};
 
-export const fetchProposals = () => {
+export const fetchProposals = status => {
   return new Promise((resolve, rejects) => {
-    axios.get(URL + "/Proposals")
+    axios
+      .get(
+        URL +
+          '/Proposals?filter={"where":{"status":' +
+          status +
+          '},"include":[{"relation":"category","scope":{"fields":["name"]}},{"relation":"neighbor","scope":{"fields":["first_name","last_name"]}}]}'
+      )
       .then(
         res => {
-          const Proposals = res.data;
-          resolve(Proposals)
+          const proposals = res.data;
+          let length = proposals.length;
+          let array = [];
+          for (let i = 0; i < length; i++) {
+            // eslint-disable-next-line
+            let cell = new Array(
+              proposals[i].name,
+              proposals[i].category.name,
+              proposals[i].neighbor.first_name,
+              proposals[i].current_votes + "/" + proposals[i].max_votes
+            );
+            array[i] = cell;
+          }
+          resolve(array);
         },
         err => {
-          console.log('error en Proposals:', err);
+          // eslint-disable-next-line no-console
+          console.log("error en Proposals:", err);
           rejects();
         }
       );
   });
-}
+};
 
-export const fetchProposalsToVote = (id) => {
+export const fetchBankProposals = () => {
   return new Promise((resolve, rejects) => {
-    axios.get(URL + "/Proposals?filter={\"where\":{\"categoryId\":\""+id+"\"}}")
+    axios
+      .get(
+        URL +
+          '/Proposals?filter={"include":[{"relation":"category","scope":{"fields":["name"]}},{"relation":"neighbor","scope":{"fields":["first_name","last_name"]}}]}'
+      )
       .then(
         res => {
-          const ProposalsToVote = res.data;
-          resolve(ProposalsToVote)
+          const proposals = res.data;
+          let length = proposals.length;
+          let array = [];
+          for (let i = 0; i < length; i++) {
+            let cell = new Array(
+              proposals[i].name,
+              proposals[i].description,
+              proposals[i].category.name,
+              proposals[i].neighbor.first_name
+            );
+            array[i] = cell;
+          }
+          resolve(array);
         },
         err => {
-          console.log('error en ProposalsToVote:', err);
+          console.log("error en Proposals:", err);
           rejects();
         }
       );
+  });
+};
+
+export const fetchToVoteProposals = categoryId => {
+  return new Promise((resolve, rejects) => {
+    axios
+      .get(
+        URL +
+          '/Proposals?filter={"where":{"categoryId":"' +
+          categoryId +
+          '"}, "include":[{"relation":"neighbor","scope":{"fields":["first_name","last_name"]}}]}'
+      )
+      .then(
+        res => {
+          resolve(res.data);
+        },
+        err => {
+          // eslint-disable-next-line no-console
+          console.log("error en ProposalsToVote:", err);
+          rejects();
+        }
+      );
+  });
+};
+
+
+export const fetchAllProposals = status => {
+  return new Promise((resolve, rejects) => {
+    axios
+      .get(
+        URL +
+          '/Proposals?filter={"include":[{"relation":"category","scope":{"fields":["name"]}},{"relation":"neighbor","scope":{"fields":["first_name","last_name"]}}]}'
+      )
+      .then(
+        res => {
+          const proposals = res.data;
+          let length = proposals.length;
+          let array = [];
+          for (let i = 0; i < length; i++) {
+            let cell = new Array(
+              proposals[i].name,
+              proposals[i].category.name,
+              proposals[i].neighbor.first_name,
+              proposals[i].current_votes + "/" + proposals[i].max_votes,
+              proposals[i].status
+
+            );
+            array[i] = cell;
+          }
+          resolve(array);
+        },
+        err => {
+          console.log("error en Proposals:", err);
+          rejects();
+        }
+      );
+  });
+};
+
+export const fetchNeighbors = () => {
+  return new Promise((resolve, rejects) => {
+    axios.get(URL + '/Neighbors').then(
+      res => {
+        const neighbor = res.data;
+        let length = neighbor.length;
+        let array = [];
+        for (let i = 0; i < length; i++) {
+          let cell = new Array(
+            neighbor[i].first_name + " " + neighbor[i].last_name,
+
+
+          );
+          array[i] = cell;
+        }
+        resolve(array);
+      },
+      err => {
+        console.log("error en fetchNeighbors:", err);
+        rejects();
+      }
+    );
+  });
+};
+
+export const uploadFile = file => {
+  const formData = new FormData();
+  formData.append("file", file);
+  return new Promise((resolve, rejects) => {
+    axios.post(URL + "Containers/reglamentos/upload", formData).then(
+      res => {
+        console.log("success: ", res);
+        resolve(res.data);
+      },
+      err => {
+        // eslint-disable-next-line no-console
+        console.log("error en ProposalsToVote:", err);
+      }
+    );
   });
 }

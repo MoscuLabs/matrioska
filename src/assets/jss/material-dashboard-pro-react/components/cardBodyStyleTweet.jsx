@@ -4,7 +4,18 @@ const cardBodyStyle = {
     flex: "1 1 auto",
     WebkitBoxFlex: "1",
     position: "relative",
-    maxWidth: "500px!important"
+    maxWidth: "45%!important",
+    margin: "auto 2.5%",
+    "& p.contactInfo":{
+        fontSize: "18px",
+        color: "#000",
+        fontFamily: "'Helvetica', Roboto, sans-serif"
+    },
+    "& p.contactInfoWhite":{
+      fontSize: "18px",
+      color: "#FFF",
+      fontFamily: "'Helvetica', Roboto, sans-serif"
+    }
   },
   cardBodyBackground: {
     position: "relative",
