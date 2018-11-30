@@ -41,6 +41,10 @@ const styles = theme => ({
     fontSize: "1em",
     fontWeight: 400
   },
+  customLabelPos:{
+    position: "absolute",
+    marginLeft: "7px"
+  }
 });
 
 class CreateProposal extends React.Component {
@@ -134,7 +138,7 @@ class CreateProposal extends React.Component {
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
 
-
+                        <label className={classes.customLabelPos}>Selecciona una Categoría</label>
                     <FormControl className={classes.formControl}>
                       <Select
                           inputProps={{
@@ -146,7 +150,6 @@ class CreateProposal extends React.Component {
                         name="age"
                         className={classes.selectEmpty}
                       >
-                          <label>Selecciona una Categoría</label>
                         <MenuItem value={"5bc75eaa2ded92052b327d1e"}>Comunidad</MenuItem>
                         <MenuItem value={"5bc75eb32ded92052b327d1f"}>Seguridad</MenuItem>
                         <MenuItem value={"5bc75ebd2ded92052b327d20"}>Administración</MenuItem>
