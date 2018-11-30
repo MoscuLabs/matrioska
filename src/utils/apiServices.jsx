@@ -274,6 +274,56 @@ export const fetchNeighbors = () => {
   });
 };
 
+export const fetchNeighborhoodRules = () => {
+  return new Promise((resolve, rejects) => {
+    let convecinos = JSON.parse(localStorage.getItem("convecinos"));
+    axios
+      .get(
+        URL +
+          "Neighborhoods/" +
+          convecinos.neighborhoodId +
+          '?filter={"fields":["rules_file"]}'
+      )
+      .then(
+      res => {
+        if (res.data.rules_file) {
+            resolve(res.data.rules_file);
+        }
+        resolve("");
+        },
+        err => {
+        console.log("error en fetchNeighbors:", err);
+        rejects();
+      }
+    );
+  });
+};
+
+export const changeRulesFile = data => {
+  return new Promise((resolve, rejects) => {
+    let convecinos = JSON.parse(localStorage.getItem("convecinos"));
+    axios
+      .patch(
+        URL +
+          "Neighborhoods/" +
+          convecinos.neighborhoodId +
+          "?access_token=" +
+          convecinos.access_token,
+        data
+      )
+      .then(
+        res => {
+          console.log(res.data);
+          resolve(res.data);
+        },
+        err => {
+          console.log("error en fetchNeighbors:", err);
+          rejects();
+        }
+      );
+  });
+};
+
 export const uploadFile = file => {
   const formData = new FormData();
   formData.append("file", file);

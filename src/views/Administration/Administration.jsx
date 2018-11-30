@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import dashboardStyle from "assets/jss/material-dashboard-pro-react/views/dashboardStyle";
-import PictureUpload from "components/CustomUpload/FileUpload.jsx";
 
 // @material-ui/icons
 import Announcement from "@material-ui/icons/Announcement";
@@ -12,6 +11,7 @@ import AssignmentInd from "@material-ui/icons/AssignmentInd";
 import NoteAdd from "@material-ui/icons/NoteAdd";
 import Add from "@material-ui/icons/Add";
 import FormatListBulleted from "@material-ui/icons/FormatListBulleted";
+import defaultImage from "assets/img/images.png";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -27,16 +27,21 @@ import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import Table from "components/Table/Table.jsx";
 
-import { fetchAllProposals } from "utils/apiServices.jsx";
-import { fetchNeighbors } from "utils/apiServices.jsx";
-
-import { makeNotice } from "utils/apiServices.jsx";
-import { makeTransaction } from "utils/apiServices.jsx";
+import {
+  fetchAllProposals,
+  fetchNeighbors,
+  makeNotice,
+  makeTransaction,
+  uploadFile,
+  changeRulesFile
+} from "utils/apiServices.jsx";
 
 class Administration extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      rulesFile: null,
+      imagePreviewUrl: defaultImage,
       proposals: [],
       neighbors: [],
       Concepto: "",
@@ -118,11 +123,32 @@ Change(event, stateName) {
     makeNotice(data);
   }
 
+  handleImageChange(e) {
+    e.preventDefault();
+    let reader = new FileReader();
+    let file = e.target.files[0];
+    reader.onloadend = () => {
+      this.setState({
+        file: file,
+        imagePreviewUrl: reader.result
+      });
+    };
+    reader.readAsDataURL(file);
+  }
+  handleSubmitRules = e => {
+    e.preventDefault();
+    let data = {};
+    uploadFile(this.state.file).then(rep => {
+      data.rules_file = rep;
+      changeRulesFile(data).then(() => {
+        window.location = "/rules";
+      });
+    });
+  };
+
   render() {
     const { classes } = this.props;
-    const { proposals } = this.state;
-    const { neighbors } = this.state;
-
+    const { proposals, neighbors } = this.state;
     return (
       <div>
         <GridContainer justify="center">
@@ -196,13 +222,27 @@ Change(event, stateName) {
                         <h4 className={classes.cardTitle}>
                           Reglas de convivencia de los convecinos
                         </h4>
-                        <PictureUpload style={{ padding: "10px" }} />
+                        <div className="picture-container">
+                          <div className="picture">
+                            <img
+                              src={this.state.imagePreviewUrl}
+                              className="picture-src"
+                              alt="..."
+                            />
+                            <input
+                              type="file"
+                              onChange={e => this.handleImageChange(e)}
+                            />
+                          </div>
+                          <h6 className="description">Selecciona un archivo</h6>
+                        </div>
                       </CardHeader>
                       <center>
                         <Button
                           color="success"
                           size="md"
                           className={classes.marginRight}
+                          onClick={this.handleSubmitRules}
                         >
                           Subir
                         </Button>
