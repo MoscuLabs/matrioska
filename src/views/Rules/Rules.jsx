@@ -61,7 +61,6 @@ class Rules extends React.Component {
   render() {
     const { pageNumber, numPages, rules } = this.state;
     const { classes } = this.props;
-    console.log(rules);
     return (
       <div>
         <Heading

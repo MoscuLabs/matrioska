@@ -45,6 +45,8 @@ function Header({ ...props }) {
       return "Vota";
     } if (props.location.pathname === "/profile") {
       return "Perfil";
+    } if (props.location.pathname === "/CreateProposals") {
+      return "Crear una Propuesta";
     } else {
       return "Default Brand Name";
     }

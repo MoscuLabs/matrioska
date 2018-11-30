@@ -26,14 +26,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import CardWBackground from "components/Card/CardWBackground.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Button from "components/CustomButtons/Button.jsx";
-import Table from "components/Table/Table.jsx";
 
 import NeighborsList from "views/Administration/NeighborsList.jsx";
 import RequestList from "views/Administration/RequestList.jsx";
+import ProposalList from "views/Administration/ProposalList.jsx";
 
 import {
-  fetchAllProposals,
-  fetchNeighbors,
   makeNotice,
   makeTransaction,
   uploadFile,
@@ -46,26 +44,15 @@ class Administration extends React.Component {
     this.state = {
       rulesFile: null,
       imagePreviewUrl: defaultImage,
-      proposals: [],
       Concepto: "",
       Beneficiario: "",
       Monto: "",
-      //Fecha:
       aviso: "",
       startDate: new Date()
     };
     this.SubmitBoton = this.SubmitBoton.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.SubmitBotonAviso = this.SubmitBotonAviso.bind(this);
-  }
-
-  componentDidMount() {
-    fetchAllProposals().then(rep => {
-      this.setState({ proposals: rep });
-    });
-    fetchNeighbors().then(rep => {
-      this.setState({ neighbors: rep });
-    });
   }
 
   Change(event, stateName) {
@@ -79,7 +66,7 @@ class Administration extends React.Component {
       this.setState({ [stateName]: event.target.value });
     }
     //Fecha
-    if (stateName === "Aviso") {
+    if (stateName === "aviso") {
       this.setState({ [stateName]: event.target.value });
     }
   }
@@ -92,11 +79,6 @@ class Administration extends React.Component {
 
   SubmitBoton() {
     let convecinos = JSON.parse(localStorage.getItem("convecinos"));
-    console.log(this.state.Concepto);
-    console.log(this.state.Beneficiario);
-    console.log(this.state.Monto);
-    console.log(this.state.startDate);
-
     if (
       this.state.Concepto !== "" &&
       this.state.Monto !== "" &&
@@ -108,12 +90,12 @@ class Administration extends React.Component {
         amount: this.state.Monto,
         beneficiary: this.state.Beneficiario,
         issued_date: this.state.startDate,
-        neighborhoodId: "5bc752c00bc8e9036dfbc1ef",
+        neighborhoodId: convecinos.neighborhoodId,
         neighborId: convecinos.userId
       };
-
-      makeTransaction(data);
-    } else {
+      makeTransaction(data).then(()=> {
+        window.location = "/Administration"
+      });
     }
   }
 
@@ -123,6 +105,7 @@ class Administration extends React.Component {
       description: this.state.aviso,
       neighborhoodId: convecinos.neighborhoodId
     };
+    console.log("HOORAY", data);
     makeNotice(data).then(() => {
       window.location = "/dashboard";
     })
@@ -153,7 +136,7 @@ class Administration extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { proposals } = this.state;
+    const { aviso } = this.state;
     return (
       <div>
         <GridContainer justify="center">
@@ -186,20 +169,18 @@ class Administration extends React.Component {
                           </GridItem>
                         </GridContainer>
                         <center>
-                          {
-                            this.state.aviso ? (
-                              <Button
-                                onClick={this.SubmitBotonAviso}
-                                color="success"
-                                size="md"
-                                className={classes.marginRight}
-                              >
-                                Publicar
-                              </Button>
-                            ) : (
-                              <div />
-                            )
-                          }
+                          {aviso ? (
+                            <Button
+                              onClick={this.SubmitBotonAviso}
+                              color="success"
+                              size="md"
+                              className={classes.marginRight}
+                            >
+                              Publicar
+                            </Button>
+                          ) : (
+                            <div />
+                          )}
                         </center>
                       </CardHeader>
                     </Card>
@@ -325,32 +306,7 @@ class Administration extends React.Component {
                 {
                   tabButton: "Lista de Propuestas",
                   tabIcon: FormatListBulleted,
-                  tabContent: (
-                    <CardWBackground>
-                      <CardHeader>
-                        <h4 className={classes.cardTitle}>Propuestas</h4>
-                        <Table
-                          hover
-                          tableHeaderColor="warning"
-                          tableHead={[
-                            "Nombre",
-                            "Categoría",
-                            "Autor",
-                            "Votos",
-                            "Estatus"
-                          ]}
-                          tableData={proposals}
-                        />
-                      </CardHeader>
-                      <div
-                        style={{
-                          display: "flex",
-                          width: "95%",
-                          margin: "auto"
-                        }}
-                      />
-                    </CardWBackground>
-                  )
+                  tabContent: <ProposalList classes={classes} />
                 },
                 {
                   tabButton: "Lista de Solicitudes",

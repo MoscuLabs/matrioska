@@ -7,10 +7,11 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Icon from "@material-ui/core/Icon";
+import logo from "assets/img/logo.png";
 
 // @material-ui/icons
-import Timeline from "@material-ui/icons/Timeline";
-import Code from "@material-ui/icons/Code";
+import Extension from "@material-ui/icons/Extension";
+import AccountBalance from "@material-ui/icons/AccountBalance";
 import Group from "@material-ui/icons/Group";
 import Email from "@material-ui/icons/Email";
 import Check from "@material-ui/icons/Check";
@@ -76,7 +77,9 @@ class RegisterPage extends React.Component {
         email: this.state.email,
         password: this.state.password
       };
-      register(data);
+      register(data).then(() => {
+        window.location = "/request";
+      })
     }
   }
 
@@ -127,25 +130,26 @@ class RegisterPage extends React.Component {
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={10}>
             <Card className={classes.cardSignup}>
-              <h2 className={classes.cardTitle}>Regístrate</h2>
+              <center><img src={logo} style={{ width: "100px" }} alt="C" /></center>
+              <h2 className={classes.cardTitle}>Unirte a Convecinos</h2>
               <CardBody>
                 <GridContainer justify="center">
                   <GridItem xs={12} sm={12} md={5}>
                     <InfoArea
-                      title="Marketing"
-                      description="We've created the marketing campaign of the website. It was a very interesting collaboration."
-                      icon={Timeline}
+                      title="Comunidad"
+                      description="Mejora la cálidad de tu comunidad al participar activamente en los eventos y noticias que suceden dentro de ella."
+                      icon={Extension}
                       iconColor="rose"
                     />
                     <InfoArea
-                      title="Fully Coded in HTML5"
-                      description="We've developed the website with HTML5 and CSS3. The client has access to the code using GitHub."
-                      icon={Code}
+                      title="Transparencia"
+                      description="Exige tu derecho a la rendición de cuentas, y revisa los movimientos que se hacen en tu comunidad."
+                      icon={AccountBalance}
                       iconColor="primary"
                     />
                     <InfoArea
-                      title="Built Audience"
-                      description="There is also a Fully Customizable CMS Admin Dashboard for this product."
+                      title="Convecinos"
+                      description="Conoce las preocupaciones de tus Convecinos, únete a su causa o alza la voz."
                       icon={Group}
                       iconColor="info"
                     />
@@ -249,7 +253,7 @@ class RegisterPage extends React.Component {
                         label={
                           <span>
                             Acepto los{" "}
-                            <a href="#pablo">términos y condiciones</a>.
+                            <a href="/pages/terms">términos y condiciones</a>.
                           </span>
                         }
                       />

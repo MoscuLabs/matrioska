@@ -66,10 +66,38 @@ export const toggleRepresentant = (id, toggle) => {
   });
 };
 
+export const toggleProposal = (id, toggle) => {
+  return new Promise((resolve, rejects) => {
+    let convecinos = JSON.parse(localStorage.getItem("convecinos"));
+    let data = { status: toggle };
+    axios
+      .patch(
+        URL + "Proposals/" + id + "?access_token=" + convecinos.access_token,
+        data
+      )
+      .then(
+        res => {
+          resolve(res.data);
+        },
+        err => {
+          console.log("error en toggleRepresentant:", err);
+          rejects();
+        }
+      );
+  });
+};
+
 export const fetchNotices = () => {
   return new Promise((resolve, rejects) => {
     let convecinos = JSON.parse(localStorage.getItem("convecinos"));
-    axios.get(URL + 'Notices?filter={"where":{"neighborhoodId":"'+convecinos.neighborhoodId+'"}}').then(
+    axios
+      .get(
+        URL +
+          'Notices?filter={"where":{"neighborhoodId":"' +
+          convecinos.neighborhoodId +
+          '"},"limit":4,"order":"created_at DESC"}'
+      )
+      .then(
       res => {
           resolve(res.data);
         },
@@ -312,29 +340,18 @@ export const vote = data => {
   });
 }
 
-export const fetchAllProposals = status => {
+export const fetchAllProposals = () => {
   return new Promise((resolve, rejects) => {
+    let convecinos = JSON.parse(localStorage.getItem("convecinos"));
     axios
       .get(
         URL +
-          'Proposals?filter={"include":[{"relation":"category","scope":{"fields":["name"]}},{"relation":"neighbor","scope":{"fields":["first_name","last_name"]}}]}'
+          'Proposals?filter={"where":{"neighborhoodId":"'+convecinos.neighborhoodId+'","or":[{"status":1},{"status":2},{"status":3}]},"include":[{"relation":"category","scope":{"fields":["name"]}},{"relation":"neighbor","scope":{"fields":["first_name","last_name"]}}]}'
       )
       .then(
         res => {
           const proposals = res.data;
-          let length = proposals.length;
-          let array = [];
-          for (let i = 0; i < length; i++) {
-            let cell = new Array(
-              proposals[i].name,
-              proposals[i].category.name,
-              proposals[i].neighbor.first_name,
-              proposals[i].current_votes + "/" + proposals[i].max_votes,
-              proposals[i].status
-            );
-            array[i] = cell;
-          }
-          resolve(array);
+          resolve(proposals);
         },
         err => {
           console.log("error en Proposals:", err);
