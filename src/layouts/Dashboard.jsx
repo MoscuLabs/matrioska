@@ -150,7 +150,7 @@ class Dashboard extends React.Component {
         ) : (
           <div />
         )}
-        <div className={mainPanel} ref="mainPanel">
+        <div className={mainPanel} ref={"mainPanel"}>
           {auth ? (
             <div>
               <Header
