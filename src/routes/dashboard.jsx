@@ -3,6 +3,9 @@ import Proposals from "views/Proposals/Proposals.jsx";
 import Transparency from "views/Transparency/Transparency.jsx";
 import Rules from "views/Rules/Rules.jsx";
 import Representatives from "views/Representatives/Representatives.jsx";
+import Administration from "views/Administration/Administration.jsx";
+
+
 
 // @material-ui/icons
 import DashboardIcon from "@material-ui/icons/Dashboard";
