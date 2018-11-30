@@ -18,7 +18,6 @@ import CardIcon from "components/Card/CardIcon.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 
 import { cardTitle } from "assets/jss/material-dashboard-pro-react.jsx";
-import { fetchExpenses } from "utils/apiServices.jsx";
 
 const style = {
   customCardContentClass: {
