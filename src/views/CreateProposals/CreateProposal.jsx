@@ -34,20 +34,16 @@ const styles = theme => ({
     minWidth: 300,
   },
   selectEmpty: {
-    marginTop: theme.spacing.unit * 2,
+    marginTop: "22px",
+    color: "#AAAAAA !important",
+    fontSize: "1em",
+    fontWeight: 400
   },
 });
 
 class CreateProposal extends React.Component {
   
-  state = {
-    age: "",
-    open: false,
-  };
 
-  handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
 
 
   constructor(props) { 
@@ -55,6 +51,8 @@ class CreateProposal extends React.Component {
     this.state = {
         NombrePropuesta: "", 
         Descripcion: "",
+        age: "",
+        open: false
         
       };
 
@@ -69,11 +67,15 @@ class CreateProposal extends React.Component {
         if(stateName=="Descripcion"){
             this.setState({ [stateName]: event.target.value });        
         }
+        if(stateName=="age"){
+          this.setState({ [stateName]: event.target.value });        
+      }
     }
 
     ProponerBoton(){
         console.log(this.state.NombrePropuesta)
         console.log(this.state.Descripcion)
+        console.log(this.state.age)
 
     }
 
@@ -114,6 +116,9 @@ class CreateProposal extends React.Component {
 
                     <FormControl className={classes.formControl}>
                       <Select
+                          inputProps={{
+                            onChange: event => this.Change(event, "age"),
+                        }}
                         value={this.state.age}
                         onChange={this.handleChange}
                         displayEmpty
